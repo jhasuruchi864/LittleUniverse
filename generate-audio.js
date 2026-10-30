@@ -47,8 +47,8 @@ for (let i = 0; i < numSamples; i++) {
   const env = Math.exp(-noteTime * 4.5);
   // Soft sine with gentle harmonic
   const tone = Math.sin(2 * Math.PI * noteFreq * t) * 0.7 +
-               Math.sin(4 * Math.PI * noteFreq * t) * 0.25 +
-               Math.sin(6 * Math.PI * noteFreq * t) * 0.05;
+    Math.sin(4 * Math.PI * noteFreq * t) * 0.25 +
+    Math.sin(6 * Math.PI * noteFreq * t) * 0.05;
 
   const sampleVal = Math.max(-1, Math.min(1, tone * env * 0.35));
   const intSample = Math.floor(sampleVal * 32767);
@@ -63,3 +63,21 @@ for (let i = 0; i < numSamples; i++) {
 const outputPath = path.join(__dirname, 'assets', 'music', 'background.mp3');
 fs.writeFileSync(outputPath, buffer);
 console.log('Generated gentle audio at', outputPath);
+8: 15 AM
+Preview
+Verify Our Little Universe Website
+Goal
+Navigate to http://localhost:5500.
+Perform the following checks systematically:
+1. Open http://localhost:5500 and verify the hero section loads with the title "Welcome to Our Little Universe 💗", clouds, central heart, and floating elements. Check for any console errors.
+2. Click on the central glowing heart in the hero section to verify heart burst animation.
+3. Click "Enter Our Universe ✨" button to verify smooth scroll to the Memories section.
+4. Click on the first polaroid memory card("A day to remember").Verify the lightbox opens with the large image and description.Press Escape or click the close button to close it.
+5. Scroll down to the Secret Love Letter section.Click the wax seal / envelope to open it.Verify that the envelope opens and the typewriter effect starts typing the letter.
+6. Test "Send a Heart" button and "Copy Letter" button.
+7. Scroll down to the Love Calculator section.Fill in "Luna" in Your Name and "Oliver" in Their Name.Click "Calculate Magic ✨".Verify loading animation, result score, message, and then click "Try Different Names" to reset.
+8. Scroll to the "Let's Play a Little Game! 🧸" quiz section.Answer Question 1 by clicking "A cozy café ☕", click Next.Answer Question 2("Sweet words 💌"), click Next.Answer Question 3("Watching the stars ✨"), click Next.Answer Question 4("Make flowers bloom 🌸"), click "Reveal Our Vibe ✨".Verify the result profile card is shown with title and description.
+9. Scroll to the Countdown section.Verify the days, hours, minutes, seconds are updating every second.
+10. Scroll to the Surprise section.Click "Open My Surprise 🎁".Verify the surprise modal opens with message: "You make ordinary little moments feel magical. Keep being wonderfully you. 💗".Close the modal.
+11. Click the play button on the floating music player at the bottom right.Verify playback state changes to playing.
+12. Report any errors, visual glitches, or confirmation of passing tests.

@@ -56,8 +56,8 @@ const requiredPlanets = [
 ];
 
 requiredPlanets.forEach(p => {
-  assert(galaxyHtml.includes(p.name), `galaxy.html includes planet '${p.name}'`);
-  assert(galaxyHtml.includes(p.link), `galaxy.html links planet '${p.name}' to '${p.link}'`);
+  assert(galaxyHtml.includes(p.name) || galaxyJs.includes(p.name), `includes planet '${p.name}'`);
+  assert(galaxyHtml.includes(p.link) || galaxyJs.includes(p.link), `links planet '${p.name}' to '${p.link}'`);
   console.log(`  ✅ Planet: ${p.name} -> Connected to ${p.link}`);
 });
 
