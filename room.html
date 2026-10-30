@@ -30,7 +30,7 @@
         }
       } catch (e) {}
     })();
-  </script>
+  <script src="js/settings-modal.js" defer></script>
 </head>
 <body class="page-room">
 
@@ -63,14 +63,29 @@
         <li><a href="studio.html" class="nav-link"><span>📸</span> Studio</a></li>
         <li><a href="vault.html" class="nav-link"><span>🔐</span> Vault</a></li>
         <li><a href="analyzer.html" class="nav-link"><span>🔮</span> Insights</a></li>
+
+        <!-- Dropdown for On-Page Romantic Chapters -->
+        <li class="nav-dropdown">
+          <button type="button" class="nav-link nav-dropdown-btn" id="nav-chapters-btn" aria-haspopup="true" aria-expanded="false">
+            <span>✨</span> Chapters <span class="dropdown-chevron">▾</span>
+          </button>
+          <ul class="nav-dropdown-menu" id="nav-chapters-menu" aria-label="Story Chapters">
+            <li><a href="index.html#couple-experience" class="nav-dropdown-item"><span>👩‍❤️‍👨</span> 3D Couple View</a></li>
+            <li><a href="index.html#memories" class="nav-dropdown-item"><span>🖼️</span> Memory Scrapbook</a></li>
+            <li><a href="index.html#love-letter" class="nav-dropdown-item"><span>💌</span> Romantic Love Letter</a></li>
+            <li><a href="index.html#calculator" class="nav-dropdown-item"><span>💘</span> Magic Love Match</a></li>
+            <li><a href="index.html#quiz" class="nav-dropdown-item"><span>🧸</span> Couple Fun Quiz</a></li>
+            <li><a href="index.html#countdown" class="nav-dropdown-item"><span>⏳</span> Special Day Countdown</a></li>
+            <li><a href="index.html#surprise" class="nav-dropdown-item"><span>✨</span> Secret Surprise Box</a></li>
+          </ul>
+        </li>
+
         <li class="nav-account-item">
-          <div class="user-account-pill">
-            <span class="user-avatar" aria-hidden="true">🌸</span>
+          <button type="button" class="user-settings-trigger" id="nav-settings-btn" aria-label="Open Account Settings & Profile" title="Settings & Profile ⚙️">
+            <span class="user-avatar" id="nav-user-avatar" aria-hidden="true">🌸</span>
             <span class="user-display-name" id="user-display-name">Soulmate</span>
-            <button type="button" class="btn-logout" id="btn-logout" aria-label="Log Out">
-              <span>Logout</span> 🚪
-            </button>
-          </div>
+            <span class="settings-gear-icon" aria-hidden="true">⚙️</span>
+          </button>
         </li>
       </ul>
     </nav>
