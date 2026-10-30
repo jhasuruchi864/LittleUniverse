@@ -114,7 +114,7 @@
             <h4>Account Session</h4>
           </div>
           <p class="settings-logout-note">Log out of your account on this device. Your romantic moments and love vault remain safely protected.</p>
-          <button type="button" class="btn-logout instagram-logout-btn" id="btn-modal-logout" aria-label="Log Out of Our Little Universe">
+          <button type="button" class="btn-logout instagram-logout-btn" id="btn-logout" aria-label="Log Out of Our Little Universe">
             <span>Log Out of Our Universe</span> 🚪
           </button>
         </div>
@@ -236,6 +236,29 @@
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && modalBackdrop.classList.contains('active')) {
         closeModal();
+      }
+    });
+
+    // Support click & tap toggle on Chapters dropdown button across all pages
+    document.addEventListener('click', (e) => {
+      const dropdownBtn = e.target.closest('.nav-dropdown-btn');
+      if (dropdownBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        const dropdown = dropdownBtn.closest('.nav-dropdown');
+        if (dropdown) {
+          const isNowOpen = dropdown.classList.toggle('open');
+          dropdownBtn.setAttribute('aria-expanded', String(isNowOpen));
+        }
+        return;
+      }
+      // Tap outside closes any open dropdown
+      if (!e.target.closest('.nav-dropdown')) {
+        document.querySelectorAll('.nav-dropdown.open').forEach(d => {
+          d.classList.remove('open');
+          const b = d.querySelector('.nav-dropdown-btn');
+          if (b) b.setAttribute('aria-expanded', 'false');
+        });
       }
     });
 
