@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secret Diary &amp; Letters 💌 | Our Little Universe</title>
+  <meta name="description" content="A private romantic diary and sealed open-when love letters for sweethearts.">
+
+  <!-- Romantic Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;700;800&family=Sacramento&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    /* Prevent flash of protected content before authentication confirmation */
+    html:not(.auth-verified) body {
+      display: none !important;
+    }
+  </style>
+  <script>
+    (function() {
+      try {
+        const token = localStorage.getItem('universe_session_token');
+        const cached = localStorage.getItem('universe_cached_user');
+        const hasCookie = document.cookie.indexOf('universe_session=') !== -1;
+        if (token || cached || hasCookie) {
+          document.documentElement.classList.add('auth-verified');
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="page-diary">
+
+  <!-- 3D Canvas Background -->
+  <canvas id="universe-bg-canvas" aria-hidden="true"></canvas>
+
+  <!-- Site Navigation -->
+  <header class="site-header" id="site-header">
+    <nav class="nav-container" aria-label="Main Navigation">
+      <a href="index.html" class="nav-logo" aria-label="Our Little Universe Home">
+        <span class="logo-heart">💗</span>
+        <span class="logo-text">Our Universe</span>
+      </a>
+
+      <!-- Hamburger Toggle for Mobile -->
+      <button class="nav-toggle-btn" id="nav-toggle-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links-menu">
+        <div class="hamburger-icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </button>
+
+      <!-- Nav Links -->
+      <ul class="nav-links" id="nav-links-menu">
+        <li><a href="index.html" class="nav-link"><span>🏡</span> Home</a></li>
+        <li><a href="shared.html" class="nav-link"><span>👩‍❤️‍👨</span> Shared Space</a></li>
+        <li><a href="room.html" class="nav-link"><span>🧸</span> 3D Room</a></li>
+        <li><a href="galaxy.html" class="nav-link"><span>🌌</span> Galaxy</a></li>
+        <li><a href="diary.html" class="nav-link active"><span>💌</span> Diary &amp; Letters</a></li>
+        <li><a href="games.html" class="nav-link"><span>🎲</span> Games</a></li>
+        <li><a href="timeline.html" class="nav-link"><span>⏳</span> Timeline</a></li>
+        <li><a href="studio.html" class="nav-link"><span>📸</span> Studio</a></li>
+        <li><a href="vault.html" class="nav-link"><span>🔐</span> Vault</a></li>
+        <li><a href="analyzer.html" class="nav-link"><span>🔮</span> Insights</a></li>
+        <li class="nav-account-item">
+          <div class="user-account-pill">
+            <span class="user-avatar" aria-hidden="true">🌸</span>
+            <span class="user-display-name" id="user-display-name">Soulmate</span>
+            <button type="button" class="btn-logout" id="btn-logout" aria-label="Log Out">
+              <span>Logout</span> 🚪
+            </button>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="studio-main-container">
+    
+    <!-- Header Section -->
+    <div class="glass-card diary-hero-card text-center">
+      <div class="hero-badge">
+        <span>💌</span> Words from the Heart <span>💌</span>
+      </div>
+      <h1 class="cursive-title studio-page-title">
+        Secret Diary &amp; Open-When Letters <span class="sparkle-word">💕</span>
+      </h1>
+      <p class="studio-page-subtitle">
+        Write personal journal thoughts or seal romantic surprise letters to be unlocked on special days.
+      </p>
+
+      <!-- Section Switcher Tabs -->
+      <div class="diary-nav-tabs">
+        <button type="button" class="diary-tab-btn active" id="tab-btn-diary">
+          <span>📔</span> Secret Diary
+        </button>
+        <button type="button" class="diary-tab-btn" id="tab-btn-letters">
+          <span>💌</span> Open-When Letters
+        </button>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- 1. SECRET DIARY SECTION                        -->
+    <!-- ============================================== -->
+    <section class="diary-view-panel" id="panel-diary">
+      <div class="shelf-header">
+        <div>
+          <h2 class="shelf-title"><span>📔</span> My Romantic Journal</h2>
+          <span class="shelf-count" id="diary-count-text">0 Entries</span>
+        </div>
+        <button type="button" class="btn btn-primary" id="btn-new-diary-entry">
+          <span>➕ Write New Entry</span>
+        </button>
+      </div>
+
+      <!-- Diary Entries Grid -->
+      <div class="diary-entries-grid" id="diary-entries-grid">
+        <!-- Dynamically rendered diary cards -->
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- 2. OPEN-WHEN LETTERS SECTION                   -->
+    <!-- ============================================== -->
+    <section class="diary-view-panel" id="panel-letters" style="display: none;">
+      <div class="shelf-header">
+        <div>
+          <h2 class="shelf-title"><span>💌</span> Sealed Open-When Letters</h2>
+          <span class="shelf-count" id="letters-count-text">0 Letters</span>
+        </div>
+        <button type="button" class="btn btn-primary" id="btn-compose-letter">
+          <span>✍️ Compose a Love Letter</span>
+        </button>
+      </div>
+
+      <!-- Letters Grid -->
+      <div class="letters-envelopes-grid" id="letters-envelopes-grid">
+        <!-- Dynamically rendered envelope cards -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Compose Diary Entry Modal -->
+  <div class="modal-overlay" id="diary-modal" role="dialog" aria-modal="true" aria-labelledby="diary-modal-title" style="display: none;">
+    <div class="modal-card glass-card">
+      <div class="modal-header">
+        <h3 id="diary-modal-title"><span>📔</span> Write Diary Entry</h3>
+        <button type="button" class="modal-close-btn" id="btn-close-diary-modal" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="diary-title-input">Title:</label>
+          <input type="text" id="diary-title-input" class="studio-input" placeholder="e.g. A Sweet Tuesday Smile 🌸">
+        </div>
+        <div class="form-group">
+          <label for="diary-content-input">Your Thoughts:</label>
+          <textarea id="diary-content-input" class="studio-textarea" rows="4" placeholder="Dear Universe, today was magical because..."></textarea>
+        </div>
+        <div class="form-group" style="display: flex; gap: 1rem;">
+          <div style="flex: 1;">
+            <label for="diary-mood-select">Mood:</label>
+            <select id="diary-mood-select" class="studio-select">
+              <option value="happy">💖 Happy &amp; In Love</option>
+              <option value="cozy">☕ Cozy &amp; Peaceful</option>
+              <option value="missing">🥺 Missing You</option>
+              <option value="excited">✨ Excited &amp; Joyful</option>
+            </select>
+          </div>
+          <div style="flex: 1;">
+            <label for="diary-visibility-select">Visibility:</label>
+            <select id="diary-visibility-select" class="studio-select">
+              <option value="personal">🔒 Personal (Only Me)</option>
+              <option value="shared">💕 Shared (With Partner)</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-status" id="diary-modal-status"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btn-cancel-diary">Cancel</button>
+        <button type="button" class="btn btn-primary" id="btn-save-diary">Save to Diary</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Compose Open-When Letter Modal -->
+  <div class="modal-overlay" id="letter-modal" role="dialog" aria-modal="true" aria-labelledby="letter-modal-title" style="display: none;">
+    <div class="modal-card glass-card">
+      <div class="modal-header">
+        <h3 id="letter-modal-title"><span>💌</span> Compose an Open-When Letter</h3>
+        <button type="button" class="modal-close-btn" id="btn-close-letter-modal" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="letter-template-select">Letter Theme:</label>
+          <select id="letter-template-select" class="studio-select">
+            <option value="miss-you">💖 Open When You Miss Me</option>
+            <option value="sad">🌧️ Open When You Feel Sad</option>
+            <option value="anniversary">🥂 Open On Our Anniversary</option>
+            <option value="encouragement">🌟 Open When You Need Encouragement</option>
+            <option value="surprise">🎁 Open When You Want a Sweet Surprise</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="letter-title-input">Custom Letter Title:</label>
+          <input type="text" id="letter-title-input" class="studio-input" value="Open When You Miss Me 💌">
+        </div>
+        <div class="form-group">
+          <label for="letter-content-input">Letter Message:</label>
+          <textarea id="letter-content-input" class="studio-textarea" rows="5" placeholder="My dearest, remember that no matter how far away we are..."></textarea>
+        </div>
+        <div class="form-group">
+          <label for="letter-reveal-date">Seal Until Specific Date (Optional):</label>
+          <input type="date" id="letter-reveal-date" class="studio-input">
+          <span class="file-hint">Leave blank to allow your partner to unseal it anytime.</span>
+        </div>
+        <div class="modal-status" id="letter-modal-status"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btn-cancel-letter">Cancel</button>
+        <button type="button" class="btn btn-primary" id="btn-save-letter">Seal Letter 💌</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Read Unsealed Letter Modal -->
+  <div class="modal-overlay" id="read-letter-modal" role="dialog" aria-modal="true" aria-labelledby="read-letter-title" style="display: none;">
+    <div class="modal-card glass-card viewer-modal-card" style="max-width: 620px;">
+      <div class="modal-header">
+        <h3 id="read-letter-title"><span>💌</span> A Letter for You</h3>
+        <button type="button" class="modal-close-btn" id="btn-close-read-letter" aria-label="Close letter">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="wax-seal-badge">
+          <span>🌸</span> Sealed with Love
+        </div>
+        <div class="letter-paper-card" id="read-letter-paper">
+          <p class="letter-text-content" id="read-letter-text"></p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="btn-fold-letter">Fold Letter</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Real Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <a href="index.html" class="footer-brand-logo" aria-label="Our Little Universe Home">
+            <span class="footer-brand-heart">💗</span>
+            <span class="footer-brand-name">Our Little Universe</span>
+          </a>
+          <p class="footer-brand-desc">
+            A romantic digital sanctuary for celebrating love, capturing memories, and creating sweet fairy tale moments together.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title"><span>✨</span> Experiences</h4>
+          <ul class="footer-links-list">
+            <li><a href="shared.html">Shared Space</a></li>
+            <li><a href="room.html">3D Love Room</a></li>
+            <li><a href="galaxy.html">Personal Galaxy</a></li>
+            <li><a href="diary.html">Diary &amp; Letters</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title"><span>🛡️</span> Privacy &amp; Trust</h4>
+          <ul class="footer-links-list">
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Use</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">
+          &copy; 2026 Our Little Universe 💗 &bull; Made with endless love, starlight, and sweet dreams.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/three.min.js"></script>
+  <script>
+    if (typeof THREE === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+    }
+  </script>
+  <script src="js/auth.js"></script>
+  <script src="js/universe-3d.js"></script>
+  <script src="js/diary.js"></script>
+  <script>
+    if (window.UniverseAuth) {
+      window.UniverseAuth.requireAuth();
+    }
+  </script>
+</body>
+</html>

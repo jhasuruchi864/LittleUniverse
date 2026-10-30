@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Private Love Vault 🔐 | Our Little Universe</title>
+  <meta name="description" content="A private, encrypted diary and photo vault for our romantic couple memories in Our Little Universe.">
+
+  <!-- Romantic Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;700;800&family=Sacramento&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    /* Prevent flash of protected content before authentication confirmation */
+    html:not(.auth-verified) body {
+      display: none !important;
+    }
+  </style>
+  <script>
+    (function() {
+      try {
+        const token = localStorage.getItem('universe_session_token');
+        const cached = localStorage.getItem('universe_cached_user');
+        const hasCookie = document.cookie.indexOf('universe_session=') !== -1;
+        if (token || cached || hasCookie) {
+          document.documentElement.classList.add('auth-verified');
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="page-vault">
+
+  <!-- 3D Floating Canvas Background -->
+  <canvas id="universe-bg-canvas" aria-hidden="true"></canvas>
+
+  <!-- Site Navigation -->
+  <header class="site-header" id="site-header">
+    <nav class="nav-container" aria-label="Main Navigation">
+      <a href="index.html" class="nav-logo" aria-label="Our Little Universe Home">
+        <span class="logo-heart">💗</span>
+        <span class="logo-text">Our Universe</span>
+      </a>
+
+      <!-- Hamburger Toggle for Mobile -->
+      <button class="nav-toggle-btn" id="nav-toggle-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links-menu">
+        <div class="hamburger-icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </button>
+
+      <!-- Nav Links -->
+      <ul class="nav-links" id="nav-links-menu">
+        <li><a href="index.html" class="nav-link"><span>🏡</span> 3D Universe</a></li>
+        <li><a href="studio.html" class="nav-link"><span>📸</span> Couple Studio</a></li>
+        <li><a href="vault.html" class="nav-link active"><span>🔐</span> Love Vault</a></li>
+        <li><a href="analyzer.html" class="nav-link"><span>🔮</span> Insights</a></li>
+        <li class="nav-account-item">
+          <div class="user-account-pill">
+            <span class="user-avatar" aria-hidden="true">🌸</span>
+            <span class="user-display-name" id="user-display-name">Soulmate</span>
+            <button type="button" class="btn-logout" id="btn-logout" aria-label="Log Out of Our Little Universe">
+              <span>Logout</span> 🚪
+            </button>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="vault-main-container">
+
+    <!-- ========================================== -->
+    <!-- 1. LOCKED VAULT VIEW (LOCKED DIARY / SAFE) -->
+    <!-- ========================================== -->
+    <section class="vault-locked-screen" id="vault-locked-screen">
+      <div class="glass-card vault-lock-card">
+        
+        <div class="vault-lock-illustration" id="vault-lock-animation">
+          <div class="safe-outer-rim">
+            <div class="safe-inner-door" id="safe-door">
+              <div class="heart-padlock-3d" id="heart-padlock">
+                <div class="padlock-shackle"></div>
+                <div class="padlock-body">
+                  <span class="padlock-heart-icon">🔒</span>
+                </div>
+                <div class="padlock-keyhole"></div>
+              </div>
+            </div>
+          </div>
+          <div class="vault-glow-pulse" aria-hidden="true"></div>
+        </div>
+
+        <h1 class="cursive-title vault-lock-title">
+          My Private Love Vault <span class="sparkle-word">🔐</span>
+        </h1>
+        
+        <p class="vault-lock-subtitle">
+          A secret digital sanctuary for our most cherished memories, protected exclusively for your eyes.
+        </p>
+
+        <!-- Fast Authenticated Unlock -->
+        <div class="vault-unlock-actions">
+          <button type="button" class="btn btn-primary btn-unlock-vault" id="btn-quick-unlock">
+            <span>✨ Unlock with My Soulmate Key 💖</span>
+          </button>
+        </div>
+
+        <!-- Optional Love PIN Toggle -->
+        <div class="vault-pin-section">
+          <button type="button" class="btn-text-link" id="btn-toggle-pin-form">
+            <span>🔑</span> Unlock with Love PIN instead
+          </button>
+
+          <form id="vault-pin-form" class="vault-pin-form" style="display: none;">
+            <div class="pin-inputs-row">
+              <input type="password" id="pin-digit-1" maxlength="1" class="pin-digit-box" pattern="[0-9]" inputmode="numeric" aria-label="PIN Digit 1">
+              <input type="password" id="pin-digit-2" maxlength="1" class="pin-digit-box" pattern="[0-9]" inputmode="numeric" aria-label="PIN Digit 2">
+              <input type="password" id="pin-digit-3" maxlength="1" class="pin-digit-box" pattern="[0-9]" inputmode="numeric" aria-label="PIN Digit 3">
+              <input type="password" id="pin-digit-4" maxlength="1" class="pin-digit-box" pattern="[0-9]" inputmode="numeric" aria-label="PIN Digit 4">
+            </div>
+            <button type="submit" class="btn btn-secondary btn-submit-pin" id="btn-submit-pin">
+              Unlock Vault
+            </button>
+            <div class="pin-error-msg" id="pin-error-msg"></div>
+          </form>
+        </div>
+
+        <div class="vault-security-guarantee">
+          <span>🛡️</span> Multi-tenant isolated storage &bull; Accessible only while authenticated
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- 2. UNLOCKED VAULT VIEW (MEMORIES & FOLDERS) -->
+    <!-- ============================================ -->
+    <section class="vault-unlocked-screen" id="vault-unlocked-screen" style="display: none;">
+
+      <!-- Vault Top Controls Bar -->
+      <div class="glass-card vault-header-card">
+        <div class="vault-header-left">
+          <div class="unlocked-badge">
+            <span>💖</span> Vault Unlocked
+          </div>
+          <h1 class="cursive-title vault-page-title">
+            Our Private Love Vault <span class="sparkle-word">💌</span>
+          </h1>
+          <p class="vault-page-subtitle">
+            Every smile, every dream, and every generated artwork stored safely together.
+          </p>
+        </div>
+
+        <div class="vault-header-actions">
+          <button type="button" class="btn btn-primary" id="btn-new-folder">
+            <span>➕ New Folder</span>
+          </button>
+          <a href="studio.html" class="btn btn-secondary" id="btn-studio-shortcut">
+            <span>📸 Create Art in Studio</span>
+          </a>
+          <button type="button" class="btn btn-secondary" id="btn-configure-pin">
+            <span>🔑 Set Love PIN</span>
+          </button>
+          <button type="button" class="btn btn-secondary btn-lock-now" id="btn-lock-vault">
+            <span>🔒 Lock Vault</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Folders Shelf -->
+      <div class="vault-folders-shelf-section">
+        <div class="shelf-header">
+          <h2 class="shelf-title"><span>📂</span> Memory Folders</h2>
+          <span class="shelf-count" id="folders-count-text">6 Folders</span>
+        </div>
+
+        <div class="vault-folders-grid" id="vault-folders-grid">
+          <!-- Dynamically populated folder cards -->
+        </div>
+      </div>
+
+      <!-- Active Folder Content & Polaroid Grid -->
+      <div class="vault-images-shelf-section">
+        <div class="shelf-header">
+          <div class="active-folder-meta">
+            <span class="active-folder-icon" id="active-folder-icon">💗</span>
+            <h2 class="shelf-title" id="active-folder-title">Our Cute Moments 💗</h2>
+            <span class="folder-items-pill" id="active-folder-count">0 pictures</span>
+          </div>
+
+          <div class="shelf-controls">
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-rename-current-folder">
+              <span>✏️ Rename Folder</span>
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm btn-danger-soft" id="btn-delete-current-folder">
+              <span>🗑️ Delete Folder</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Polaroid Images Grid -->
+        <div class="vault-polaroid-grid" id="vault-images-grid">
+          <!-- Dynamically populated polaroids -->
+        </div>
+
+        <!-- Empty Folder State -->
+        <div class="vault-empty-folder-state" id="vault-empty-state" style="display: none;">
+          <div class="empty-chibi-badge">🧸</div>
+          <h3>This folder is waiting for your sweet moments!</h3>
+          <p>Create adorable couple artwork in the Studio or save precious memories into this folder.</p>
+          <a href="studio.html" class="btn btn-primary">
+            <span>🎨 Open AI Couple Studio</span>
+          </a>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ============================================ -->
+  <!-- MODALS: Fullscreen Viewer, Folders, PIN      -->
+  <!-- ============================================ -->
+
+  <!-- Fullscreen Polaroid Viewer Modal -->
+  <div class="modal-overlay" id="polaroid-viewer-modal" role="dialog" aria-modal="true" aria-labelledby="viewer-image-title" style="display: none;">
+    <div class="modal-card glass-card viewer-modal-card">
+      <div class="modal-header">
+        <h3 id="viewer-image-title">Romantic Artwork</h3>
+        <button type="button" class="modal-close-btn" id="btn-close-viewer" aria-label="Close image viewer">&times;</button>
+      </div>
+      <div class="modal-body viewer-body">
+        <div class="viewer-image-frame">
+          <img id="viewer-full-image" alt="Full size romantic vault memory">
+        </div>
+        <div class="viewer-details-pane">
+          <div class="viewer-meta-row">
+            <span class="viewer-tag tag-style" id="viewer-style-tag">Cute 3D Chibi</span>
+            <span class="viewer-tag tag-scene" id="viewer-scene-tag">Heart Universe</span>
+            <span class="viewer-date" id="viewer-date-text">Saved Oct 28, 2026</span>
+          </div>
+          <p class="viewer-caption" id="viewer-caption-text">No caption provided.</p>
+          <div class="viewer-actions-row">
+            <a id="btn-viewer-download" class="btn btn-primary" download="our-vault-memory.png">
+              <span>📥 Download</span>
+            </a>
+            <button type="button" class="btn btn-secondary" id="btn-viewer-move">
+              <span>📁 Move Folder</span>
+            </button>
+            <button type="button" class="btn btn-secondary btn-danger-soft" id="btn-viewer-delete">
+              <span>🗑️ Delete</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- New / Rename Folder Modal -->
+  <div class="modal-overlay" id="folder-form-modal" role="dialog" aria-modal="true" aria-labelledby="folder-modal-title" style="display: none;">
+    <div class="modal-card glass-card">
+      <div class="modal-header">
+        <h3 id="folder-modal-title"><span>📂</span> New Memory Folder</h3>
+        <button type="button" class="modal-close-btn" id="btn-close-folder-modal" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="folder-name-input">Folder Name:</label>
+          <input type="text" id="folder-name-input" class="studio-input" placeholder="e.g. Cherry Blossom Dreams 🌸" maxlength="40">
+        </div>
+        <div class="form-group">
+          <label>Choose Folder Icon:</label>
+          <div class="emoji-picker-row" id="emoji-picker-row">
+            <button type="button" class="emoji-pick-btn active" data-emoji="💗">💗</button>
+            <button type="button" class="emoji-pick-btn" data-emoji="🧸">🧸</button>
+            <button type="button" class="emoji-pick-btn" data-emoji="🌙">🌙</button>
+            <button type="button" class="emoji-pick-btn" data-emoji="📸">📸</button>
+            <button type="button" class="emoji-pick-btn" data-emoji="💌">💌</button>
+            <button type="button" class="emoji-pick-btn" data-emoji="🎀">🎀</button>
+            <button type="button" class="emoji-pick-btn" data-emoji="🌸">🌸</button>
+            <button type="button" class="emoji-pick-btn" data-emoji="✨">✨</button>
+            <button type="button" class="emoji-pick-btn" data-emoji="☕">☕</button>
+          </div>
+        </div>
+        <div class="modal-status" id="folder-modal-status"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btn-cancel-folder">Cancel</button>
+        <button type="button" class="btn btn-primary" id="btn-save-folder">
+          <span>Save Folder</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Move Image Modal -->
+  <div class="modal-overlay" id="move-image-modal" role="dialog" aria-modal="true" aria-labelledby="move-modal-title" style="display: none;">
+    <div class="modal-card glass-card">
+      <div class="modal-header">
+        <h3 id="move-modal-title"><span>📁</span> Move to Another Folder</h3>
+        <button type="button" class="modal-close-btn" id="btn-close-move-modal" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="move-target-folder-select">Select Destination Folder:</label>
+          <select id="move-target-folder-select" class="studio-select"></select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btn-cancel-move">Cancel</button>
+        <button type="button" class="btn btn-primary" id="btn-confirm-move">
+          <span>Move Image</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Set Love PIN Modal -->
+  <div class="modal-overlay" id="pin-modal" role="dialog" aria-modal="true" aria-labelledby="pin-modal-title" style="display: none;">
+    <div class="modal-card glass-card">
+      <div class="modal-header">
+        <h3 id="pin-modal-title"><span>🔑</span> Set Love PIN</h3>
+        <button type="button" class="modal-close-btn" id="btn-close-pin-modal" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">
+          Add an extra 4-digit lock to your vault. Leave blank if you prefer quick one-click unlock via your account session.
+        </p>
+        <div class="form-group">
+          <label for="set-pin-input">Enter 4-Digit Love PIN (or empty to remove):</label>
+          <input type="password" id="set-pin-input" maxlength="4" class="studio-input" placeholder="e.g. 1234" pattern="[0-9]*" inputmode="numeric">
+        </div>
+        <div class="modal-status" id="pin-modal-status"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btn-cancel-set-pin">Cancel</button>
+        <button type="button" class="btn btn-primary" id="btn-save-pin">
+          <span>Save PIN</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Real Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <a href="index.html" class="footer-brand-logo" aria-label="Our Little Universe Home">
+            <span class="footer-brand-heart">💗</span>
+            <span class="footer-brand-name">Our Little Universe</span>
+          </a>
+          <p class="footer-brand-desc">
+            A romantic digital sanctuary for celebrating love, capturing memories, and creating sweet fairy tale moments together.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title"><span>✨</span> Experiences</h4>
+          <ul class="footer-links-list">
+            <li><a href="index.html#couple-experience">3D Chibi Couple</a></li>
+            <li><a href="studio.html">AI Couple Studio</a></li>
+            <li><a href="vault.html">Private Love Vault</a></li>
+            <li><a href="index.html#memories">Memory Scrapbook</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title"><span>🛡️</span> Privacy &amp; Trust</h4>
+          <ul class="footer-links-list">
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Use</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">
+          &copy; 2026 Our Little Universe 💗 &bull; Made with endless love, starlight, and sweet dreams.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/three.min.js"></script>
+  <script>
+    if (typeof THREE === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+    }
+  </script>
+  <script src="js/auth.js"></script>
+  <script src="js/universe-3d.js"></script>
+  <script src="js/vault.js"></script>
+  <script>
+    // Enforce authentication guard
+    if (window.UniverseAuth) {
+      window.UniverseAuth.requireAuth();
+    }
+  </script>
+</body>
+</html>

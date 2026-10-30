@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Use 📜 | Our Little Universe</title>
+  <meta name="description" content="Clear, friendly Terms of Use for Our Little Universe. Simple rules for exploring our tiny romantic world.">
+  <meta name="theme-color" content="#FFD6E7">
+  
+  <!-- Favicon Heart SVG -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💗</text></svg>">
+  
+  <!-- Google Fonts Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Nunito:wght@400;600;700;800&family=Sacramento&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="legal-page">
+
+  <!-- Floating Canvas Background (Subtle pastel hearts, stars, sparkles) -->
+  <canvas id="universe-bg-canvas" aria-hidden="true"></canvas>
+
+  <!-- Navigation Bar (Consistent with Main Website) -->
+  <header class="site-header" id="site-header">
+    <nav class="nav-container" aria-label="Main Navigation">
+      <a href="index.html" class="nav-logo" aria-label="Our Little Universe Home">
+        <span class="logo-heart">💗</span>
+        <span class="logo-text">Our Universe</span>
+      </a>
+
+      <!-- Hamburger Toggle for Mobile -->
+      <button class="nav-toggle-btn" id="nav-toggle-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links-menu">
+        <div class="hamburger-icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </button>
+
+      <!-- Nav Links -->
+      <ul class="nav-links" id="nav-links-menu">
+        <li><a href="index.html#hero" class="nav-link"><span>🏡</span> Home</a></li>
+        <li><a href="index.html#memories" class="nav-link"><span>📸</span> Memories</a></li>
+        <li><a href="index.html#love-letter" class="nav-link"><span>💌</span> Love Letter</a></li>
+        <li><a href="index.html#quiz" class="nav-link"><span>🧸</span> Fun Questions</a></li>
+        <li><a href="login.html" class="nav-link"><span>🔐</span> Login</a></li>
+        <li><a href="signup.html" class="nav-link"><span>✨</span> Sign Up</a></li>
+        <li><a href="privacy.html" class="nav-link"><span>🛡️</span> Privacy</a></li>
+        <li><a href="terms.html" class="nav-link active" aria-current="page"><span>📜</span> Terms</a></li>
+        <li><a href="index.html" class="nav-link nav-btn-universe"><span>✨</span> Back to Universe</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Legal Document Area -->
+  <main class="legal-main">
+    <div class="legal-container">
+
+      <!-- Breadcrumb & Direct Return Action -->
+      <div class="legal-top-nav">
+        <a href="index.html" class="back-to-universe-link" aria-label="Return to Our Little Universe Homepage">
+          <span aria-hidden="true">←</span> <span>Back to Our Universe</span> ✨
+        </a>
+      </div>
+
+      <!-- Hero Header Card with Scroll & Heart Illustration -->
+      <header class="legal-hero-card">
+        <div class="legal-shield-illustration" aria-hidden="true">
+          <svg class="legal-shield-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Scroll / Parchment Document -->
+            <rect x="22" y="16" width="56" height="68" rx="8" fill="#FFFFFF" stroke="#9C8EF7" stroke-width="4"/>
+            <!-- Text Lines on Scroll -->
+            <line x1="32" y1="30" x2="68" y2="30" stroke="#FFB6D5" stroke-width="3" stroke-linecap="round"/>
+            <line x1="32" y1="40" x2="68" y2="40" stroke="#FFB6D5" stroke-width="3" stroke-linecap="round"/>
+            <line x1="32" y1="50" x2="54" y2="50" stroke="#FFB6D5" stroke-width="3" stroke-linecap="round"/>
+            <!-- Heart Wax Stamp at Bottom -->
+            <circle cx="50" cy="68" r="12" fill="#FF5C8A"/>
+            <path d="M50 63 C47 59, 41 60, 41 65 C41 70, 50 76, 50 76 C50 76, 59 70, 59 65 C59 60, 53 59, 50 63 Z" fill="#FFFFFF"/>
+            <!-- Sparkle -->
+            <path d="M74 12 L76 17 L81 19 L76 21 L74 26 L72 21 L67 19 L72 17 Z" fill="#FFE29A"/>
+          </svg>
+        </div>
+
+        <h1 class="legal-page-title cursive-title">Terms of Use 📜</h1>
+        <p class="legal-page-subtitle">Simple, sweet rules for exploring our tiny universe.</p>
+
+        <div class="legal-meta-row">
+          <span class="legal-meta-badge"><span>📅</span> Last updated: October 28, 2026</span>
+          <span class="legal-meta-badge"><span>⏱️</span> Reading time: ~3 minutes</span>
+          <span class="legal-meta-badge"><span>🌸</span> Romantic Project Reference</span>
+        </div>
+
+        <div class="legal-callout-box lavender">
+          <strong>📜 Plain-English Summary:</strong>
+          Our Little Universe is made for smiles, affection, and personal entertainment. Be kind, enjoy the playful games for fun, and make sure any personal photos or music you choose to add belong to you!
+        </div>
+      </header>
+
+      <!-- Table of Contents Quick Jump -->
+      <nav class="legal-toc-card" aria-label="Terms of Use Sections">
+        <h2 class="legal-toc-title"><span>📑</span> Quick Jump to Sections</h2>
+        <div class="legal-toc-chips">
+          <a href="#acceptance" class="legal-toc-chip">Acceptance of Terms</a>
+          <a href="#entertainment-nature" class="legal-toc-chip">Entertainment-Only Nature</a>
+          <a href="#content-ownership" class="legal-toc-chip">Ownership &amp; Permissions</a>
+          <a href="#third-party-links" class="legal-toc-chip">Third-Party Services</a>
+          <a href="#warranty-disclaimer" class="legal-toc-chip">Disclaimer of Warranties</a>
+          <a href="#limitation-liability" class="legal-toc-chip">Limitation of Liability</a>
+          <a href="#terms-updates" class="legal-toc-chip">Updates to Terms</a>
+          <a href="#terms-contact" class="legal-toc-chip">Contact Information</a>
+        </div>
+      </nav>
+
+      <!-- Complete Terms of Use Document -->
+      <article class="legal-document-card">
+
+        <!-- 1. Acceptance and Use of the Website -->
+        <section class="legal-section" id="acceptance">
+          <h2 class="legal-section-heading"><span>🌸</span> 1. Acceptance and Use of the Website</h2>
+          <p>
+            Welcome to <strong>Our Little Universe</strong>! By accessing, browsing, registering for an account, or interacting with this website, you agree to these Terms of Use. If you do not agree with these simple terms, please do not use the website.
+          </p>
+          <p>
+            This website is provided for <strong>personal, non-commercial romantic and entertainment purposes</strong>. You agree to use this website in a respectful manner that does not interfere with the enjoyment of others or attempt to disrupt the site's authentication systems and client-side operations.
+          </p>
+        </section>
+
+        <!-- 2. Account Security & Responsibilities -->
+        <section class="legal-section" id="account-security">
+          <h2 class="legal-section-heading"><span>🔐</span> 2. Account Registration &amp; Security</h2>
+          <p>
+            To protect personal memories and private scrapbooks, access to the universe requires an authenticated account:
+          </p>
+          <ul>
+            <li><strong>Accuracy:</strong> You agree to provide a valid email address that you own or have permission to access.</li>
+            <li><strong>Password Safeguarding:</strong> You are responsible for keeping your password confidential. Do not share your login credentials with unauthorized third parties.</li>
+            <li><strong>Unauthorized Access:</strong> If you believe someone has accessed your account without permission, you should immediately update your password using the password reset flow.</li>
+            <li><strong>Account Deletion:</strong> You may discontinue using the universe and request full deletion of your account at any time.</li>
+          </ul>
+        </section>
+
+        <!-- 2. Entertainment-Only Nature -->
+        <section class="legal-section" id="entertainment-nature">
+          <h2 class="legal-section-heading"><span>💘</span> 2. Entertainment-Only Nature of Interactive Features</h2>
+          <p>
+            The interactive features across Our Little Universe are provided exclusively for lighthearted fun, sweet smiles, and whimsical amusement:
+          </p>
+          <ul>
+            <li>
+              <strong>Love Calculator ("Magic Match"):</strong> The percentage score and romantic captions generated by entering names into the love calculator are produced by an informal mathematical hashing calculation. They are strictly entertainment and have no psychological, scientific, emotional, or diagnostic validity.
+            </li>
+            <li>
+              <strong>Relationship Quiz ("Fun Questions"):</strong> The quiz questions and resulting personality archetypes (such as <em>Cosmic Dreamers</em> or <em>Cozy Soulmates</em>) are cute creative games meant to spark playful conversations. They do not constitute relationship counseling or professional advice.
+            </li>
+            <li>
+              <strong>Countdown &amp; Surprises:</strong> The countdown timer and magical gift box are designed to bring joy and celebrate shared milestones.
+            </li>
+          </ul>
+        </section>
+
+        <!-- 3. Ownership and Permissions for Content -->
+        <section class="legal-section" id="content-ownership">
+          <h2 class="legal-section-heading"><span>📸</span> 3. Ownership and Permissions for Content</h2>
+          <p>
+            Respecting creative work and personal privacy is important to us:
+          </p>
+          <ul>
+            <li>
+              <strong>Website Code &amp; Design:</strong> The underlying HTML, CSS styling, JavaScript interactivity, custom UI layouts, and default SVG scrapbook vector illustrations are part of the Our Little Universe project.
+            </li>
+            <li>
+              <strong>Customizing Photos &amp; Music:</strong> This website template is designed so individuals can personalize their own copy with their own memories and music. If you customize the site by adding your own images to <code>assets/images/</code> or replacing the audio file in <code>assets/music/</code>, you are solely responsible for ensuring you have all necessary rights, licenses, or personal permissions from all persons depicted or rights holders to display and play those materials.
+            </li>
+            <li>
+              <strong>No Infringing Content:</strong> You may not use this website to host, display, or distribute defamatory, unlawful, harassing, or copyrighted materials without proper authorization.
+            </li>
+          </ul>
+        </section>
+
+        <!-- 3b. AI Couple Photo Studio & Generated Content Terms -->
+        <section class="legal-section" id="ai-studio-terms">
+          <h2 class="legal-section-heading"><span>✨</span> 3b. AI Couple Photo Studio &amp; Acceptable Use</h2>
+          <p>
+            When utilizing the AI Couple Photo Studio, you agree to the following mandatory community standards:
+          </p>
+          <ul>
+            <li>
+              <strong>Consent for Reference Photos:</strong> You may only upload photographs of yourself or individuals who have provided explicit, informed consent. Generating artwork using likenesses of non-consenting individuals is strictly forbidden.
+            </li>
+            <li>
+              <strong>Strict Prohibition of Harmful or Deceptive Imagery:</strong> You must not attempt to generate non-consensual sexual, intimate, deceptive, or defamatory imagery (including non-consensual deepfakes). The Photo Studio is exclusively designed for celebratory, cute, and romantic artistic creations.
+            </li>
+            <li>
+              <strong>AI Provider Guidelines:</strong> AI image synthesis is powered by commercial AI platforms (such as OpenAI, Stability AI, or Google Gemini) when configured. All prompts and outputs must comply with the respective provider's safety policies and usage terms.
+            </li>
+            <li>
+              <strong>Private Love Vault Storage:</strong> Saved artworks in your Private Love Vault are your personal creative memories. You retain rights to remove, reorganize, download, or delete these creations at any time.
+            </li>
+          </ul>
+        </section>
+
+        <!-- 3c. Shared Couple Space & Secret Letters Conduct -->
+        <section class="legal-section" id="couple-space-terms">
+          <h2 class="legal-section-heading"><span>💑</span> 3c. Shared Space, Partner Linking &amp; Secret Letters</h2>
+          <p>
+            When utilizing the Shared Couple Space, Secret Diary, and Open-When Letters features, users agree to the following terms:
+          </p>
+          <ul>
+            <li>
+              <strong>Mutual Consent for Partner Linking:</strong> Partner linking requires bilateral consent. You may not send unsolicited invitation links or attempt to link accounts without the explicit permission of the invited party.
+            </li>
+            <li>
+              <strong>Personal Ownership &amp; Shared Access:</strong> You maintain sole ownership over items you author. Marking an entry, milestone, or letter as "shared" grants your linked partner view permissions within the shared space while linked.
+            </li>
+            <li>
+              <strong>Unlinking Rights:</strong> Either partner has the absolute right to unlink accounts at any time through the Shared Space dashboard. Upon unlinking, shared access is revoked immediately.
+            </li>
+            <li>
+              <strong>Respectful Use:</strong> Open-When Letters, Secret Diaries, and Couple Games must be used in a spirit of affection, mutual respect, and joy. Using any communication feature for harassment, abuse, or unauthorized monitoring is strictly prohibited.
+            </li>
+          </ul>
+        </section>
+
+        <!-- 4. Third-Party Links and Services -->
+        <section class="legal-section" id="third-party-links">
+          <h2 class="legal-section-heading"><span>🌐</span> 4. Third-Party Links and Services</h2>
+          <p>
+            Our Little Universe relies on select external technical resources to function smoothly:
+          </p>
+          <ul>
+            <li>
+              <strong>Google Fonts:</strong> Web typography is served by Google Fonts. Your browser's retrieval of font files is subject to Google's Terms of Service and Privacy Policy.
+            </li>
+            <li>
+              <strong>Hosting Platforms:</strong> If accessed on an external host (such as GitHub Pages, Netlify, or Vercel), that platform's terms of service and acceptable use policies apply to the technical transmission of site files.
+            </li>
+          </ul>
+        </section>
+
+        <!-- 5. Disclaimer of Warranties ("As-Is") -->
+        <section class="legal-section" id="warranty-disclaimer">
+          <h2 class="legal-section-heading"><span>🛡️</span> 5. Disclaimer of Warranties</h2>
+          <p>
+            Our Little Universe is provided on an <strong>"AS IS"</strong> and <strong>"AS AVAILABLE"</strong> basis without warranties of any kind, whether express, implied, statutory, or otherwise.
+          </p>
+          <p>
+            Without limiting the foregoing, we do not warrant that the website will be uninterrupted, error-free, compatible with every browser or device version, or that any defects will be immediately corrected.
+          </p>
+          <div class="legal-callout-box">
+            <strong>⚖️ Notice Regarding Legal Counsel:</strong>
+            These Terms of Use are provided as an informal, friendly set of guidelines for a personal creative and romantic project. They have not been drafted or reviewed by a licensed attorney and do not guarantee formal legal compliance or constitute formal legal counsel.
+          </div>
+        </section>
+
+        <!-- 6. Limitation of Liability -->
+        <section class="legal-section" id="limitation-liability">
+          <h2 class="legal-section-heading"><span>⚖️</span> 6. Limitation of Liability</h2>
+          <p>
+            To the fullest extent permitted by applicable law, the creators and maintainers of Our Little Universe shall not be liable for any direct, indirect, incidental, special, consequential, or punitive damages arising out of or related to your access to, use of, or inability to use this website, or any reliance placed on the results of the playful love calculator or quizzes.
+          </p>
+          <p>
+            Your sole remedy for dissatisfaction with the website or any content is to stop using the website.
+          </p>
+        </section>
+
+        <!-- 7. Updates to the Terms -->
+        <section class="legal-section" id="terms-updates">
+          <h2 class="legal-section-heading"><span>📝</span> 7. Updates to These Terms</h2>
+          <p>
+            We may revise or update these Terms of Use from time to time as features or technical components change. When updates occur, the "Last updated" date at the top of this document will be adjusted accordingly.
+          </p>
+          <p>
+            Your continued use of Our Little Universe after changes have been posted indicates your acceptance of the revised terms.
+          </p>
+        </section>
+
+        <!-- 8. Contact Information -->
+        <section class="legal-section" id="terms-contact">
+          <h2 class="legal-section-heading"><span>💌</span> 8. Contact the Website Owner</h2>
+          <p>
+            If you have questions, inquiries, or feedback regarding these Terms of Use, please contact the website owner:
+          </p>
+
+          <div class="legal-contact-callout">
+            <p><strong>Primary Contact Address:</strong></p>
+            <p>
+              <code class="legal-placeholder-tag">[Add your contact email here]</code>
+            </p>
+            <p style="font-size: 0.9rem; color: var(--color-plum-light); margin-top: 0.6rem; margin-bottom: 0;">
+              <em>Notice for website owner: Please replace this placeholder with your actual contact email address or preferred contact method before publishing your site. If no contact address has been configured, please note that this project is maintained as a personal creative website without a dedicated commercial support desk.</em>
+            </p>
+          </div>
+        </section>
+
+      </article>
+
+      <!-- Return Button at Bottom of Document -->
+      <div style="text-align: center; margin-top: 2.5rem;">
+        <a href="index.html" class="btn btn-primary" aria-label="Return to Our Little Universe Homepage">
+          <span>🌸 Back to Our Universe</span> ✨
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Complete Real-Website Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      
+      <div class="footer-grid">
+        <!-- Brand Column -->
+        <div class="footer-col footer-brand-col">
+          <a href="index.html" class="footer-brand-logo" aria-label="Our Little Universe Home">
+            <span class="footer-brand-heart">💗</span>
+            <span class="footer-brand-name">Our Little Universe</span>
+          </a>
+          <p class="footer-brand-desc">
+            A tiny corner of the internet made for smiles, memories, and little moments of magic.
+          </p>
+          <div class="footer-cute-badge">
+            <span>🌸</span> Made with love and a little bit of magic 💗
+          </div>
+        </div>
+
+        <!-- Quick Links Column -->
+        <div class="footer-col">
+          <h4 class="footer-col-title">Quick Links</h4>
+          <ul class="footer-nav-list">
+            <li><a href="index.html#hero" class="footer-link"><span>🏡</span> Home</a></li>
+            <li><a href="index.html#memories" class="footer-link"><span>📸</span> Memories</a></li>
+            <li><a href="index.html#love-letter" class="footer-link"><span>💌</span> Love Letter</a></li>
+            <li><a href="index.html#quiz" class="footer-link"><span>🧸</span> Fun Questions</a></li>
+          </ul>
+        </div>
+
+        <!-- Legal & Safety Column -->
+        <div class="footer-col">
+          <h4 class="footer-col-title">Peace of Mind</h4>
+          <ul class="footer-nav-list">
+            <li><a href="privacy.html" class="footer-link"><span>🛡️</span> Privacy Policy</a></li>
+            <li><a href="terms.html" class="footer-link" style="color: var(--color-rose-red); font-weight: 700;"><span>📜</span> Terms of Use</a></li>
+            <li class="footer-contact-item">
+              <span>💌 Contact:</span>
+              <code class="footer-placeholder">[Add your contact email here]</code>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="footer-divider" aria-hidden="true"></div>
+
+      <!-- Bottom Bar -->
+      <div class="footer-bottom-bar">
+        <p class="footer-copy">
+          &copy; <span id="footer-year"></span> Our Little Universe. Created with infinite love.
+        </p>
+
+        <div>
+          <button type="button" class="btn-back-to-top" id="btn-back-to-top" aria-label="Back to top of page">
+            <span>↑</span> Back to Top
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Main JavaScript File -->
+  <script src="js/script.js"></script>
+</body>
+</html>

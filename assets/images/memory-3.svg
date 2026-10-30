@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF8F2" />
+      <stop offset="50%" stop-color="#FFD6E7" />
+      <stop offset="100%" stop-color="#DCD6FF" />
+    </linearGradient>
+    <filter id="shadow3" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="4" dy="10" stdDeviation="8" flood-color="#51364F" flood-opacity="0.18" />
+    </filter>
+  </defs>
+
+  <!-- Background wooden/pastel tabletop with checkered gingham pattern subtle -->
+  <rect width="800" height="600" fill="url(#bgGrad3)" />
+
+  <!-- Confetti and stars on table -->
+  <g opacity="0.6">
+    <circle cx="120" cy="100" r="8" fill="#FF5C8A" />
+    <circle cx="700" cy="130" r="12" fill="#FFE29A" />
+    <circle cx="680" cy="460" r="9" fill="#FFB6D5" />
+    <circle cx="150" cy="500" r="10" fill="#DCD6FF" />
+    <polygon points="620,80 623,86 630,88 623,90 620,96 617,90 610,88 617,86" fill="#FF5C8A" />
+    <polygon points="200,220 203,226 210,228 203,230 200,236 197,230 190,228 197,226" fill="#FFE29A" />
+    <polygon points="240,430 243,436 250,438 243,440 240,446 237,440 230,438 237,436" fill="#FF5C8A" />
+  </g>
+
+  <!-- Washi Tape Strips -->
+  <rect x="80" y="50" width="120" height="30" fill="#FFB6D5" opacity="0.75" transform="rotate(-15 80 50)" />
+  <rect x="620" y="480" width="110" height="28" fill="#DCD6FF" opacity="0.8" transform="rotate(18 620 480)" />
+
+  <!-- Scattered Mini Love Note -->
+  <g transform="translate(140, 160) rotate(-10)" filter="url(#shadow3)">
+    <rect width="180" height="130" rx="8" fill="#FFF8F2" />
+    <line x1="20" y1="35" x2="160" y2="35" stroke="#FFB6D5" stroke-width="2" />
+    <line x1="20" y1="65" x2="140" y2="65" stroke="#FFB6D5" stroke-width="2" />
+    <line x1="20" y1="95" x2="150" y2="95" stroke="#FFB6D5" stroke-width="2" />
+    <path d="M 140 100 C 140 96, 134 92, 130 98 C 126 104, 140 116, 140 116 C 140 116, 154 104, 150 98 C 146 92, 140 96, 140 100 Z" fill="#FF5C8A" />
+    <text x="25" y="45" font-family="'Caveat', cursive, sans-serif" font-size="20" fill="#51364F">p.s. you're cute!</text>
+  </g>
+
+  <!-- Retro Pastel Polaroid Camera Center -->
+  <g transform="translate(280, 160)" filter="url(#shadow3)">
+    <!-- Camera Body -->
+    <rect width="250" height="240" rx="30" fill="#FFF8F2" stroke="#FFB6D5" stroke-width="6" />
+    <!-- Top pastel stripe banner -->
+    <path d="M 0 35 L 250 35 L 250 65 L 0 65 Z" fill="#FFD6E7" />
+    <rect x="0" y="65" width="250" height="10" fill="#DCD6FF" />
+
+    <!-- Viewfinder -->
+    <rect x="35" y="18" width="35" height="25" rx="6" fill="#51364F" />
+    <circle cx="52" cy="30" r="6" fill="#DCD6FF" />
+
+    <!-- Flash -->
+    <rect x="180" y="16" width="40" height="28" rx="6" fill="#FFE29A" stroke="#51364F" stroke-width="2" />
+
+    <!-- Big Lens Outer -->
+    <circle cx="125" cy="145" r="65" fill="#51364F" />
+    <circle cx="125" cy="145" r="54" fill="#6B4B68" />
+    <circle cx="125" cy="145" r="42" fill="#3D263B" />
+    <circle cx="125" cy="145" r="28" fill="#1C111B" />
+    <!-- Lens reflection -->
+    <ellipse cx="115" cy="132" rx="14" ry="7" fill="#FFF8F2" opacity="0.6" transform="rotate(-30 115 132)" />
+    <circle cx="140" cy="160" r="5" fill="#FFF8F2" opacity="0.4" />
+
+    <!-- Shutter Button (Pink Heart) -->
+    <g transform="translate(205, 95)">
+      <circle cx="12" cy="12" r="16" fill="#FF5C8A" />
+      <circle cx="12" cy="12" r="11" fill="#FF8BA7" />
+    </g>
+
+    <!-- Mini cute heart logo on camera -->
+    <path d="M 45 135 C 45 130, 38 126, 34 131 C 30 137, 45 148, 45 148 C 45 148, 60 137, 56 131 C 52 126, 45 130, 45 135 Z" fill="#FF5C8A" />
+  </g>
+
+  <!-- Sweet Pastel Macaroons Stack -->
+  <g transform="translate(560, 290)" filter="url(#shadow3)">
+    <!-- Lavender Macaroon -->
+    <rect x="0" y="60" width="85" height="26" rx="12" fill="#DCD6FF" />
+    <rect x="4" y="70" width="77" height="6" rx="3" fill="#FFF8F2" />
+    <!-- Pink Macaroon -->
+    <rect x="5" y="32" width="80" height="26" rx="12" fill="#FFB6D5" />
+    <rect x="9" y="42" width="72" height="6" rx="3" fill="#FFF8F2" />
+    <!-- Mint Cream Macaroon -->
+    <rect x="8" y="5" width="78" height="26" rx="12" fill="#FFE29A" />
+    <rect x="12" y="15" width="70" height="6" rx="3" fill="#FFF8F2" />
+  </g>
+
+  <!-- Blooming Roses / Peonies at corner -->
+  <g transform="translate(480, 390)">
+    <!-- Leaf -->
+    <path d="M 70 60 Q 120 40 140 10 Q 110 50 70 60" fill="#A8D5BA" />
+    <path d="M 40 80 Q -10 90 -40 70 Q 0 60 40 80" fill="#A8D5BA" />
+    <!-- Peony Flower -->
+    <circle cx="60" cy="70" r="35" fill="#FFB6D5" />
+    <circle cx="52" cy="65" r="26" fill="#FF8BA7" />
+    <circle cx="65" cy="74" r="18" fill="#FF5C8A" />
+    <circle cx="58" cy="70" r="10" fill="#FFE29A" />
+  </g>
+
+  <!-- Caption text -->
+  <text x="400" y="565" font-family="'Caveat', cursive, sans-serif" font-size="28" fill="#51364F" text-anchor="middle" letter-spacing="1.5">Silly snapshots, crumbs &amp; happy giggles 📸</text>
+</svg>

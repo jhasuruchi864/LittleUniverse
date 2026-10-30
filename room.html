@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our 3D Love Room 🧸 | Our Little Universe</title>
+  <meta name="description" content="A cozy, interactive 3D virtual room for couples with customizable themes, chibi animations, fairy lights, and romantic music.">
+
+  <!-- Romantic Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;700;800&family=Sacramento&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    /* Prevent flash of protected content before authentication confirmation */
+    html:not(.auth-verified) body {
+      display: none !important;
+    }
+  </style>
+  <script>
+    (function() {
+      try {
+        const token = localStorage.getItem('universe_session_token');
+        const cached = localStorage.getItem('universe_cached_user');
+        const hasCookie = document.cookie.indexOf('universe_session=') !== -1;
+        if (token || cached || hasCookie) {
+          document.documentElement.classList.add('auth-verified');
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="page-room">
+
+  <!-- Site Navigation -->
+  <header class="site-header" id="site-header">
+    <nav class="nav-container" aria-label="Main Navigation">
+      <a href="index.html" class="nav-logo" aria-label="Our Little Universe Home">
+        <span class="logo-heart">💗</span>
+        <span class="logo-text">Our Universe</span>
+      </a>
+
+      <!-- Hamburger Toggle for Mobile -->
+      <button class="nav-toggle-btn" id="nav-toggle-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links-menu">
+        <div class="hamburger-icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </button>
+
+      <!-- Nav Links -->
+      <ul class="nav-links" id="nav-links-menu">
+        <li><a href="index.html" class="nav-link"><span>🏡</span> Home</a></li>
+        <li><a href="shared.html" class="nav-link"><span>👩‍❤️‍👨</span> Shared Space</a></li>
+        <li><a href="room.html" class="nav-link active"><span>🧸</span> 3D Room</a></li>
+        <li><a href="galaxy.html" class="nav-link"><span>🌌</span> Galaxy</a></li>
+        <li><a href="diary.html" class="nav-link"><span>💌</span> Diary &amp; Letters</a></li>
+        <li><a href="games.html" class="nav-link"><span>🎲</span> Games</a></li>
+        <li><a href="timeline.html" class="nav-link"><span>⏳</span> Timeline</a></li>
+        <li><a href="studio.html" class="nav-link"><span>📸</span> Studio</a></li>
+        <li><a href="vault.html" class="nav-link"><span>🔐</span> Vault</a></li>
+        <li><a href="analyzer.html" class="nav-link"><span>🔮</span> Insights</a></li>
+        <li class="nav-account-item">
+          <div class="user-account-pill">
+            <span class="user-avatar" aria-hidden="true">🌸</span>
+            <span class="user-display-name" id="user-display-name">Soulmate</span>
+            <button type="button" class="btn-logout" id="btn-logout" aria-label="Log Out">
+              <span>Logout</span> 🚪
+            </button>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="room-main-container">
+    <div class="glass-card room-stage-card">
+
+      <!-- Room Header Info -->
+      <div class="room-header-row">
+        <div>
+          <div class="hero-badge">
+            <span>✨</span> Cozy 3D Virtual Sanctuary <span>✨</span>
+          </div>
+          <h1 class="cursive-title room-title">Our 3D Love Room 🧸</h1>
+          <p class="room-subtitle">
+            A warm pastel hideaway filled with fairy lights, sweet memories, and our chibi avatars.
+          </p>
+        </div>
+
+        <!-- Room Action Controls -->
+        <div class="room-quick-actions">
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-toggle-fairy-lights">
+            <span>💡</span> Lights: <strong id="lights-status-text">On</strong>
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-toggle-room-audio">
+            <span>🎵</span> Ambient: <strong id="audio-status-text">Muted</strong>
+          </button>
+          <button type="button" class="btn btn-primary btn-sm" id="btn-save-room-settings">
+            <span>💾 Save Room Look</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Theme Switcher Tabs -->
+      <div class="room-themes-bar">
+        <span class="themes-label">Room Mood:</span>
+        <button type="button" class="room-theme-tab active" data-theme="pink-dream">
+          <span>🌸</span> Pink Dream
+        </button>
+        <button type="button" class="room-theme-tab" data-theme="lavender-night">
+          <span>💜</span> Lavender Night
+        </button>
+        <button type="button" class="room-theme-tab" data-theme="moonlight">
+          <span>🌙</span> Moonlight
+        </button>
+        <button type="button" class="room-theme-tab" data-theme="cozy-cafe">
+          <span>☕</span> Cozy Café
+        </button>
+        <button type="button" class="room-theme-tab" data-theme="starry-sky">
+          <span>✨</span> Starry Sky
+        </button>
+      </div>
+
+      <!-- 3D Room Canvas Viewport -->
+      <div class="room-viewport-container" id="room-viewport-container">
+        <canvas id="room-3d-canvas" class="room-3d-canvas" aria-label="3D Love Room Viewport"></canvas>
+        
+        <!-- Speech / Status Bubble above characters -->
+        <div class="room-speech-bubble" id="room-speech-bubble">
+          <span class="bubble-heart">💗</span>
+          <span id="room-speech-text">Welcome to our cozy love room! Click our characters to interact 💕</span>
+        </div>
+
+        <!-- 3D Couple Animation Controls Bar -->
+        <div class="room-animation-controls">
+          <button type="button" class="room-anim-btn" id="btn-room-wave" title="Wave Hello">
+            <span>👋</span> Wave
+          </button>
+          <button type="button" class="room-anim-btn" id="btn-room-hug" title="Send a Hug">
+            <span>🤗</span> Hug
+          </button>
+          <button type="button" class="room-anim-btn" id="btn-room-dance" title="Make Them Dance">
+            <span>💃</span> Dance
+          </button>
+          <button type="button" class="room-anim-btn" id="btn-room-hands" title="Hold Hands">
+            <span>🫶</span> Hands
+          </button>
+          <button type="button" class="room-anim-btn" id="btn-room-kiss" title="Flying Kiss">
+            <span>💋</span> Kiss
+          </button>
+          <button type="button" class="room-anim-btn" id="btn-room-burst" title="Heart Explosion">
+            <span>💖</span> Hearts!
+          </button>
+        </div>
+      </div>
+
+      <!-- Interactive Room Objects Row -->
+      <div class="room-objects-row">
+        <div class="room-object-card" id="obj-photo-frame">
+          <span class="object-icon">🖼️</span>
+          <h4>Photo Frame</h4>
+          <p>Displays our saved favorite memories.</p>
+          <a href="vault.html" class="btn-text-link">Open Vault &rarr;</a>
+        </div>
+        <div class="room-object-card" id="obj-letterbox">
+          <span class="object-icon">📬</span>
+          <h4>Sweet Mailbox</h4>
+          <p>Sealed love notes and open-when letters.</p>
+          <a href="diary.html" class="btn-text-link">Read Letters &rarr;</a>
+        </div>
+        <div class="room-object-card" id="obj-record-player">
+          <span class="object-icon">🎵</span>
+          <h4>Gramophone</h4>
+          <p>Plays soothing celesta music box chimes.</p>
+          <button type="button" class="btn-text-link" id="btn-play-gramophone">Play Chimes &rarr;</button>
+        </div>
+        <div class="room-object-card" id="obj-game-table">
+          <span class="object-icon">🎲</span>
+          <h4>Game Table</h4>
+          <p>Play fun compatibility questions and dates.</p>
+          <a href="games.html" class="btn-text-link">Play Games &rarr;</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Real Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <a href="index.html" class="footer-brand-logo" aria-label="Our Little Universe Home">
+            <span class="footer-brand-heart">💗</span>
+            <span class="footer-brand-name">Our Little Universe</span>
+          </a>
+          <p class="footer-brand-desc">
+            A romantic digital sanctuary for celebrating love, capturing memories, and creating sweet fairy tale moments together.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title"><span>✨</span> Experiences</h4>
+          <ul class="footer-links-list">
+            <li><a href="shared.html">Shared Space</a></li>
+            <li><a href="room.html">3D Love Room</a></li>
+            <li><a href="galaxy.html">Personal Galaxy</a></li>
+            <li><a href="diary.html">Diary &amp; Letters</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title"><span>🛡️</span> Privacy &amp; Trust</h4>
+          <ul class="footer-links-list">
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Use</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">
+          &copy; 2026 Our Little Universe 💗 &bull; Made with endless love, starlight, and sweet dreams.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/three.min.js"></script>
+  <script>
+    if (typeof THREE === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+    }
+  </script>
+  <script src="js/auth.js"></script>
+  <script src="js/universe-3d.js"></script>
+  <script src="js/room.js"></script>
+  <script>
+    if (window.UniverseAuth) {
+      window.UniverseAuth.requireAuth();
+    }
+  </script>
+</body>
+</html>

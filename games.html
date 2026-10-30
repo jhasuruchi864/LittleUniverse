@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Couple Games 🎲 | Our Little Universe</title>
+  <meta name="description" content="Playful romantic couple games: Who Knows Whom Better, Truth or Dare, Daily Challenges, and Spin-the-Wheel Date Ideas.">
+
+  <!-- Romantic Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;700;800&family=Sacramento&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    /* Prevent flash of protected content before authentication confirmation */
+    html:not(.auth-verified) body {
+      display: none !important;
+    }
+  </style>
+  <script>
+    (function() {
+      try {
+        const token = localStorage.getItem('universe_session_token');
+        const cached = localStorage.getItem('universe_cached_user');
+        const hasCookie = document.cookie.indexOf('universe_session=') !== -1;
+        if (token || cached || hasCookie) {
+          document.documentElement.classList.add('auth-verified');
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="page-games">
+
+  <!-- 3D Canvas Background -->
+  <canvas id="universe-bg-canvas" aria-hidden="true"></canvas>
+
+  <!-- Site Navigation -->
+  <header class="site-header" id="site-header">
+    <nav class="nav-container" aria-label="Main Navigation">
+      <a href="index.html" class="nav-logo" aria-label="Our Little Universe Home">
+        <span class="logo-heart">💗</span>
+        <span class="logo-text">Our Universe</span>
+      </a>
+
+      <!-- Hamburger Toggle for Mobile -->
+      <button class="nav-toggle-btn" id="nav-toggle-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links-menu">
+        <div class="hamburger-icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </button>
+
+      <!-- Nav Links -->
+      <ul class="nav-links" id="nav-links-menu">
+        <li><a href="index.html" class="nav-link"><span>🏡</span> Home</a></li>
+        <li><a href="shared.html" class="nav-link"><span>👩‍❤️‍👨</span> Shared Space</a></li>
+        <li><a href="room.html" class="nav-link"><span>🧸</span> 3D Room</a></li>
+        <li><a href="galaxy.html" class="nav-link"><span>🌌</span> Galaxy</a></li>
+        <li><a href="diary.html" class="nav-link"><span>💌</span> Diary &amp; Letters</a></li>
+        <li><a href="games.html" class="nav-link active"><span>🎲</span> Games</a></li>
+        <li><a href="timeline.html" class="nav-link"><span>⏳</span> Timeline</a></li>
+        <li><a href="studio.html" class="nav-link"><span>📸</span> Studio</a></li>
+        <li><a href="vault.html" class="nav-link"><span>🔐</span> Vault</a></li>
+        <li><a href="analyzer.html" class="nav-link"><span>🔮</span> Insights</a></li>
+        <li class="nav-account-item">
+          <div class="user-account-pill">
+            <span class="user-avatar" aria-hidden="true">🌸</span>
+            <span class="user-display-name" id="user-display-name">Soulmate</span>
+            <button type="button" class="btn-logout" id="btn-logout" aria-label="Log Out">
+              <span>Logout</span> 🚪
+            </button>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="studio-main-container">
+
+    <div class="glass-card games-hero-card text-center">
+      <div class="hero-badge">
+        <span>🎲</span> Playful Romantic Fun <span>🎲</span>
+      </div>
+      <h1 class="cursive-title studio-page-title">
+        Couple Game Arcade <span class="sparkle-word">💖</span>
+      </h1>
+      <p class="studio-page-subtitle">
+        Sweet laughs, gentle discoveries, and fun challenges designed exclusively for two lovers.
+      </p>
+
+      <!-- Game Category Tabs -->
+      <div class="diary-nav-tabs">
+        <button type="button" class="diary-tab-btn active" id="tab-game-spin">
+          <span>🎡</span> Date Wheel
+        </button>
+        <button type="button" class="diary-tab-btn" id="tab-game-truth">
+          <span>💌</span> Truth or Dare
+        </button>
+        <button type="button" class="diary-tab-btn" id="tab-game-who">
+          <span>🤔</span> Who Knows Whom?
+        </button>
+        <button type="button" class="diary-tab-btn" id="tab-game-challenges">
+          <span>🏆</span> Daily Challenges
+        </button>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- 1. SPIN THE DATE WHEEL                         -->
+    <!-- ============================================== -->
+    <section class="game-panel" id="panel-spin">
+      <div class="glass-card game-card text-center">
+        <h2 class="game-heading"><span>🎡</span> Spin-the-Wheel Date Ideas</h2>
+        <p class="game-subtext">Cannot decide what to do tonight? Let fate sprinkle a little romance!</p>
+
+        <div class="wheel-stage-wrap">
+          <div class="wheel-pointer">▼</div>
+          <div class="spin-wheel" id="spin-wheel">
+            <div class="wheel-sector s1"><span>☕ Café Date</span></div>
+            <div class="wheel-sector s2"><span>🎬 Movie Night</span></div>
+            <div class="wheel-sector s3"><span>✨ Stargazing</span></div>
+            <div class="wheel-sector s4"><span>🧁 Bake Together</span></div>
+            <div class="wheel-sector s5"><span>🌅 Sunset Walk</span></div>
+            <div class="wheel-sector s6"><span>📚 Bookstore Trip</span></div>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-spin-action" id="btn-spin-wheel">
+          <span>✨ Spin the Date Wheel! 🎡</span>
+        </button>
+
+        <div class="spin-result-box" id="spin-result-box" style="display: none;">
+          <h3 id="spin-result-title">Tonight's Romantic Plan!</h3>
+          <p id="spin-result-desc"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- 2. TRUTH OR DARE                               -->
+    <!-- ============================================== -->
+    <section class="game-panel" id="panel-truth" style="display: none;">
+      <div class="glass-card game-card text-center">
+        <h2 class="game-heading"><span>💌</span> Romantic Truth or Dare</h2>
+        <p class="game-subtext">Safe, respectful, and sweet prompts to bring you closer together.</p>
+
+        <div class="truth-action-buttons">
+          <button type="button" class="btn btn-secondary btn-truth" id="btn-draw-truth">
+            <span>💖 Draw a Truth</span>
+          </button>
+          <button type="button" class="btn btn-secondary btn-dare" id="btn-draw-dare">
+            <span>🔥 Draw a Sweet Dare</span>
+          </button>
+        </div>
+
+        <div class="prompt-display-card" id="prompt-display-card">
+          <span class="prompt-badge" id="prompt-badge">Truth</span>
+          <p class="prompt-text" id="prompt-text">What was the very first thought that crossed your mind when you saw me?</p>
+          <button type="button" class="btn-text-link" id="btn-skip-prompt">Skip Prompt &rarr;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- 3. WHO KNOWS WHOM BETTER - 200 QUESTION QUIZ   -->
+    <!-- ============================================== -->
+    <section class="game-panel" id="panel-who" style="display: none;">
+      <div class="glass-card game-card text-center quiz-master-card">
+        <div class="quiz-badge-strip">
+          <span class="quiz-pill-tag">💗 200-Question Couple Quiz</span>
+          <span class="quiz-pill-tag" id="who-privacy-badge">🔒 Private &amp; Safe</span>
+        </div>
+
+        <h2 class="game-heading"><span>🤔</span> Who Knows Whom Better?</h2>
+        <p class="game-subtext">
+          Explore 200 playful, deep, and sweet questions to discover how tuned-in you are to each other's world!
+        </p>
+
+        <!-- Quiz Toolbar / Setup Bar -->
+        <div class="quiz-toolbar-wrap">
+          <!-- Mode Tabs -->
+          <div class="quiz-mode-switch" role="tablist" aria-label="Quiz Play Mode">
+            <button type="button" class="quiz-mode-tab active" id="who-mode-guess" role="tab" aria-selected="true">
+              <span>🤔</span> Guess Partner's Answers
+            </button>
+            <button type="button" class="quiz-mode-tab" id="who-mode-self" role="tab" aria-selected="false">
+              <span>✍️</span> Save My True Answers
+            </button>
+          </div>
+
+          <!-- Controls Grid -->
+          <div class="quiz-controls-grid">
+            <!-- Active Player Selector -->
+            <div class="quiz-control-group">
+              <label for="who-active-player" class="quiz-control-label">
+                <span id="who-player-label-text">Guessing About:</span>
+              </label>
+              <select id="who-active-player" class="quiz-select">
+                <option value="partner1">🌸 Partner 1 (Luna)</option>
+                <option value="partner2" selected>🧸 Partner 2 (Oliver)</option>
+              </select>
+            </div>
+
+            <!-- Category Filter -->
+            <div class="quiz-control-group">
+              <label for="who-category-filter" class="quiz-control-label">Category:</label>
+              <select id="who-category-filter" class="quiz-select">
+                <option value="all">🌟 All Categories (200 Questions)</option>
+                <option value="favourite_things">🍰 1. Favourite Things (25)</option>
+                <option value="personality_habits">☀️ 2. Personality &amp; Habits (20)</option>
+                <option value="interests_dreams">✨ 3. Interests &amp; Dreams (20)</option>
+                <option value="feelings_needs">🤍 4. Feelings &amp; Needs (25)</option>
+                <option value="insecurities_fears">🕊️ 5. Insecurities &amp; Fears (15)</option>
+                <option value="love_language">💌 6. Love Language &amp; Affection (20)</option>
+                <option value="relationship_prefs">🌹 7. Relationship Preferences (25)</option>
+                <option value="fun_random">🎉 8. Fun &amp; Random (20)</option>
+                <option value="future_together">🏡 9. Future Together (15)</option>
+                <option value="deep_connection">🌌 10. Deep Connection (15)</option>
+              </select>
+            </div>
+
+            <!-- Session Length -->
+            <div class="quiz-control-group">
+              <label for="who-session-length" class="quiz-control-label">Quiz Length:</label>
+              <select id="who-session-length" class="quiz-select">
+                <option value="10">⚡ Quick Session (10 Qs)</option>
+                <option value="25" selected>💕 Classic (25 Qs)</option>
+                <option value="50">🌟 Half Challenge (50 Qs)</option>
+                <option value="200">🏆 Full 200 Challenge</option>
+              </select>
+            </div>
+
+            <!-- Actions buttons -->
+            <div class="quiz-control-actions">
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-manage-answers" title="Review, edit, or delete saved answers">
+                <span>📋</span> My Answers
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-restart-quiz" title="Reset current session progress">
+                <span>🔄</span> Reset
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mode Informational Banner -->
+        <div class="quiz-info-banner" id="quiz-info-banner">
+          <span class="info-icon" id="quiz-info-icon">💡</span>
+          <span class="info-text" id="quiz-info-text">
+            <strong>Guessing Mode:</strong> Choose what you think your partner answered. Then click <strong>Reveal Partner's Answer</strong> to see what they saved!
+          </span>
+        </div>
+
+        <!-- Main Question Box -->
+        <div class="who-question-box" id="who-question-box">
+          <!-- Question Header: Step counter & Category tag -->
+          <div class="who-header-row">
+            <span class="who-category-pill" id="who-category-tag">
+              <span id="who-category-icon">🍰</span> <span id="who-category-name">Favourite Things</span>
+            </span>
+            <span class="who-step-counter" id="who-counter">Question 1 of 25</span>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="quiz-progress-track" aria-hidden="true">
+            <div class="quiz-progress-fill" id="who-progress-bar" style="width: 4%;"></div>
+          </div>
+
+          <!-- Sensitive / Optional Flag Badge -->
+          <div class="sensitive-pill-badge" id="who-sensitive-badge" style="display: none;">
+            <span>🕊️ Respectful &amp; Optional — Skip freely with no penalty</span>
+          </div>
+
+          <!-- Question Title -->
+          <h3 class="who-question-title" id="who-question-title">
+            Loading romantic question...
+          </h3>
+
+          <!-- Options Container (Radio Buttons / Choice Cards) -->
+          <div class="who-options-container" id="who-options-container">
+            <!-- Dynamically populated options + Mandatory "Other" -->
+          </div>
+
+          <!-- Custom Text Box for "Other" Option (Visible only when Other is selected) -->
+          <div class="who-custom-input-box" id="who-custom-input-box" style="display: none;">
+            <label for="who-custom-text" class="custom-input-label">
+              <span>✍️</span> Enter your custom answer (Required):
+            </label>
+            <div class="custom-input-row">
+              <input type="text" id="who-custom-text" class="custom-text-field" placeholder="Type personal answer here..." maxlength="120" autocomplete="off">
+            </div>
+            <p class="custom-input-tip" id="who-custom-hint">Please enter an answer before continuing.</p>
+          </div>
+
+          <!-- Action Buttons Row -->
+          <div class="who-actions-row">
+            <!-- Guessing Mode Actions -->
+            <button type="button" class="btn btn-primary" id="btn-submit-guess">
+              <span>🎯 Submit Guess</span>
+            </button>
+            <button type="button" class="btn btn-accent" id="btn-reveal-answer" style="display: none;">
+              <span>💌 Reveal Partner's Answer</span>
+            </button>
+
+            <!-- Self-Answer Mode Actions -->
+            <button type="button" class="btn btn-primary" id="btn-save-self" style="display: none;">
+              <span>💾 Save My Answer</span>
+            </button>
+
+            <!-- Safe Skip Button (Available in both modes) -->
+            <button type="button" class="btn btn-secondary" id="btn-skip-who">
+              <span>⏭️ Skip Question</span>
+            </button>
+          </div>
+
+          <!-- Answer Reveal Result Card (Revealed only after clicking "Reveal Partner's Answer") -->
+          <div class="who-reveal-card" id="who-reveal-card" style="display: none;">
+            <div class="reveal-header">
+              <span class="reveal-title">💌 Partner's Revealed Response</span>
+            </div>
+
+            <div class="reveal-comparison-grid">
+              <div class="reveal-col your-guess-col">
+                <span class="reveal-col-label">Your Guess:</span>
+                <p class="reveal-answer-text" id="reveal-user-guess">—</p>
+              </div>
+              <div class="reveal-col actual-answer-col">
+                <span class="reveal-col-label">Your Partner's Actual Answer:</span>
+                <p class="reveal-answer-text" id="reveal-actual-answer">—</p>
+              </div>
+            </div>
+
+            <!-- Result Status Badge -->
+            <div class="reveal-result-status" id="reveal-result-badge">
+              <span class="result-icon">✨</span>
+              <span class="result-text" id="reveal-result-text">Correct! +10 Points</span>
+            </div>
+
+            <!-- Subjective Answer Override -->
+            <div class="reveal-subjective-override" id="reveal-override-box" style="display: none;">
+              <p class="subjective-tip">Close enough or customized answer? Give each other sweet grace points:</p>
+              <button type="button" class="btn btn-sm btn-secondary" id="btn-accept-custom">
+                <span>✨ Accept as Correct (+10 pts)</span>
+              </button>
+            </div>
+
+            <!-- Next Question Button -->
+            <div class="reveal-next-action">
+              <button type="button" class="btn btn-primary" id="btn-next-who">
+                <span>Next Question ➔</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Feedback for Legacy / Self-Answer -->
+          <div class="who-score-feedback" id="who-feedback" style="display: none;">
+            <p id="who-feedback-text"></p>
+            <button type="button" class="btn btn-primary btn-sm" id="btn-next-who-self">Next Question ➔</button>
+          </div>
+        </div>
+
+        <!-- Live Score & Stats Strip -->
+        <div class="quiz-score-strip" id="quiz-score-strip">
+          <div class="score-metric">
+            <span class="metric-label">Score:</span>
+            <span class="metric-val" id="who-score-val">0</span>
+            <span class="metric-unit">pts</span>
+          </div>
+          <div class="score-metric">
+            <span class="metric-label">Correct:</span>
+            <span class="metric-val" id="who-correct-count">0</span>
+            <span class="metric-sub">/ <span id="who-answered-count">0</span></span>
+          </div>
+          <div class="score-metric">
+            <span class="metric-label">Skipped:</span>
+            <span class="metric-val" id="who-skipped-count">0</span>
+          </div>
+          <button type="button" class="btn-text-link" id="btn-view-scorecard">
+            View Scorecard 🏆
+          </button>
+        </div>
+
+        <!-- Comprehensive Final Scorecard Section (Shown on completion or request) -->
+        <div class="who-scorecard-section" id="who-scorecard-section" style="display: none;">
+          <div class="scorecard-header">
+            <h3 class="scorecard-title">🏆 Quiz Harmony Scorecard</h3>
+            <p class="scorecard-subtitle" id="scorecard-eval-label">You Know Each Other Well 🌸</p>
+          </div>
+
+          <div class="scorecard-big-stats">
+            <div class="stat-circle">
+              <span class="stat-percentage" id="scorecard-percentage">100%</span>
+              <span class="stat-label">Connection Rate</span>
+            </div>
+            <div class="stat-details">
+              <p>Total Points: <strong id="scorecard-total-points">0</strong> pts</p>
+              <p>Questions Answered: <strong id="scorecard-completed-count">0</strong></p>
+              <p>Correct Guesses: <strong id="scorecard-correct-total">0</strong></p>
+            </div>
+          </div>
+
+          <!-- Category Breakdown -->
+          <div class="scorecard-breakdown">
+            <h4 class="breakdown-title">📊 Category Breakdown</h4>
+            <div class="breakdown-grid" id="scorecard-categories-grid">
+              <!-- Dynamically generated category scores -->
+            </div>
+          </div>
+
+          <!-- Empathetic Romantic Note -->
+          <div class="scorecard-empathy-note">
+            <p>
+              💗 <em>Love Reminder:</em> This quiz is purely a sweet way to share laughs, discover quirks, and learn new things about one another. No number could ever measure the deep devotion, kindness, and love that lives in your hearts!
+            </p>
+          </div>
+
+          <div class="scorecard-actions">
+            <button type="button" class="btn btn-primary" id="btn-play-again">
+              <span>🔄 Play Again</span>
+            </button>
+            <button type="button" class="btn btn-secondary" id="btn-switch-partners">
+              <span>🔀 Switch Roles</span>
+            </button>
+            <button type="button" class="btn btn-secondary" id="btn-close-scorecard">
+              <span>Back to Quiz ➔</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Saved Answers Manager Modal (Self-management & privacy) -->
+        <div class="who-modal-backdrop" id="who-answers-modal" style="display: none;">
+          <div class="glass-card who-modal-card">
+            <div class="modal-header">
+              <h3><span>📋</span> Saved Answers for <span id="modal-partner-name">Partner</span></h3>
+              <button type="button" class="btn-modal-close" id="btn-close-answers-modal" aria-label="Close Modal">&times;</button>
+            </div>
+            <p class="modal-subtext">Review what you have saved so far. You can update or delete your answers at any time.</p>
+            
+            <div class="modal-answers-list" id="modal-answers-list">
+              <!-- Populated dynamically -->
+            </div>
+
+            <div class="modal-actions-row">
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-clear-my-answers">
+                <span>🗑️ Clear My Saved Answers</span>
+              </button>
+              <button type="button" class="btn btn-primary btn-sm" id="btn-done-answers-modal">
+                <span>Done</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- 4. DAILY ROMANTIC CHALLENGES                   -->
+    <!-- ============================================== -->
+    <section class="game-panel" id="panel-challenges" style="display: none;">
+      <div class="glass-card game-card">
+        <h2 class="game-heading text-center"><span>🏆</span> Daily Romantic Challenges</h2>
+        <p class="game-subtext text-center">Tiny everyday acts of love that brighten each other's day.</p>
+
+        <div class="challenges-list" id="challenges-list">
+          <!-- Dynamically populated daily challenges -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Real Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <a href="index.html" class="footer-brand-logo" aria-label="Our Little Universe Home">
+            <span class="footer-brand-heart">💗</span>
+            <span class="footer-brand-name">Our Little Universe</span>
+          </a>
+          <p class="footer-brand-desc">
+            A romantic digital sanctuary for celebrating love, capturing memories, and creating sweet fairy tale moments together.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title"><span>✨</span> Experiences</h4>
+          <ul class="footer-links-list">
+            <li><a href="shared.html">Shared Space</a></li>
+            <li><a href="room.html">3D Love Room</a></li>
+            <li><a href="galaxy.html">Personal Galaxy</a></li>
+            <li><a href="diary.html">Diary &amp; Letters</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title"><span>🛡️</span> Privacy &amp; Trust</h4>
+          <ul class="footer-links-list">
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Use</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">
+          &copy; 2026 Our Little Universe 💗 &bull; Made with endless love, starlight, and sweet dreams.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/three.min.js"></script>
+  <script>
+    if (typeof THREE === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+    }
+  </script>
+  <script src="js/auth.js"></script>
+  <script src="js/universe-3d.js"></script>
+  <script src="js/couple-quiz-questions.js"></script>
+  <script src="js/games.js"></script>
+  <script>
+    if (window.UniverseAuth) {
+      window.UniverseAuth.requireAuth();
+    }
+  </script>
+</body>
+</html>

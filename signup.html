@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Your Account ✨ | Our Little Universe</title>
+  <meta name="description" content="Join Our Little Universe! Create your private account for shared memories, sweet surprises, and romantic moments.">
+  <meta name="theme-color" content="#FFD6E7">
+
+  <!-- Favicon Heart SVG -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💗</text></svg>">
+
+  <!-- Google Fonts Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Nunito:wght@400;600;700;800&family=Sacramento&display=swap" rel="stylesheet">
+
+  <!-- Three.js 3D WebGL Library -->
+  <script src="js/three.min.js"></script>
+  <script>
+    if (typeof THREE === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+    }
+  </script>
+  <!-- 3D Romantic Universe Engine -->
+  <script src="js/universe-3d.js"></script>
+
+  <!-- Supabase Official JS SDK via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-page">
+
+  <!-- Interactive 3D WebGL Scene Canvas -->
+  <canvas id="universe-3d-login-canvas" class="universe-3d-bg-canvas" aria-hidden="true"></canvas>
+
+  <!-- Floating 2D Particle Canvas Background -->
+  <canvas id="universe-bg-canvas" aria-hidden="true"></canvas>
+
+  <!-- Header -->
+  <header class="site-header" id="site-header">
+    <nav class="nav-container" aria-label="Main Navigation">
+      <a href="login.html" class="nav-logo" aria-label="Our Little Universe Home">
+        <span class="logo-heart">💗</span>
+        <span class="logo-text">Our Universe</span>
+      </a>
+
+      <!-- Hamburger Toggle for Mobile -->
+      <button class="nav-toggle-btn" id="nav-toggle-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links-menu">
+        <div class="hamburger-icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </button>
+
+      <ul class="nav-links" id="nav-links-menu">
+        <li><a href="login.html" class="nav-link"><span>🔐</span> Login</a></li>
+        <li><a href="signup.html" class="nav-link active" aria-current="page"><span>✨</span> Sign Up</a></li>
+        <li><a href="privacy.html" class="nav-link"><span>🛡️</span> Privacy</a></li>
+        <li><a href="terms.html" class="nav-link"><span>📜</span> Terms</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Sign-Up Container -->
+  <main class="auth-main">
+    <div class="auth-container">
+
+      <!-- Sign Up Glass Card -->
+      <div class="auth-card glass-card">
+        
+        <div class="auth-heart-badge" aria-hidden="true">
+          <div class="auth-heart-glow"></div>
+          <span class="auth-heart-emoji">🌸</span>
+        </div>
+
+        <h1 class="auth-title cursive-title">Join Our Little Universe ✨</h1>
+        <p class="auth-subtitle">Create your personal sanctuary of love, laughter &amp; memories.</p>
+
+        <!-- Feedback Alert Banner -->
+        <div id="auth-alert" class="alert-banner" role="alert" style="display: none;"></div>
+
+        <!-- Sign-Up Form -->
+        <form id="signup-form" class="auth-form" novalidate>
+          
+          <!-- Display Name -->
+          <div class="form-group">
+            <label for="signup-name" class="form-label">
+              <span>🌸</span> Your Display Name
+            </label>
+            <div class="input-wrapper">
+              <input
+                type="text"
+                id="signup-name"
+                name="displayName"
+                class="form-input"
+                placeholder="e.g. Luna 💗 or Romeo"
+                required
+                autocomplete="nickname"
+              >
+            </div>
+            <span class="form-hint">How you'd like your partner or the universe to greet you.</span>
+          </div>
+
+          <!-- Email Address -->
+          <div class="form-group">
+            <label for="signup-email" class="form-label">
+              <span>💌</span> Email Address
+            </label>
+            <div class="input-wrapper">
+              <input
+                type="email"
+                id="signup-email"
+                name="email"
+                class="form-input"
+                placeholder="you@ouruniverse.love"
+                required
+                autocomplete="email"
+              >
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label for="signup-password" class="form-label">
+              <span>🔑</span> Create Password
+            </label>
+            <div class="input-wrapper password-input-wrapper">
+              <input
+                type="password"
+                id="signup-password"
+                name="password"
+                class="form-input"
+                placeholder="At least 8 characters"
+                required
+                autocomplete="new-password"
+              >
+              <button
+                type="button"
+                id="btn-toggle-password"
+                class="btn-password-toggle"
+                aria-label="Show or hide password"
+              >
+                <span id="password-toggle-icon">👁️</span>
+              </button>
+            </div>
+            <div class="password-checklist">
+              <span id="check-length" class="check-item"><span>○</span> Minimum 8 characters</span>
+            </div>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="form-group">
+            <label for="signup-confirm-password" class="form-label">
+              <span>🔒</span> Confirm Password
+            </label>
+            <div class="input-wrapper">
+              <input
+                type="password"
+                id="signup-confirm-password"
+                name="confirmPassword"
+                class="form-input"
+                placeholder="Repeat your password"
+                required
+                autocomplete="new-password"
+              >
+            </div>
+          </div>
+
+          <!-- Terms & Privacy Checkbox -->
+          <div class="form-row-terms">
+            <label class="checkbox-label" for="signup-terms">
+              <input type="checkbox" id="signup-terms" name="acceptTerms" required>
+              <span class="custom-checkbox"></span>
+              <span class="checkbox-text">
+                I accept the <a href="terms.html" target="_blank" class="inline-link">Terms of Use</a> and acknowledge the <a href="privacy.html" target="_blank" class="inline-link">Privacy Policy</a> 💗
+              </span>
+            </label>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" id="btn-signup-submit" class="btn btn-primary auth-btn-submit">
+            <span class="btn-text">Create My Account 💗</span>
+            <span class="btn-spinner" style="display: none;">⏳ Creating Account...</span>
+          </button>
+
+        </form>
+
+        <!-- Divider -->
+        <div class="auth-divider" aria-hidden="true">
+          <span>💕</span>
+        </div>
+
+        <!-- Back to Login -->
+        <div class="auth-footer-prompt">
+          <p>Already have an account?</p>
+          <a href="login.html" class="auth-link-bold">Sign In to Our Universe 💕</a>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-bottom-bar" style="justify-content: center; gap: 1.5rem;">
+        <p class="footer-copy">
+          &copy; <span id="footer-year"></span> Our Little Universe. Created with infinite love.
+        </p>
+        <div class="footer-auth-links">
+          <a href="privacy.html" class="footer-link"><span>🛡️</span> Privacy Policy</a>
+          <span style="opacity: 0.5;">•</span>
+          <a href="terms.html" class="footer-link"><span>📜</span> Terms of Use</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/auth.js"></script>
+  <script src="js/script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Dynamic footer year
+      const y = document.getElementById('footer-year');
+      if (y) y.textContent = new Date().getFullYear();
+
+      // Initialize Auth
+      await window.UniverseAuth.init();
+      await window.UniverseAuth.redirectIfAuth();
+
+      // Initialize 3D Romantic Universe Scene
+      try {
+        if (window.Universe3D && window.Universe3D.initLoginScene) {
+          window.Universe3D.initLoginScene('universe-3d-login-canvas');
+        }
+      } catch (err3d) {
+        console.warn('3D signup scene note:', err3d);
+      }
+
+      const alertBox = document.getElementById('auth-alert');
+      const passInput = document.getElementById('signup-password');
+      const confirmInput = document.getElementById('signup-confirm-password');
+      const toggleBtn = document.getElementById('btn-toggle-password');
+      const toggleIcon = document.getElementById('password-toggle-icon');
+      const checkLength = document.getElementById('check-length');
+
+      // Password Toggle
+      if (toggleBtn && passInput) {
+        toggleBtn.addEventListener('click', () => {
+          const isPassword = passInput.type === 'password';
+          passInput.type = isPassword ? 'text' : 'password';
+          confirmInput.type = isPassword ? 'text' : 'password';
+          toggleIcon.textContent = isPassword ? '🙈' : '👁️';
+        });
+      }
+
+      // Dynamic length feedback
+      if (passInput && checkLength) {
+        passInput.addEventListener('input', () => {
+          if (passInput.value.length >= 8) {
+            checkLength.className = 'check-item valid';
+            checkLength.innerHTML = '<span>✓</span> Minimum 8 characters';
+          } else {
+            checkLength.className = 'check-item';
+            checkLength.innerHTML = '<span>○</span> Minimum 8 characters';
+          }
+        });
+      }
+
+      function showAlert(msg, type = 'error') {
+        if (!alertBox) return;
+        alertBox.textContent = msg;
+        alertBox.className = `alert-banner alert-${type}`;
+        alertBox.style.display = 'block';
+      }
+
+      function hideAlert() {
+        if (alertBox) alertBox.style.display = 'none';
+      }
+
+      // Handle Submit
+      const form = document.getElementById('signup-form');
+      const submitBtn = document.getElementById('btn-signup-submit');
+      const btnText = submitBtn.querySelector('.btn-text');
+      const btnSpinner = submitBtn.querySelector('.btn-spinner');
+
+      if (form) {
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          hideAlert();
+
+          const name = document.getElementById('signup-name').value.trim();
+          const email = document.getElementById('signup-email').value.trim();
+          const password = passInput.value;
+          const confirm = confirmInput.value;
+          const terms = document.getElementById('signup-terms').checked;
+
+          if (!name) {
+            showAlert('Please choose a sweet display name! 🌸', 'error');
+            return;
+          }
+          if (!email) {
+            showAlert('Please enter your email address! 💌', 'error');
+            return;
+          }
+          if (password.length < 8) {
+            showAlert('Password must be at least 8 characters long for your safety! 🔑', 'error');
+            return;
+          }
+          if (password !== confirm) {
+            showAlert('Passwords do not match! Please check again. 💕', 'error');
+            return;
+          }
+          if (!terms) {
+            showAlert('Please accept the Terms of Use and Privacy Policy to create your universe. 📜', 'error');
+            return;
+          }
+
+          submitBtn.disabled = true;
+          btnText.style.display = 'none';
+          btnSpinner.style.display = 'inline';
+
+          try {
+            const res = await window.UniverseAuth.register({
+              email,
+              password,
+              displayName: name
+            });
+
+            if (res.success) {
+              if (res.needsEmailConfirm) {
+                showAlert('✨ Account created! A confirmation link has been sent to your email. Please verify and then log in.', 'success');
+                submitBtn.disabled = false;
+                btnText.style.display = 'inline';
+                btnSpinner.style.display = 'none';
+                setTimeout(() => {
+                  window.location.replace('login.html');
+                }, 4000);
+              } else {
+                showAlert('✨ Account created with love! Entering your universe...', 'success');
+                setTimeout(() => {
+                  window.location.replace('index.html');
+                }, 900);
+              }
+            } else {
+              showAlert(res.error || 'Registration could not be completed.', 'error');
+              submitBtn.disabled = false;
+              btnText.style.display = 'inline';
+              btnSpinner.style.display = 'none';
+            }
+          } catch (err) {
+            showAlert('Network error. Please verify server connection.', 'error');
+            submitBtn.disabled = false;
+            btnText.style.display = 'inline';
+            btnSpinner.style.display = 'none';
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

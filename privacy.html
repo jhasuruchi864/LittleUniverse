@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Privacy Matters 💗 | Our Little Universe</title>
+  <meta name="description" content="A transparent, friendly, and complete privacy policy for Our Little Universe. A little promise to keep your personal space safe.">
+  <meta name="theme-color" content="#FFD6E7">
+  
+  <!-- Favicon Heart SVG -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💗</text></svg>">
+  
+  <!-- Google Fonts Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Nunito:wght@400;600;700;800&family=Sacramento&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="legal-page">
+
+  <!-- Floating Canvas Background (Subtle pastel hearts, stars, sparkles) -->
+  <canvas id="universe-bg-canvas" aria-hidden="true"></canvas>
+
+  <!-- Navigation Bar (Consistent with Main Website) -->
+  <header class="site-header" id="site-header">
+    <nav class="nav-container" aria-label="Main Navigation">
+      <a href="index.html" class="nav-logo" aria-label="Our Little Universe Home">
+        <span class="logo-heart">💗</span>
+        <span class="logo-text">Our Universe</span>
+      </a>
+
+      <!-- Hamburger Toggle for Mobile -->
+      <button class="nav-toggle-btn" id="nav-toggle-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links-menu">
+        <div class="hamburger-icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </button>
+
+      <!-- Nav Links -->
+      <ul class="nav-links" id="nav-links-menu">
+        <li><a href="index.html#hero" class="nav-link"><span>🏡</span> Home</a></li>
+        <li><a href="index.html#memories" class="nav-link"><span>📸</span> Memories</a></li>
+        <li><a href="index.html#love-letter" class="nav-link"><span>💌</span> Love Letter</a></li>
+        <li><a href="index.html#quiz" class="nav-link"><span>🧸</span> Fun Questions</a></li>
+        <li><a href="login.html" class="nav-link"><span>🔐</span> Login</a></li>
+        <li><a href="signup.html" class="nav-link"><span>✨</span> Sign Up</a></li>
+        <li><a href="privacy.html" class="nav-link active" aria-current="page"><span>🛡️</span> Privacy</a></li>
+        <li><a href="terms.html" class="nav-link"><span>📜</span> Terms</a></li>
+        <li><a href="index.html" class="nav-link nav-btn-universe"><span>✨</span> Back to Universe</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Legal Document Area -->
+  <main class="legal-main">
+    <div class="legal-container">
+
+      <!-- Breadcrumb & Direct Return Action -->
+      <div class="legal-top-nav">
+        <a href="index.html" class="back-to-universe-link" aria-label="Return to Our Little Universe Homepage">
+          <span aria-hidden="true">←</span> <span>Back to Our Universe</span> ✨
+        </a>
+      </div>
+
+      <!-- Hero Header Card with Shield & Heart Illustration -->
+      <header class="legal-hero-card">
+        <div class="legal-shield-illustration" aria-hidden="true">
+          <svg class="legal-shield-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Soft Pastel Shield -->
+            <path d="M50 10 C68 10, 85 18, 85 36 C85 64, 50 88, 50 88 C50 88, 15 64, 15 36 C15 18, 32 10, 50 10 Z" fill="#FFFFFF" stroke="#FF5C8A" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M50 16 C64 16, 78 22, 78 38 C78 61, 50 81, 50 81 C50 81, 22 61, 22 38 C22 22, 36 16, 50 16 Z" fill="#FFD6E7" opacity="0.6"/>
+            <!-- Heart in Center -->
+            <path d="M50 36 C44 28, 32 30, 32 40 C32 50, 50 63, 50 63 C50 63, 68 50, 68 40 C68 30, 56 28, 50 36 Z" fill="#FF5C8A"/>
+            <!-- Little Sparkle -->
+            <path d="M72 20 L74 25 L79 27 L74 29 L72 34 L70 29 L65 27 L70 25 Z" fill="#FFE29A"/>
+          </svg>
+        </div>
+
+        <h1 class="legal-page-title cursive-title">Your Privacy Matters 💗</h1>
+        <p class="legal-page-subtitle">A little promise to keep your personal space safe.</p>
+
+        <div class="legal-meta-row">
+          <span class="legal-meta-badge"><span>📅</span> Last updated: October 28, 2026</span>
+          <span class="legal-meta-badge"><span>⏱️</span> Reading time: ~3 minutes</span>
+          <span class="legal-meta-badge"><span>🔒</span> Client-Side Privacy</span>
+        </div>
+
+        <div class="legal-callout-box">
+          <strong>🌸 Quick Summary:</strong>
+          Our Little Universe is built with privacy by design. There are no user accounts, no remote databases tracking you, and no advertising trackers. What you do here stays right in your browser!
+        </div>
+      </header>
+
+      <!-- Table of Contents Quick Jump -->
+      <nav class="legal-toc-card" aria-label="Privacy Policy Sections">
+        <h2 class="legal-toc-title"><span>📑</span> Quick Jump to Sections</h2>
+        <div class="legal-toc-chips">
+          <a href="#welcome" class="legal-toc-chip">Welcome</a>
+          <a href="#information-collection" class="legal-toc-chip">Information We Collect</a>
+          <a href="#love-calculator" class="legal-toc-chip">Love Calculator</a>
+          <a href="#photos-memories" class="legal-toc-chip">Photos &amp; Memories</a>
+          <a href="#background-music" class="legal-toc-chip">Background Music</a>
+          <a href="#countdown-quiz" class="legal-toc-chip">Countdown &amp; Quiz</a>
+          <a href="#cookies-storage" class="legal-toc-chip">Cookies &amp; Local Storage</a>
+          <a href="#third-party-services" class="legal-toc-chip">Third-Party Services</a>
+          <a href="#data-security" class="legal-toc-chip">Data Security</a>
+          <a href="#childrens-privacy" class="legal-toc-chip">Children's Privacy</a>
+          <a href="#your-choices" class="legal-toc-chip">Your Choices</a>
+          <a href="#policy-updates" class="legal-toc-chip">Policy Updates</a>
+          <a href="#contact" class="legal-toc-chip">Contact Information</a>
+        </div>
+      </nav>
+
+      <!-- Complete Privacy Policy Document -->
+      <article class="legal-document-card">
+
+        <!-- 1. Welcome -->
+        <section class="legal-section" id="welcome">
+          <h2 class="legal-section-heading"><span>🌸</span> 1. Welcome to Our Little Universe</h2>
+          <p>
+            Welcome to <strong>Our Little Universe</strong>! This website is an interactive, romantic, and playful digital space designed to bring smiles, warmth, and cute memories to couples, partners, and friends.
+          </p>
+          <p>
+            We believe that celebrating love and fond memories should never come at the expense of your privacy. This Privacy Policy openly and truthfully explains how our website works, what technical data is processed, and how your personal space is respected.
+          </p>
+        </section>
+
+        <!-- 2. Information We Collect -->
+        <section class="legal-section" id="information-collection">
+          <h2 class="legal-section-heading"><span>🔍</span> 2. Account Information &amp; Authentication</h2>
+          <p>
+            To protect your romantic universe and keep your memories private between you and your loved one, Our Little Universe requires visitor authentication. Here is exactly what is collected and how it is protected:
+          </p>
+          <ul>
+            <li><strong>Account Credentials:</strong> When you register an account, we collect your email address, your chosen display name, and an optional partner name.</li>
+            <li><strong>Password Security (Zero Plaintext):</strong> Passwords are <em>never</em> stored in plaintext. They are salted and hashed using industry-standard cryptographic algorithms (PBKDF2 with 10,000 rounds of SHA-512 in local mode, or modern Argon2/Bcrypt via Supabase Auth) before being stored.</li>
+            <li><strong>Authentication &amp; Email Confirmation:</strong> When using our cloud authentication provider (Supabase Auth), an automated confirmation email with a secure verification link may be dispatched to ensure you own the email address before full account access is granted.</li>
+            <li><strong>Password Resets:</strong> If you forget your password, you can request a time-limited password recovery link. Reset tokens expire automatically within one hour, are single-use, and invalidate previous sessions upon completion.</li>
+            <li><strong>Session Authentication Tokens:</strong> When you log in, a cryptographically random session token or JSON Web Token (JWT) is issued to your browser (via an HTTP-only cookie or secure browser storage) to verify your authenticated state as you navigate between pages. Sessions expire automatically after seven days of inactivity.</li>
+          </ul>
+        </section>
+
+        <!-- 3. Love Calculator -->
+        <section class="legal-section" id="love-calculator">
+          <h2 class="legal-section-heading"><span>💘</span> 3. Love Calculator ("Magic Match")</h2>
+          <p>
+            The Love Calculator feature allows you to type two names to reveal a cute romantic score with heart celebration animations.
+          </p>
+          <p>
+            <strong>Entertainment Only:</strong> The resulting percentage and celebratory message are generated purely for fun and lighthearted amusement. They have no scientific, psychological, algorithmic, or relationship-counseling validity or meaning.
+          </p>
+          <p>
+            <strong>Processing &amp; Storage:</strong> Names entered into the calculator are evaluated inside your browser using a deterministic mathematical hashing function. The names are <em>never</em> transmitted across the internet to a remote server, and they are not saved in cookies or long-term browser storage. When you click "Try Another Pair" or refresh your page, the names disappear completely.
+          </p>
+        </section>
+
+        <!-- 4. Photos and Memories -->
+        <section class="legal-section" id="photos-memories">
+          <h2 class="legal-section-heading"><span>📸</span> 4. Photos and Memories</h2>
+          <p>
+            Our scrapbook gallery features Polaroid-style cards with gentle stickers and captions celebrating memorable moments together.
+          </p>
+          <p>
+            <strong>Default Assets:</strong> The example scrapbook illustrations shown on this website are static vector artwork files stored directly within the website's own project assets directory (<code>assets/images/</code>).
+          </p>
+          <p>
+            <strong>Customization by Website Owners:</strong> Website owners can personalize their own copy of the site by replacing these static files with their own family or couple photos.
+          </p>
+          <p>
+            <strong>No Public Upload Pipeline:</strong> The website does not provide an open photo upload form or a public image-sharing server. Visitors cannot upload photos to our servers through this website, and therefore we do not claim visitor-uploaded photos are encrypted or transmitted to a cloud server.
+          </p>
+        </section>
+
+        <!-- 5. Background Music -->
+        <section class="legal-section" id="background-music">
+          <h2 class="legal-section-heading"><span>🎵</span> 5. Background Music &amp; Audio</h2>
+          <p>
+            Our Little Universe includes a gentle background music player to create a dreamy, romantic atmosphere.
+          </p>
+          <ul>
+            <li><strong>User-Initiated Only:</strong> Audio will never play automatically when you open the website. It plays only after you deliberately click or tap the Play button (<code>▶</code>) on the floating player.</li>
+            <li><strong>Audio Source:</strong> Audio is loaded from the website's own local files (<code>assets/music/background.mp3</code>) or generated directly in your browser using the browser's built-in <em>Web Audio API</em> music box synthesizer (a soothing celesta chime) as an integrated zero-dependency fallback.</li>
+            <li><strong>No Audio Tracking:</strong> The player does not record microphone sound, analyze listening habits, or send audio telemetry over the network.</li>
+          </ul>
+        </section>
+
+        <!-- 5b. AI Couple Photo Studio & Private Love Vault -->
+        <section class="legal-section" id="ai-studio-vault">
+          <h2 class="legal-section-heading"><span>📸</span> 5b. AI Couple Photo Studio &amp; Private Love Vault</h2>
+          <p>
+            Our Little Universe provides an optional <strong>AI Couple Photo Studio</strong> and a secure <strong>Private Love Vault</strong> for creating and preserving romantic artwork. We treat your personal images with the utmost respect and care:
+          </p>
+          <ul>
+            <li>
+              <strong>Explicit Consent &amp; Permission:</strong> You must only upload photos of yourself and individuals from whom you have obtained explicit, enthusiastic consent. The platform requires an affirmative consent confirmation before any photo processing request is initiated. We strictly prohibit generating non-consensual, deceptive, or intimate imagery of real people.
+            </li>
+            <li>
+              <strong>Source Photo Processing:</strong> Uploaded reference photos are transmitted securely (via HTTPS) to our backend server only when you click "Generate Couple Photo". If an external AI provider (such as OpenAI, Stability AI, or Google Gemini) is configured by the site administrator, your photo and artistic prompt parameters are transmitted to that provider for image synthesis.
+            </li>
+            <li>
+              <strong>Third-Party Provider Retention Policies:</strong> Standard commercial AI providers (such as OpenAI API) retain API request data for up to 30 days for safety and abuse monitoring before deletion, and do not use API data to train models. We do not claim immediate deletion from third-party provider systems beyond their published compliance terms.
+            </li>
+            <li>
+              <strong>No Permanent Saving Without Consent:</strong> Generated images are held in your browser session and are <em>not saved permanently</em> on any server unless you deliberately click <strong>Save to Private Vault</strong>.
+            </li>
+            <li>
+              <strong>Private Love Vault Multi-Tenant Security:</strong> All images saved to your Love Vault are strictly bound to your authenticated account User ID. Access requires an active, verified session cookie or token. We enforce authorization checks on every read, write, move, and delete operation on the server (and via Supabase Row Level Security when configured). Images are served through authenticated streaming routes, never via unauthenticated or guessable public bucket URLs.
+            </li>
+            <li>
+              <strong>Full User Control &amp; Instant Deletion:</strong> You have complete control to organize, rename, move, and permanently delete individual images or entire folders directly from your vault. When you delete an image from your vault, it is permanently deleted from the server storage.
+            </li>
+          </ul>
+        </section>
+
+        <!-- 5c. Shared Couple Space, Partner Linking & Diary -->
+        <section class="legal-section" id="couple-space-diary">
+          <h2 class="legal-section-heading"><span>💑</span> 5c. Shared Couple Space, Partner Linking &amp; Secret Letters</h2>
+          <p>
+            Our Little Universe separates individual private accounts from our optional <strong>Shared Couple Space</strong>:
+          </p>
+          <ul>
+            <li>
+              <strong>Secure Single-Use Partner Invitations:</strong> Linking accounts requires one partner to generate a cryptographically random, single-use invitation code that strictly expires in 24 hours. The invited partner must authenticate with their own account and explicitly accept the invitation before any link is formed.
+            </li>
+            <li>
+              <strong>Strict Separation of Personal vs. Shared Content:</strong> Personal diaries, unshared vault memories, and individual settings are private to you. They are never automatically shared with your partner. A diary entry, milestone, or photo is only visible to your partner if you explicitly tag its visibility as <code>shared</code>.
+            </li>
+            <li>
+              <strong>Unlinking &amp; Autonomy:</strong> Either partner may choose to unlink the shared space at any time from the Shared Space dashboard. Upon unlinking, shared couple views are immediately deactivated and all future cross-account access is revoked.
+            </li>
+            <li>
+              <strong>Open-When Letters &amp; Reveal Dates:</strong> Letters configured with future reveal dates remain locked until the designated time arrives, verified through backend authorization controls.
+            </li>
+            <li>
+              <strong>Data Deletion:</strong> You have full rights to delete your diary entries, open-when letters, timeline milestones, and photos at any time. When deleted, they are erased from database records and storage.
+            </li>
+          </ul>
+        </section>
+
+        <!-- 6. Countdown and Interactive Quiz -->
+        <section class="legal-section" id="countdown-quiz">
+          <h2 class="legal-section-heading"><span>⏳</span> 6. Countdown and Interactive Quiz</h2>
+          <p>
+            We provide interactive features to celebrate milestones and playfully explore relationship vibes:
+          </p>
+          <ul>
+            <li>
+              <strong>Interactive Quiz ("Fun Questions"):</strong> When you answer the four sweet multiple-choice questions (happy place, love language, perfect day, magical power), your selections are kept strictly in temporary browser memory (RAM) while you complete the quiz. They are not stored in local storage, cookies, or remote databases, and are instantly discarded when you restart the quiz or navigate away.
+            </li>
+            <li>
+              <strong>Relationship Countdown:</strong> When you pick an anniversary or upcoming milestone date in the countdown feature, that date string is saved locally in your browser's HTML5 <code>localStorage</code> under the key <code>universe_countdown_date</code>.
+            </li>
+            <li>
+              <strong>Why It Is Saved:</strong> This local entry exists solely so your chosen countdown milestone remains saved for you when you return to or reload the page.
+            </li>
+            <li>
+              <strong>How You Can Clear It:</strong> You can clear this saved date at any time by clicking the "Reset" button in the countdown section or by clearing your browser's site storage in your browser settings (under <em>Settings &gt; Privacy &gt; Clear Browsing Data &gt; Cookies and site data</em>).
+            </li>
+          </ul>
+        </section>
+
+        <!-- 7. Cookies and Local Storage -->
+        <section class="legal-section" id="cookies-storage">
+          <h2 class="legal-section-heading"><span>🍪</span> 7. Cookies and Local Storage Disclosures</h2>
+          <p>
+            We believe in honest, transparent disclosures without confusing legal jargon:
+          </p>
+          <ul>
+            <li><strong>Authentication Cookies &amp; Tokens:</strong> We use an essential session cookie (<code>universe_session</code>) and client-side storage keys to maintain your authenticated login state securely as you navigate between protected pages. These cookies are strictly necessary for access control and are not used for third-party advertising or commercial tracking.</li>
+            <li><strong>Countdown Timer Storage:</strong> The HTML5 <code>localStorage</code> key <code>universe_countdown_date</code> is used to store your chosen anniversary or countdown timestamp so your counter continues across browser restarts.</li>
+            <li><strong>Hosting &amp; Server Infrastructure:</strong> When you access this website, hosting providers or server environments (such as Node.js, Vercel, Netlify, or GitHub Pages) automatically log standard technical request metadata (such as IP addresses and request timestamps) under their technical operations and security policies.</li>
+          </ul>
+        </section>
+
+        <!-- 8. Third-Party Services -->
+        <section class="legal-section" id="third-party-services">
+          <h2 class="legal-section-heading"><span>🌐</span> 8. Third-Party Services</h2>
+          <p>
+            To deliver real authentication and rich typography, select third-party services are utilized:
+          </p>
+          <ul>
+            <li>
+              <strong>Supabase (Authentication &amp; Database):</strong> When configured, cloud authentication, user account management, and database storage are securely handled by Supabase Inc. Authentication requests, email verification, and session tokens are processed in accordance with Supabase's Privacy Policy (<a href="https://supabase.com/privacy" target="_blank" class="inline-link">https://supabase.com/privacy</a>).
+            </li>
+            <li>
+              <strong>Google Fonts:</strong> Web typography (<em>Caveat</em>, <em>Nunito</em>, and <em>Sacramento</em>) is served by Google Fonts (<code>fonts.googleapis.com</code> and <code>fonts.gstatic.com</code>). Standard HTTP headers containing your IP address are transmitted to Google in accordance with Google's Privacy Policy.
+            </li>
+            <li>
+              <strong>No Advertising Networks:</strong> We do not use advertising networks, behavioral tracking pixels, or data broker integrations.
+            </li>
+          </ul>
+        </section>
+
+        <!-- 9. Data Security -->
+        <section class="legal-section" id="data-security">
+          <h2 class="legal-section-heading"><span>🛡️</span> 9. Data Security</h2>
+          <p>
+            Our core approach to security is <em>data minimization</em>: by not collecting, transmitting, or centrally storing personal information, user accounts, or credit card details, there is no centralized database to breach or compromise.
+          </p>
+          <p>
+            While client-side processing keeps your entries in your browser, no transmission over the public internet or wireless network is 100% immune from inspection. We encourage you to use standard personal computing safeguards (such as keeping your browser updated and using secure network connections). We do not promise absolute or unbreakable security guarantees.
+          </p>
+        </section>
+
+        <!-- 10. Children's Privacy -->
+        <section class="legal-section" id="childrens-privacy">
+          <h2 class="legal-section-heading"><span>🧸</span> 10. Children's Privacy</h2>
+          <p>
+            Our Little Universe is a heartwarming romantic and whimsical website created for couples, partners, and general audiences. It is not specifically directed toward children under 13 years of age.
+          </p>
+          <p>
+            We do not knowingly solicit, harvest, or retain personal information from children. Because the website functions without account registration or remote database storage, personal information from children is not collected or maintained by our servers.
+          </p>
+        </section>
+
+        <!-- 11. Your Choices -->
+        <section class="legal-section" id="your-choices">
+          <h2 class="legal-section-heading"><span>✨</span> 11. Your Choices &amp; Account Deletion</h2>
+          <p>
+            You have full control over your account and personal information:
+          </p>
+          <ul>
+            <li><strong>Display Names:</strong> You do not need to use your legal name. Romantic nicknames, pet names, or aliases are fully supported.</li>
+            <li><strong>Password Updates:</strong> You can update your password at any time using the password reset flow.</li>
+            <li><strong>Account Deletion:</strong> You have the right to request permanent deletion of your account and personal data. Upon account deletion, all associated user profile rows, password hashes, and active session tokens are permanently wiped from the database.</li>
+            <li><strong>Logging Out:</strong> You can log out at any time using the Logout button in the navigation bar to immediately terminate your session.</li>
+          </ul>
+        </section>
+
+        <!-- 12. Policy Updates -->
+        <section class="legal-section" id="policy-updates">
+          <h2 class="legal-section-heading"><span>📝</span> 12. Updates to This Policy</h2>
+          <p>
+            As Our Little Universe introduces new creative features or if browser technologies change, this Privacy Policy may be revised. Any updates will be published directly on this page with an updated "Last updated" date at the top.
+          </p>
+          <p>
+            We encourage you to review this page occasionally to stay informed about how your personal space is cared for.
+          </p>
+        </section>
+
+        <!-- 13. Contact Information -->
+        <section class="legal-section" id="contact">
+          <h2 class="legal-section-heading"><span>💌</span> 13. Contact the Website Owner</h2>
+          <p>
+            If you have questions, warm feedback, or suggestions regarding this Privacy Policy or Our Little Universe, please reach out to the website owner:
+          </p>
+          
+          <div class="legal-contact-callout">
+            <p><strong>Primary Contact Address:</strong></p>
+            <p>
+              <code class="legal-placeholder-tag">[Add your contact email here]</code>
+            </p>
+            <p style="font-size: 0.9rem; color: var(--color-plum-light); margin-top: 0.6rem; margin-bottom: 0;">
+              <em>Notice for website owner: Please replace the placeholder above with your actual contact email or preferred messaging channel before deploying your website publicly. If no contact address has been configured, please note that this site is maintained as a personal creative project without a dedicated commercial support desk.</em>
+            </p>
+          </div>
+        </section>
+
+      </article>
+
+      <!-- Return Button at Bottom of Document -->
+      <div style="text-align: center; margin-top: 2.5rem;">
+        <a href="index.html" class="btn btn-primary" aria-label="Return to Our Little Universe Homepage">
+          <span>🌸 Back to Our Universe</span> ✨
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Complete Real-Website Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      
+      <div class="footer-grid">
+        <!-- Brand Column -->
+        <div class="footer-col footer-brand-col">
+          <a href="index.html" class="footer-brand-logo" aria-label="Our Little Universe Home">
+            <span class="footer-brand-heart">💗</span>
+            <span class="footer-brand-name">Our Little Universe</span>
+          </a>
+          <p class="footer-brand-desc">
+            A tiny corner of the internet made for smiles, memories, and little moments of magic.
+          </p>
+          <div class="footer-cute-badge">
+            <span>🌸</span> Made with love and a little bit of magic 💗
+          </div>
+        </div>
+
+        <!-- Quick Links Column -->
+        <div class="footer-col">
+          <h4 class="footer-col-title">Quick Links</h4>
+          <ul class="footer-nav-list">
+            <li><a href="index.html#hero" class="footer-link"><span>🏡</span> Home</a></li>
+            <li><a href="index.html#memories" class="footer-link"><span>📸</span> Memories</a></li>
+            <li><a href="index.html#love-letter" class="footer-link"><span>💌</span> Love Letter</a></li>
+            <li><a href="index.html#quiz" class="footer-link"><span>🧸</span> Fun Questions</a></li>
+          </ul>
+        </div>
+
+        <!-- Legal & Safety Column -->
+        <div class="footer-col">
+          <h4 class="footer-col-title">Peace of Mind</h4>
+          <ul class="footer-nav-list">
+            <li><a href="privacy.html" class="footer-link" style="color: var(--color-rose-red); font-weight: 700;"><span>🛡️</span> Privacy Policy</a></li>
+            <li><a href="terms.html" class="footer-link"><span>📜</span> Terms of Use</a></li>
+            <li class="footer-contact-item">
+              <span>💌 Contact:</span>
+              <code class="footer-placeholder">[Add your contact email here]</code>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="footer-divider" aria-hidden="true"></div>
+
+      <!-- Bottom Bar -->
+      <div class="footer-bottom-bar">
+        <p class="footer-copy">
+          &copy; <span id="footer-year"></span> Our Little Universe. Created with infinite love.
+        </p>
+
+        <div>
+          <button type="button" class="btn-back-to-top" id="btn-back-to-top" aria-label="Back to top of page">
+            <span>↑</span> Back to Top
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Main JavaScript File -->
+  <script src="js/script.js"></script>
+</body>
+</html>

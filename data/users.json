@@ -1,0 +1,11 @@
+{
+  "luna@ouruniverse.love": {
+    "id": "user_luna_001",
+    "email": "luna@ouruniverse.love",
+    "displayName": "Luna 💗",
+    "partnerName": "Oliver",
+    "passwordHash": "add4fd1fac6b9e80e2915a487ea3ed02335594783dceaa71e6083e8c0330f9f94548074ee80435a5b67ba3dfd2fe0e2cf33a34b885b313941baa12cb60b78505",
+    "salt": "895490181a71048c8622c018c4bf93c0",
+    "createdAt": "2026-10-28T05:44:49.319Z"
+  }
+}

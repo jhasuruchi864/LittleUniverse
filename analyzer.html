@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Relationship Insights 💗 | Our Little Universe</title>
+  <meta name="description" content="AI Relationship Analyzer - Understand your communication, celebrate your efforts, and grow together in your private couple universe.">
+
+  <!-- Romantic Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;700;800&family=Sacramento&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    /* Prevent flash of protected content before authentication confirmation */
+    html:not(.auth-verified) body {
+      display: none !important;
+    }
+  </style>
+  <script>
+    (function() {
+      try {
+        const token = localStorage.getItem('universe_session_token');
+        const cached = localStorage.getItem('universe_cached_user');
+        const hasCookie = document.cookie.indexOf('universe_session=') !== -1;
+        if (token || cached || hasCookie) {
+          document.documentElement.classList.add('auth-verified');
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="page-analyzer">
+
+  <!-- Site Navigation -->
+  <header class="site-header" id="site-header">
+    <nav class="nav-container" aria-label="Main Navigation">
+      <a href="index.html" class="nav-logo" aria-label="Our Little Universe Home">
+        <span class="logo-heart">💗</span>
+        <span class="logo-text">Our Universe</span>
+      </a>
+
+      <!-- Hamburger Toggle for Mobile -->
+      <button class="nav-toggle-btn" id="nav-toggle-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links-menu">
+        <div class="hamburger-icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </button>
+
+      <!-- Nav Links -->
+      <ul class="nav-links" id="nav-links-menu">
+        <li><a href="index.html" class="nav-link"><span>🏡</span> Home</a></li>
+        <li><a href="shared.html" class="nav-link"><span>👩‍❤️‍👨</span> Shared Space</a></li>
+        <li><a href="room.html" class="nav-link"><span>🧸</span> 3D Room</a></li>
+        <li><a href="galaxy.html" class="nav-link"><span>🌌</span> Galaxy</a></li>
+        <li><a href="diary.html" class="nav-link"><span>💌</span> Diary &amp; Letters</a></li>
+        <li><a href="games.html" class="nav-link"><span>🎲</span> Games</a></li>
+        <li><a href="timeline.html" class="nav-link"><span>⏳</span> Timeline</a></li>
+        <li><a href="studio.html" class="nav-link"><span>📸</span> Studio</a></li>
+        <li><a href="vault.html" class="nav-link"><span>🔐</span> Vault</a></li>
+        <li><a href="analyzer.html" class="nav-link active"><span>🔮</span> Insights</a></li>
+        <li class="nav-account-item">
+          <div class="user-account-pill">
+            <span class="user-avatar" aria-hidden="true">🌸</span>
+            <span class="user-display-name" id="user-display-name">Soulmate</span>
+            <button type="button" class="btn-logout" id="btn-logout" aria-label="Log Out">
+              <span>Logout</span> 🚪
+            </button>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="analyzer-main-container">
+
+    <!-- Page Hero Banner -->
+    <div class="analyzer-hero-card glass-card text-center">
+      <div class="hero-badge">
+        <span>🔮</span> AI Relationship Analyzer <span>💗</span>
+      </div>
+      <h1 class="cursive-title studio-page-title" id="analyzer-main-title">
+        Our Relationship <span class="sparkle-word">Insights</span> 💗
+      </h1>
+      <p class="studio-page-subtitle">
+        Understand your communication, celebrate your efforts, and grow together.
+      </p>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- STEP 1: CHAT IMPORT & REDACTION CENTER         -->
+    <!-- ============================================== -->
+    <section class="analyzer-step-section" id="step-import">
+      <div class="glass-card import-card">
+        <div class="step-card-header">
+          <span class="step-counter-badge">Step 1 of 3</span>
+          <h3>Import Your Conversation Transcript</h3>
+          <p class="step-desc">
+            Upload an authorized chat export from WhatsApp, Instagram, CSV/JSON, or Gmail. Everything is parsed privately in your browser.
+          </p>
+        </div>
+
+        <!-- 1-Click Demo Evaluation Button -->
+        <div class="demo-chat-banner">
+          <div class="demo-info">
+            <strong>🌸 Want a quick preview?</strong>
+            <span>Test the full analyzer instantly with our verified sample couple conversation:</span>
+          </div>
+          <button type="button" class="btn btn-primary" id="btn-load-demo-chat">
+            <span>✨ Load Sample Couple Chat (1-Click Demo)</span>
+          </button>
+        </div>
+
+        <!-- Dropzone Container -->
+        <div class="chat-dropzone" id="chat-dropzone" tabindex="0" role="button" aria-label="Upload chat export file">
+          <input type="file" id="chat-file-input" accept=".txt,.zip,.json,.html,.htm,.csv" style="display: none;">
+          <div class="dropzone-icon">💌</div>
+          <h4>Drop your chat file here, or <span class="browse-link">browse</span></h4>
+          <p class="dropzone-hints">
+            Supported: <strong>WhatsApp (.txt, .zip)</strong>, <strong>Instagram (JSON, HTML)</strong>, <strong>CSV / JSON</strong> (Max 15MB)
+          </p>
+        </div>
+
+        <!-- Supported Formats & Export Guides Accordion -->
+        <div class="export-guides-wrapper">
+          <h4 class="guides-heading"><span>📖</span> How to Export Your Chats:</h4>
+          <div class="guides-grid">
+            <div class="guide-item">
+              <span class="guide-app-icon">💬</span>
+              <div class="guide-item-content">
+                <strong>WhatsApp (iPhone &amp; Android)</strong>
+                <p>Open chat &rarr; Tap Contact Name &rarr; <em>Export Chat</em> &rarr; Select <em>Without Media</em> &rarr; Upload the exported <code>.txt</code> or <code>.zip</code> file.</p>
+              </div>
+            </div>
+            <div class="guide-item">
+              <span class="guide-app-icon">📸</span>
+              <div class="guide-item-content">
+                <strong>Instagram</strong>
+                <p>Instagram Settings &rarr; <em>Your Activity</em> &rarr; <em>Download Your Information</em> &rarr; Choose <em>JSON</em> format &rarr; Upload <code>message_1.json</code>.</p>
+              </div>
+            </div>
+            <div class="guide-item">
+              <span class="guide-app-icon">📊</span>
+              <div class="guide-item-content">
+                <strong>CSV / JSON</strong>
+                <p>Upload any structured file with standard columns: <code>timestamp</code>, <code>sender</code>, and <code>message</code>.</p>
+              </div>
+            </div>
+            <div class="guide-item">
+              <span class="guide-app-icon">✉️</span>
+              <div class="guide-item-content">
+                <strong>Gmail / Email</strong>
+                <p>Copy email threads containing standard <code>From:</code> and <code>Date:</code> headers or Google Takeout MBOX exports.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Privacy & Protection Disclosure -->
+        <div class="vault-security-guarantee" style="margin-top: 1.5rem;">
+          <span>🛡️ 100% Privacy Guarantee:</span> Chats contain intimate feelings. We never ask for passwords, never scrape accounts, and parsing happens client-side. You can redact personal information and delete your report at any time.
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- STEP 2: IDENTIFY BOTH PARTNERS & CONSENT CHECK -->
+    <!-- ============================================== -->
+    <section class="analyzer-step-section" id="step-mapping" style="display: none;">
+      <div class="glass-card mapping-card">
+        <div class="step-card-header text-center">
+          <span class="step-counter-badge">Step 2 of 3</span>
+          <h3>Identify Both Partners &amp; Verify Consent</h3>
+          <p class="step-desc">
+            Map the detected chat names to Partner A and Partner B. You can assign custom cute nicknames!
+          </p>
+        </div>
+
+        <!-- Detected Overview Summary -->
+        <div class="detected-overview-box">
+          <div class="overview-item">
+            <span class="item-label">Total Messages</span>
+            <span class="item-val" id="mapping-preview-total">0</span>
+          </div>
+          <div class="overview-item">
+            <span class="item-label">Conversation Span</span>
+            <span class="item-val" id="mapping-preview-dates">Loading...</span>
+          </div>
+          <div class="overview-item">
+            <span class="item-label">Detected Format</span>
+            <span class="item-val" id="mapping-preview-format">WhatsApp TXT</span>
+          </div>
+        </div>
+
+        <!-- Partner Mapping Form -->
+        <div class="partners-mapping-grid">
+          <div class="partner-map-col">
+            <label class="form-label" for="select-partner-a"><span>🌸</span> Select Partner A (Sender):</label>
+            <select id="select-partner-a" class="studio-input"></select>
+            <label class="form-label" for="input-name-a" style="margin-top: 0.8rem;">Display Name / Nickname:</label>
+            <input type="text" id="input-name-a" class="studio-input" value="Dudu">
+          </div>
+
+          <div class="partner-map-col">
+            <label class="form-label" for="select-partner-b"><span>🧸</span> Select Partner B (Sender):</label>
+            <select id="select-partner-b" class="studio-input"></select>
+            <label class="form-label" for="input-name-b" style="margin-top: 0.8rem;">Display Name / Nickname:</label>
+            <input type="text" id="input-name-b" class="studio-input" value="Budu">
+          </div>
+        </div>
+
+        <!-- Privacy & Informed Consent Checklist -->
+        <div class="consent-checklist-box">
+          <h4><span>📜</span> Mandatory Mutual Consent &amp; Privacy Checklist</h4>
+          <label class="consent-label">
+            <input type="checkbox" id="consent-agreement" required>
+            <span>I confirm that <strong>both partners have given permission</strong> to analyze this shared conversation.</span>
+          </label>
+          <label class="consent-label">
+            <input type="checkbox" id="consent-redact" checked>
+            <span><strong>Automatically redact personal information:</strong> masks phone numbers, emails, and web links before processing.</span>
+          </label>
+        </div>
+
+        <div class="mapping-actions-row">
+          <button type="button" class="btn btn-secondary" id="btn-cancel-mapping">
+            <span>↩️ Choose Another File</span>
+          </button>
+          <button type="button" class="btn btn-primary" id="btn-confirm-analyze">
+            <span>✨ Confirm &amp; Generate Insights</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- STEP 3: RELATIONSHIP INSIGHTS DASHBOARD        -->
+    <!-- ============================================== -->
+    <section class="analyzer-step-section" id="step-dashboard" style="display: none;">
+      
+      <!-- Top Status Toolbar -->
+      <div class="dashboard-toolbar-row">
+        <div class="toolbar-left">
+          <span class="status-pill-badge" id="ai-engine-badge"><span>🤖</span> AI Engine Active</span>
+          <span class="couple-names-badge" id="dashboard-partner-names">A celebration of communication for Dudu &amp; Budu 💗</span>
+        </div>
+        <div class="toolbar-right">
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-export-report" title="Print or save PDF report">
+            <span>📄</span> Export Report
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-new-analysis">
+            <span>🔄</span> New Analysis
+          </button>
+          <button type="button" class="btn btn-danger btn-sm" id="btn-delete-analysis" title="Purge all data">
+            <span>🗑️</span> Delete All Data
+          </button>
+        </div>
+      </div>
+
+      <!-- 1. Key Statistics Grid -->
+      <div class="stats-cards-grid">
+        <div class="stat-metric-card glass-card">
+          <span class="stat-icon">💬</span>
+          <span class="stat-number" id="stat-total-messages">0</span>
+          <span class="stat-label">Total Messages</span>
+          <span class="stat-subtext" id="stat-date-span">Verified Timeline</span>
+        </div>
+        <div class="stat-metric-card glass-card">
+          <span class="stat-icon">📅</span>
+          <span class="stat-number" id="stat-active-days">0</span>
+          <span class="stat-label">Active Conversation Days</span>
+          <span class="stat-subtext" id="stat-calendar-days">Span</span>
+        </div>
+        <div class="stat-metric-card glass-card">
+          <span class="stat-icon">👩‍❤️‍👨</span>
+          <span class="stat-number" id="stat-dual-days">0</span>
+          <span class="stat-label">Both Partners Active Days</span>
+          <span class="stat-subtext">Mutual Daily Interaction</span>
+        </div>
+        <div class="stat-metric-card glass-card">
+          <span class="stat-icon">⚡</span>
+          <span class="stat-number" id="stat-avg-msgs">0</span>
+          <span class="stat-label">Avg Messages / Active Day</span>
+          <span class="stat-subtext">Daily Communication Rhythm</span>
+        </div>
+      </div>
+
+      <!-- 2. Balanced Communication Analysis & Visual Meters -->
+      <div class="glass-card section-card" id="section-balance">
+        <div class="section-card-title">
+          <span>⚖️</span> Communication Balance &amp; Reciprocity
+        </div>
+        <p class="section-card-subtitle">
+          Analyzing message volume, who starts conversations, and response tempos without arbitrary value judgments.
+        </p>
+
+        <div class="meters-container">
+          <!-- Message Volume Meter -->
+          <div class="meter-block">
+            <div class="meter-header">
+              <strong>Message Volume Share</strong>
+              <span class="meter-values"><span id="meter-val-msgs-a">50%</span> vs <span id="meter-val-msgs-b">50%</span></span>
+            </div>
+            <div class="balance-bar-wrapper">
+              <div class="balance-bar-a" id="bar-msgs-a" style="width: 50%;"></div>
+              <div class="balance-bar-b" id="bar-msgs-b" style="width: 50%;"></div>
+            </div>
+            <div class="meter-legend">
+              <span class="legend-a">🌸 <span id="label-name-a">Partner A</span></span>
+              <span class="legend-b">🧸 <span id="label-name-b">Partner B</span></span>
+            </div>
+          </div>
+
+          <!-- Conversation Initiations Meter -->
+          <div class="meter-block">
+            <div class="meter-header">
+              <strong>Conversation Initiations (Sessions with &gt; 4h gap)</strong>
+              <span class="meter-values"><span id="meter-val-init-a">50%</span> vs <span id="meter-val-init-b">50%</span></span>
+            </div>
+            <div class="balance-bar-wrapper">
+              <div class="balance-bar-a" id="bar-init-a" style="width: 50%;"></div>
+              <div class="balance-bar-b" id="bar-init-b" style="width: 50%;"></div>
+            </div>
+          </div>
+
+          <!-- Response Tempos Grid -->
+          <div class="tempo-subgrid">
+            <div class="tempo-card">
+              <h5>Daytime Median Response Speed</h5>
+              <div class="tempo-comparison">
+                <div class="tempo-col">
+                  <span class="tempo-name">Partner A</span>
+                  <span class="tempo-val" id="resp-median-a">10 mins</span>
+                  <span class="tempo-badge" id="resp-fast-a">60% &lt;10m</span>
+                </div>
+                <div class="tempo-vs">⚡</div>
+                <div class="tempo-col">
+                  <span class="tempo-name">Partner B</span>
+                  <span class="tempo-val" id="resp-median-b">15 mins</span>
+                  <span class="tempo-badge" id="resp-fast-b">55% &lt;10m</span>
+                </div>
+              </div>
+              <p class="tempo-methodology" id="resp-methodology"></p>
+            </div>
+
+            <div class="tempo-card">
+              <h5>Questions Asked &amp; Answered</h5>
+              <div class="tempo-comparison">
+                <div class="tempo-col">
+                  <span class="tempo-name">Partner A</span>
+                  <span class="tempo-val" id="questions-asked-a">0</span>
+                  <span class="tempo-badge" id="questions-rate-a">100% replied</span>
+                </div>
+                <div class="tempo-vs">❓</div>
+                <div class="tempo-col">
+                  <span class="tempo-name">Partner B</span>
+                  <span class="tempo-val" id="questions-asked-b">0</span>
+                  <span class="tempo-badge" id="questions-rate-b">100% replied</span>
+                </div>
+              </div>
+              <p class="tempo-methodology">Measures curiosity and active interest in each other's daily lives and thoughts.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="balance-commentary-box" id="balance-analysis-commentary">
+          Both partners share an open, reciprocal conversational flow.
+        </div>
+      </div>
+
+      <!-- 3. Positive Moments & Celebrations -->
+      <div class="glass-card section-card" id="section-positive">
+        <div class="section-card-title">
+          <span>💖</span> Positive Moments &amp; Mutual Appreciation
+        </div>
+        <p class="section-card-subtitle">
+          Real tender moments, loving words, and emotional support discovered across your timeline.
+        </p>
+        <div class="positive-moments-grid" id="positive-moments-grid"></div>
+      </div>
+
+      <!-- 4. Partner Needs & Preferences (Separate Cards) -->
+      <div class="glass-card section-card" id="section-needs">
+        <div class="section-card-title">
+          <span>💌</span> Understanding Both Partners' Needs &amp; Preferences
+        </div>
+        <p class="section-card-subtitle">
+          Separate, compassionate profiles based on explicit statements and communicative habits.
+        </p>
+        <div class="partner-needs-grid">
+          <div class="partner-needs-card glass-card" id="card-partner-a"></div>
+          <div class="partner-needs-card glass-card" id="card-partner-b"></div>
+        </div>
+      </div>
+
+      <!-- 5. Conflict Resolution & Communication Improvement Scenarios -->
+      <div class="glass-card section-card" id="section-conflict">
+        <div class="section-card-title">
+          <span>🌱</span> What Could Both Partners Improve?
+        </div>
+        <p class="section-card-subtitle">
+          Constructive, non-blaming breakdowns of real communication scenarios with constructive dialogue rewrites.
+        </p>
+        <div class="conflict-events-list" id="conflict-events-list"></div>
+      </div>
+
+      <!-- 6. Personalized Improvement Plan -->
+      <div class="glass-card section-card" id="section-plan">
+        <div class="section-card-title">
+          <span>📋</span> Personalized Relationship Improvement Plan
+        </div>
+        <p class="section-card-subtitle">
+          Actionable shared agreements and daily micro-habits to strengthen emotional security.
+        </p>
+        <ul class="improvement-plan-items" id="improvement-plan-items"></ul>
+      </div>
+
+      <!-- 7. Interactive Weekly Relationship Check-In -->
+      <div class="glass-card section-card" id="section-checkin">
+        <div class="section-card-title">
+          <span>✨</span> Weekly Relationship Check-In &amp; Progress Tracker
+        </div>
+        <p class="section-card-subtitle">
+          Log weekly reflections together to track your communication harmony over time.
+        </p>
+
+        <form id="weekly-checkin-form" class="weekly-checkin-form">
+          <div class="rating-row">
+            <span class="rating-label">This Week's Harmony Rating:</span>
+            <div class="heart-rating-selector">
+              <label><input type="radio" name="harmony-rating" value="1"> 💔</label>
+              <label><input type="radio" name="harmony-rating" value="2"> 🤍</label>
+              <label><input type="radio" name="harmony-rating" value="3"> 💓</label>
+              <label><input type="radio" name="harmony-rating" value="4"> 💖</label>
+              <label><input type="radio" name="harmony-rating" value="5" checked> 💕</label>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="checkin-celebration" class="form-label"><span>🎉</span> What went well between us this week?</label>
+              <input type="text" id="checkin-celebration" class="studio-input" placeholder="e.g. Loved our calm conversation about weekend plans!" required>
+            </div>
+            <div class="form-group">
+              <label for="checkin-goal" class="form-label"><span>🌱</span> What is our focus for next week?</label>
+              <input type="text" id="checkin-goal" class="studio-input" placeholder="e.g. Giving a quick heads-up when busy at work.">
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="btn-save-checkin" style="margin-top: 1rem;">
+            <span>💌</span> Save Weekly Reflection
+          </button>
+        </form>
+
+        <div class="checkin-history-container" style="margin-top: 2rem;">
+          <h4 class="history-title"><span>⏳</span> Past Reflections:</h4>
+          <div class="checkin-history-list" id="checkin-history-list"></div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Scripts -->
+  <script src="js/auth.js"></script>
+  <script src="js/chat-parsers.js"></script>
+  <script src="js/relationship-statistics.js"></script>
+  <script src="js/relationship-analyzer.js"></script>
+
+  <script>
+    // Header Navigation Toggle for Mobile
+    const navToggle = document.getElementById('nav-toggle-btn');
+    const navMenu = document.getElementById('nav-links-menu');
+    if (navToggle && navMenu) {
+      navToggle.addEventListener('click', () => {
+        const isExp = navToggle.getAttribute('aria-expanded') === 'true';
+        navToggle.setAttribute('aria-expanded', !isExp);
+        navMenu.classList.toggle('active');
+      });
+    }
+
+    // Display user name if logged in
+    try {
+      const user = JSON.parse(localStorage.getItem('universe_cached_user') || '{}');
+      if (user.displayName) {
+        const nameEl = document.getElementById('user-display-name');
+        if (nameEl) nameEl.textContent = user.displayName;
+      }
+    } catch(e) {}
+  </script>
+</body>
+</html>

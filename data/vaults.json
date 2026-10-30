@@ -1,0 +1,52 @@
+{
+  "user_luna_001": {
+    "userId": "user_luna_001",
+    "pinHash": null,
+    "pinSalt": null,
+    "folders": [
+      {
+        "id": "folder_default_1",
+        "name": "Our Cute Moments 💗",
+        "icon": "💗",
+        "isDefault": true,
+        "createdAt": "2026-10-28T13:13:59.651Z"
+      },
+      {
+        "id": "folder_default_2",
+        "name": "Chibi Couple 🧸",
+        "icon": "🧸",
+        "isDefault": true,
+        "createdAt": "2026-10-28T13:13:59.651Z"
+      },
+      {
+        "id": "folder_default_3",
+        "name": "Date Night 🌙",
+        "icon": "🌙",
+        "isDefault": true,
+        "createdAt": "2026-10-28T13:13:59.651Z"
+      },
+      {
+        "id": "folder_default_4",
+        "name": "Favorite Pictures 📸",
+        "icon": "📸",
+        "isDefault": true,
+        "createdAt": "2026-10-28T13:13:59.651Z"
+      },
+      {
+        "id": "folder_default_5",
+        "name": "Secret Memories 💌",
+        "icon": "💌",
+        "isDefault": true,
+        "createdAt": "2026-10-28T13:13:59.651Z"
+      },
+      {
+        "id": "folder_default_6",
+        "name": "Matching Wallpapers 🎀",
+        "icon": "🎀",
+        "isDefault": true,
+        "createdAt": "2026-10-28T13:13:59.651Z"
+      }
+    ],
+    "images": []
+  }
+}

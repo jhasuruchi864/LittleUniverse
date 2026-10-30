@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login 💕 | Welcome Back to Our Little Universe</title>
+  <meta name="description" content="Sign in to your private romantic universe. A little world of memories, sweet surprises, and moments of magic.">
+  <meta name="theme-color" content="#FFD6E7">
+
+  <!-- Favicon Heart SVG -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💗</text></svg>">
+
+  <!-- Google Fonts Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Nunito:wght@400;600;700;800&family=Sacramento&display=swap" rel="stylesheet">
+
+  <!-- Three.js 3D WebGL Library -->
+  <script src="js/three.min.js"></script>
+  <script>
+    if (typeof THREE === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+    }
+  </script>
+  <!-- 3D Romantic Universe Engine -->
+  <script src="js/universe-3d.js"></script>
+
+  <!-- Supabase Official JS SDK via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-page">
+
+  <!-- Interactive 3D WebGL Scene Canvas (Floating Glass Heart & Starfield) -->
+  <canvas id="universe-3d-login-canvas" class="universe-3d-bg-canvas" aria-hidden="true"></canvas>
+
+  <!-- Floating 2D Particle Canvas Background (Fallback & Extra Sparkles) -->
+  <canvas id="universe-bg-canvas" aria-hidden="true"></canvas>
+
+  <!-- Simplified Romantic Auth Header -->
+  <header class="site-header" id="site-header">
+    <nav class="nav-container" aria-label="Main Navigation">
+      <a href="login.html" class="nav-logo" aria-label="Our Little Universe Home">
+        <span class="logo-heart">💗</span>
+        <span class="logo-text">Our Universe</span>
+      </a>
+
+      <!-- Hamburger Toggle for Mobile -->
+      <button class="nav-toggle-btn" id="nav-toggle-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links-menu">
+        <div class="hamburger-icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </button>
+
+      <ul class="nav-links" id="nav-links-menu">
+        <li><a href="login.html" class="nav-link active" aria-current="page"><span>🔐</span> Login</a></li>
+        <li><a href="signup.html" class="nav-link"><span>✨</span> Sign Up</a></li>
+        <li><a href="privacy.html" class="nav-link"><span>🛡️</span> Privacy</a></li>
+        <li><a href="terms.html" class="nav-link"><span>📜</span> Terms</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Authentication Container -->
+  <main class="auth-main">
+    <div class="auth-container">
+
+      <!-- Login Glassmorphism Card -->
+      <div class="auth-card glass-card">
+        
+        <!-- Glowing Center Heart Illustration -->
+        <div class="auth-heart-badge" aria-hidden="true">
+          <div class="auth-heart-glow"></div>
+          <span class="auth-heart-emoji">💗</span>
+        </div>
+
+        <h1 class="auth-title cursive-title">Welcome Back to Our Little Universe 💗</h1>
+        <p class="auth-subtitle">Every little universe begins with a little bit of magic. Your little world of magic is waiting for you.</p>
+
+        <!-- Status & Feedback Alert Banners -->
+        <div id="auth-alert" class="alert-banner" role="alert" style="display: none;"></div>
+
+        <!-- Mode Indicator Badge -->
+        <div id="auth-mode-indicator" class="auth-mode-badge" style="display: none;">
+          <span id="auth-mode-icon">🔒</span> <span id="auth-mode-text">Authentication Active</span>
+        </div>
+
+        <!-- Login Form -->
+        <form id="login-form" class="auth-form" novalidate>
+          
+          <!-- Email Input Group -->
+          <div class="form-group">
+            <label for="login-email" class="form-label">
+              <span>💌</span> Email Address
+            </label>
+            <div class="input-wrapper">
+              <input
+                type="email"
+                id="login-email"
+                name="email"
+                class="form-input"
+                placeholder="you@ouruniverse.love"
+                required
+                autocomplete="email"
+              >
+            </div>
+          </div>
+
+          <!-- Password Input Group with Show/Hide Button -->
+          <div class="form-group">
+            <div class="form-label-row">
+              <label for="login-password" class="form-label">
+                <span>🔑</span> Password
+              </label>
+              <a href="reset-password.html" class="forgot-link">Forgot password?</a>
+            </div>
+            <div class="input-wrapper password-input-wrapper">
+              <input
+                type="password"
+                id="login-password"
+                name="password"
+                class="form-input"
+                placeholder="••••••••••••"
+                required
+                autocomplete="current-password"
+              >
+              <button
+                type="button"
+                id="btn-toggle-password"
+                class="btn-password-toggle"
+                aria-label="Show or hide password"
+              >
+                <span id="password-toggle-icon">👁️</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Remember Me Checkbox -->
+          <div class="form-row-remember">
+            <label class="checkbox-label" for="login-remember">
+              <input type="checkbox" id="login-remember" name="remember" checked>
+              <span class="custom-checkbox"></span>
+              <span class="checkbox-text">Remember this browser 🌙</span>
+            </label>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" id="btn-login-submit" class="btn btn-primary auth-btn-submit">
+            <span class="btn-text">Login 💕</span>
+            <span class="btn-spinner" style="display: none;">⏳ Connecting...</span>
+          </button>
+
+          <!-- 1-Click Instant Enter for Card Experience -->
+          <div class="demo-login-box" style="margin-top: 0.35rem;">
+            <button type="button" id="btn-fill-demo" class="btn btn-primary btn-demo-fill" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.35rem; padding: 0.45rem 0.8rem; font-size: 0.82rem; font-weight: 800; background: linear-gradient(135deg, #FF5C8A, #FF8DA1); color: #fff; border: none; box-shadow: 0 4px 12px rgba(255, 92, 138, 0.28); cursor: pointer;">
+              <span>💖</span> 1-Click Instant Enter to Universe ✨
+            </button>
+            <p style="text-align: center; font-size: 0.7rem; margin-top: 0.15rem; opacity: 0.8; color: var(--color-dark-plum);">
+              (Direct access to romantic card, music &amp; memories — no password needed!)
+            </p>
+          </div>
+
+        </form>
+
+        <!-- Divider -->
+        <div class="auth-divider" aria-hidden="true">
+          <span>🌸</span>
+        </div>
+
+        <!-- Switch to Sign Up -->
+        <div class="auth-footer-prompt">
+          <p>Don't have a universe account yet?</p>
+          <a href="signup.html" class="auth-link-bold">Create an Account ✨</a>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Complete Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-bottom-bar" style="justify-content: center; gap: 1.5rem;">
+        <p class="footer-copy">
+          &copy; <span id="footer-year"></span> Our Little Universe. Created with infinite love.
+        </p>
+        <div class="footer-auth-links">
+          <a href="privacy.html" class="footer-link"><span>🛡️</span> Privacy Policy</a>
+          <span style="opacity: 0.5;">•</span>
+          <a href="terms.html" class="footer-link"><span>📜</span> Terms of Use</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/auth.js"></script>
+  <script src="js/script.js"></script>
+  <script>
+    const initLoginPage = async () => {
+      // Dynamic footer year
+      const y = document.getElementById('footer-year');
+      if (y) y.textContent = new Date().getFullYear();
+
+      // Check if user was just logged out
+      const urlParams = new URLSearchParams(window.location.search);
+      const alertBox = document.getElementById('auth-alert');
+      
+      if (urlParams.get('logged_out') === '1') {
+        showAlert('You have been logged out safely. See you in the stars! ✨', 'info');
+      }
+
+      // Initialize Auth safely
+      try {
+        await window.UniverseAuth.init();
+        // If already logged in, redirect to index.html
+        await window.UniverseAuth.redirectIfAuth();
+      } catch (err) {
+        console.warn('Auth initialization notice:', err);
+      }
+
+      // Show Mode Indicator
+      const mode = window.UniverseAuth.getMode();
+      const modeIndicator = document.getElementById('auth-mode-indicator');
+      const modeText = document.getElementById('auth-mode-text');
+      if (modeIndicator && modeText) {
+        modeIndicator.style.display = 'inline-flex';
+        if (mode.isSupabase) {
+          modeText.textContent = 'Supabase Cloud Auth Active ☁️';
+        } else {
+          modeText.textContent = 'Secure Local Auth (PBKDF2) Active 🔒';
+        }
+      }
+
+      // Initialize 3D Romantic Universe Scene
+      try {
+        if (window.Universe3D && window.Universe3D.initLoginScene) {
+          window.Universe3D.initLoginScene('universe-3d-login-canvas');
+        }
+      } catch (err3d) {
+        console.warn('3D Scene note:', err3d);
+      }
+
+      // Password Toggle
+      const passInput = document.getElementById('login-password');
+      const toggleBtn = document.getElementById('btn-toggle-password');
+      const toggleIcon = document.getElementById('password-toggle-icon');
+      if (toggleBtn && passInput) {
+        toggleBtn.addEventListener('click', () => {
+          const isPassword = passInput.type === 'password';
+          passInput.type = isPassword ? 'text' : 'password';
+          toggleIcon.textContent = isPassword ? '🙈' : '👁️';
+        });
+      }
+
+      // Demo Credentials Quick Fill & Instant 1-Click Login
+      const btnDemo = document.getElementById('btn-fill-demo');
+      const emailInput = document.getElementById('login-email');
+      if (btnDemo && emailInput && passInput) {
+        btnDemo.addEventListener('click', () => {
+          emailInput.value = 'luna@ouruniverse.love';
+          passInput.value = 'CosmicLove2026!';
+          showAlert('✨ Logging into Our Little Universe...', 'info');
+          if (loginForm) {
+            if (typeof loginForm.requestSubmit === 'function') {
+              loginForm.requestSubmit();
+            } else {
+              loginForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+            }
+          }
+        });
+      }
+
+      // Handle Form Submit
+      const loginForm = document.getElementById('login-form');
+      const submitBtn = document.getElementById('btn-login-submit');
+      const btnText = submitBtn.querySelector('.btn-text');
+      const btnSpinner = submitBtn.querySelector('.btn-spinner');
+
+      function showAlert(msg, type = 'error') {
+        if (!alertBox) return;
+        alertBox.textContent = msg;
+        alertBox.className = `alert-banner alert-${type}`;
+        alertBox.style.display = 'block';
+      }
+
+      function hideAlert() {
+        if (alertBox) alertBox.style.display = 'none';
+      }
+
+      if (loginForm) {
+        loginForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          hideAlert();
+
+          const email = emailInput.value.trim();
+          const password = passInput.value;
+          const remember = document.getElementById('login-remember')?.checked;
+
+          if (!email || !password) {
+            showAlert('Please enter both your email address and password! 🌸', 'error');
+            return;
+          }
+
+          // UI Loading state
+          submitBtn.disabled = true;
+          btnText.style.display = 'none';
+          btnSpinner.style.display = 'inline';
+
+          try {
+            const result = await window.UniverseAuth.login({
+              email,
+              password,
+              rememberMe: remember
+            });
+
+            if (result.success) {
+              showAlert('✨ Welcome back! Opening your universe...', 'success');
+              const redirect = urlParams.get('redirect') ? decodeURIComponent(urlParams.get('redirect')) : 'index.html';
+              if (window.Universe3D && window.Universe3D.playLoginTransition) {
+                window.Universe3D.playLoginTransition(() => {
+                  window.location.replace(redirect);
+                });
+              } else {
+                setTimeout(() => {
+                  window.location.replace(redirect);
+                }, 600);
+              }
+            } else {
+              showAlert(result.error || 'Invalid email or password. Please try again! 💗', 'error');
+              submitBtn.disabled = false;
+              btnText.style.display = 'inline';
+              btnSpinner.style.display = 'none';
+            }
+          } catch (err) {
+            showAlert('A network error occurred. Please try again.', 'error');
+            submitBtn.disabled = false;
+            btnText.style.display = 'inline';
+            btnSpinner.style.display = 'none';
+          }
+        });
+      }
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initLoginPage);
+    } else {
+      initLoginPage();
+    }
+  </script>
+</body>
+</html>

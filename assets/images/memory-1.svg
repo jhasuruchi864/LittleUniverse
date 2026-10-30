@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="skyGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#51364F" />
+      <stop offset="50%" stop-color="#9C6B8E" />
+      <stop offset="100%" stop-color="#FFB6D5" />
+    </linearGradient>
+    <linearGradient id="glowGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFF8F2" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#FFD6E7" stop-opacity="0" />
+    </linearGradient>
+    <filter id="softGlow1" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Sky & Window -->
+  <rect width="800" height="600" fill="url(#skyGrad1)" />
+
+  <!-- Stars in Window -->
+  <circle cx="120" cy="90" r="2.5" fill="#FFF8F2" opacity="0.9" />
+  <circle cx="280" cy="70" r="3" fill="#FFF8F2" opacity="0.95" />
+  <circle cx="450" cy="110" r="2" fill="#FFF8F2" opacity="0.8" />
+  <circle cx="680" cy="85" r="3" fill="#FFF8F2" opacity="0.9" />
+  <circle cx="600" cy="140" r="2.5" fill="#FFF8F2" opacity="0.85" />
+  <circle cx="200" cy="160" r="2" fill="#FFF8F2" opacity="0.75" />
+
+  <!-- Glowing Crescent Moon -->
+  <g transform="translate(680, 70)" filter="url(#softGlow1)">
+    <path d="M 0 0 A 40 40 0 0 0 50 60 A 50 50 0 1 1 0 0 Z" fill="#FFF8F2" />
+  </g>
+
+  <!-- Fairy Light String -->
+  <path d="M 0 60 Q 200 120, 400 70 T 800 65" fill="none" stroke="#FFF8F2" stroke-width="2" opacity="0.6" />
+  <circle cx="100" cy="82" r="7" fill="#FFE29A" filter="url(#softGlow1)" />
+  <circle cx="210" cy="92" r="6" fill="#FFB6D5" filter="url(#softGlow1)" />
+  <circle cx="320" cy="80" r="7" fill="#DCD6FF" filter="url(#softGlow1)" />
+  <circle cx="450" cy="74" r="6" fill="#FFE29A" filter="url(#softGlow1)" />
+  <circle cx="580" cy="72" r="7" fill="#FFB6D5" filter="url(#softGlow1)" />
+  <circle cx="700" cy="67" r="6" fill="#DCD6FF" filter="url(#softGlow1)" />
+
+  <!-- Cafe Window Frame Sill -->
+  <rect x="0" y="380" width="800" height="220" fill="#3A2338" />
+  <rect x="0" y="370" width="800" height="20" fill="#4E314C" rx="4" />
+
+  <!-- Warm Table Glow -->
+  <ellipse cx="400" cy="460" rx="340" ry="120" fill="url(#glowGrad1)" opacity="0.3" />
+
+  <!-- Coffee Mug 1 (Blush Pink) -->
+  <g transform="translate(320, 360)">
+    <rect x="0" y="20" width="75" height="90" rx="14" fill="#FFB6D5" />
+    <path d="M 75 40 C 95 40, 95 75, 75 75" fill="none" stroke="#FFB6D5" stroke-width="12" stroke-linecap="round" />
+    <!-- Heart on mug -->
+    <path d="M 37.5 55 C 37.5 50, 30 45, 25 52 C 20 60, 37.5 75, 37.5 75 C 37.5 75, 55 60, 50 52 C 45 45, 37.5 50, 37.5 55 Z" fill="#FF5C8A" />
+    <!-- Steam with tiny heart -->
+    <path d="M 30 10 Q 38 -5, 25 -20" fill="none" stroke="#FFF8F2" stroke-width="3" stroke-linecap="round" opacity="0.75" />
+    <path d="M 45 15 Q 52 0, 42 -15" fill="none" stroke="#FFF8F2" stroke-width="3" stroke-linecap="round" opacity="0.75" />
+    <path d="M 36 -30 C 36 -33, 31 -36, 28 -32 C 25 -27, 36 -18, 36 -18 C 36 -18, 47 -27, 44 -32 C 41 -36, 36 -33, 36 -30 Z" fill="#FFB6D5" opacity="0.8" />
+  </g>
+
+  <!-- Coffee Mug 2 (Lavender) -->
+  <g transform="translate(425, 375)">
+    <rect x="0" y="20" width="70" height="80" rx="12" fill="#DCD6FF" />
+    <path d="M -5 35 C -22 35, -22 65, -5 65" fill="none" stroke="#DCD6FF" stroke-width="10" stroke-linecap="round" />
+    <!-- Smile on mug -->
+    <path d="M 22 55 Q 35 68, 48 55" fill="none" stroke="#51364F" stroke-width="3.5" stroke-linecap="round" />
+    <!-- Steam -->
+    <path d="M 35 10 Q 42 -5, 32 -20" fill="none" stroke="#FFF8F2" stroke-width="3" stroke-linecap="round" opacity="0.75" />
+    <circle cx="35" cy="-28" r="4" fill="#FFD6E7" />
+  </g>
+
+  <!-- Cute Pastry Plate with Croissant & Strawberry -->
+  <ellipse cx="210" cy="460" rx="70" ry="25" fill="#FFF8F2" opacity="0.9" />
+  <path d="M 175 455 Q 210 435, 245 455 Q 210 475, 175 455 Z" fill="#E8B574" />
+  <circle cx="210" cy="446" r="8" fill="#FF5C8A" />
+
+  <!-- Scattered Sparkles and Petals -->
+  <polygon points="560,420 564,428 572,430 564,434 560,442 556,434 548,430 556,428" fill="#FFF8F2" opacity="0.85" />
+  <polygon points="260,340 263,346 270,348 263,351 260,357 257,351 250,348 257,346" fill="#FFE29A" opacity="0.9" />
+  <ellipse cx="580" cy="460" rx="12" ry="7" fill="#FFB6D5" transform="rotate(25 580 460)" opacity="0.85" />
+  <ellipse cx="610" cy="470" rx="10" ry="6" fill="#FFB6D5" transform="rotate(-15 610 470)" opacity="0.7" />
+
+  <!-- Romantic Text Overlay subtle -->
+  <text x="400" y="560" font-family="'Caveat', cursive, sans-serif" font-size="28" fill="#FFD6E7" text-anchor="middle" letter-spacing="2">Warm cocoa &amp; cozy whispers ☕</text>
+</svg>

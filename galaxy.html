@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Galaxy 🌌 | Our Little Universe</title>
+  <meta name="description" content="An interactive 3D starry galaxy where every shining star represents a cherished memory of love.">
+
+  <!-- Romantic Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;700;800&family=Sacramento&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    /* Prevent flash of protected content before authentication confirmation */
+    html:not(.auth-verified) body {
+      display: none !important;
+    }
+  </style>
+  <script>
+    (function() {
+      try {
+        const token = localStorage.getItem('universe_session_token');
+        const cached = localStorage.getItem('universe_cached_user');
+        const hasCookie = document.cookie.indexOf('universe_session=') !== -1;
+        if (token || cached || hasCookie) {
+          document.documentElement.classList.add('auth-verified');
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="page-galaxy">
+
+  <!-- Site Navigation -->
+  <header class="site-header" id="site-header">
+    <nav class="nav-container" aria-label="Main Navigation">
+      <a href="index.html" class="nav-logo" aria-label="Our Little Universe Home">
+        <span class="logo-heart">💗</span>
+        <span class="logo-text">Our Universe</span>
+      </a>
+
+      <!-- Hamburger Toggle for Mobile -->
+      <button class="nav-toggle-btn" id="nav-toggle-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links-menu">
+        <div class="hamburger-icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </button>
+
+      <!-- Nav Links -->
+      <ul class="nav-links" id="nav-links-menu">
+        <li><a href="index.html" class="nav-link"><span>🏡</span> Home</a></li>
+        <li><a href="shared.html" class="nav-link"><span>👩‍❤️‍👨</span> Shared Space</a></li>
+        <li><a href="room.html" class="nav-link"><span>🧸</span> 3D Room</a></li>
+        <li><a href="galaxy.html" class="nav-link active"><span>🌌</span> Galaxy</a></li>
+        <li><a href="diary.html" class="nav-link"><span>💌</span> Diary &amp; Letters</a></li>
+        <li><a href="games.html" class="nav-link"><span>🎲</span> Games</a></li>
+        <li><a href="timeline.html" class="nav-link"><span>⏳</span> Timeline</a></li>
+        <li><a href="studio.html" class="nav-link"><span>📸</span> Studio</a></li>
+        <li><a href="vault.html" class="nav-link"><span>🔐</span> Vault</a></li>
+        <li><a href="analyzer.html" class="nav-link"><span>🔮</span> Insights</a></li>
+        <li class="nav-account-item">
+          <div class="user-account-pill">
+            <span class="user-avatar" aria-hidden="true">🌸</span>
+            <span class="user-display-name" id="user-display-name">Soulmate</span>
+            <button type="button" class="btn-logout" id="btn-logout" aria-label="Log Out">
+              <span>Logout</span> 🚪
+            </button>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="galaxy-main-container">
+
+    <div class="glass-card galaxy-header-card">
+      <div class="galaxy-title-wrap">
+        <div class="hero-badge">
+          <span>✨</span> Constellations of Love <span>✨</span>
+        </div>
+        <h1 class="cursive-title galaxy-title">The Cosmic Memory Galaxy <span class="sparkle-word">🌌</span></h1>
+        <p class="galaxy-subtitle">
+          Every twinkling star represents a cherished moment in our story. Click any star to reveal its memory.
+        </p>
+      </div>
+
+      <!-- Galaxy Mode Tabs: Personal vs Shared -->
+      <div class="galaxy-controls-bar">
+        <div class="galaxy-mode-pills">
+          <button type="button" class="galaxy-mode-pill active" id="btn-personal-galaxy">
+            <span>🌸</span> My Personal Galaxy
+          </button>
+          <button type="button" class="galaxy-mode-pill" id="btn-shared-galaxy">
+            <span>💕</span> Our Shared Galaxy
+          </button>
+        </div>
+
+        <button type="button" class="btn btn-secondary btn-sm" id="btn-toggle-2d-mode">
+          <span>📋</span> Switch to 2D List
+        </button>
+      </div>
+    </div>
+
+    <!-- 3D Galaxy Canvas Viewport -->
+    <div class="galaxy-viewport-box" id="galaxy-viewport-box">
+      <canvas id="galaxy-3d-canvas" class="galaxy-3d-canvas" aria-label="3D Memory Galaxy"></canvas>
+      
+      <!-- Interactive hint bubble -->
+      <div class="galaxy-hint-pill">
+        <span>✨</span> Drag to rotate galaxy &bull; Click stars to open memories
+      </div>
+    </div>
+
+    <!-- 2D Memory Grid Fallback / Accessible View -->
+    <div class="galaxy-2d-list-view" id="galaxy-2d-view" style="display: none;">
+      <div class="shelf-header">
+        <h2 class="shelf-title"><span>🌟</span> Memory Star Catalog</h2>
+        <span class="shelf-count" id="star-count-text">6 Stars</span>
+      </div>
+      <div class="vault-polaroid-grid" id="galaxy-stars-grid">
+        <!-- Dynamically rendered star memory cards -->
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- 2. OUR LITTLE WORLD GALAXY 💗 (NEW SECTION)    -->
+    <!-- ============================================== -->
+    <section class="our-world-section" id="section-our-world">
+      <!-- Section Divider -->
+      <div class="our-world-divider" aria-hidden="true">
+        <span class="divider-line"></span>
+        <span class="divider-badge">🪐 Our Little World Universe 💗</span>
+        <span class="divider-line"></span>
+      </div>
+
+      <!-- Our Little World Header -->
+      <div class="glass-card our-world-header-card text-center">
+        <div class="hero-badge our-world-badge">
+          <span>🪐</span> Dreamy 3D Universe <span>💗</span>
+        </div>
+        <h2 class="cursive-title our-world-title">Our Little World Galaxy <span class="sparkle-word">💗</span></h2>
+        <p class="our-world-subtitle">
+          A magical corner in the cosmos created just for the two of us. Explore our 6 celestial interactive worlds, discover our shared memories, and visit Dudu &amp; Budu on our central home planet.
+        </p>
+
+        <!-- Quick Planet Filter / Selector Tabs -->
+        <div class="our-world-planet-pills" id="our-world-planet-pills" role="tablist" aria-label="Celestial Planets">
+          <button type="button" class="planet-pill-btn active" data-planet-id="all">
+            <span>🌌</span> Full Orbit
+          </button>
+          <button type="button" class="planet-pill-btn" data-planet-id="memories">
+            <span>🌸</span> Our Memories
+          </button>
+          <button type="button" class="planet-pill-btn" data-planet-id="letters">
+            <span>💌</span> Love Letters
+          </button>
+          <button type="button" class="planet-pill-btn" data-planet-id="special_days">
+            <span>🎂</span> Special Days
+          </button>
+          <button type="button" class="planet-pill-btn" data-planet-id="dreams">
+            <span>✨</span> Our Dreams
+          </button>
+          <button type="button" class="planet-pill-btn" data-planet-id="moments">
+            <span>💗</span> Our Moments
+          </button>
+          <button type="button" class="planet-pill-btn" data-planet-id="secret_world">
+            <span>🔐</span> Secret World
+          </button>
+        </div>
+      </div>
+
+      <!-- 3D Interactive Viewport -->
+      <div class="our-world-viewport-box" id="our-world-viewport-box">
+        <canvas id="our-world-3d-canvas" class="our-world-3d-canvas" aria-label="Our Little World 3D Canvas"></canvas>
+
+        <!-- HUD Controls Strip -->
+        <div class="our-world-hud-top">
+          <div class="hud-stat-pill">
+            <span class="hud-status-dot"></span>
+            <span id="hud-planet-status-text">🪐 6 Interactive Planets &bull; Central Home World</span>
+          </div>
+          <div class="hud-controls-group">
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-world-reset-orbit" title="Reset Camera to Overview">
+              <span>🔄 Reset Orbit</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Floating Planet Inspection Drawer / Card -->
+        <div class="world-planet-card glass-card" id="world-planet-card" style="display: none;">
+          <button type="button" class="btn-planet-card-close" id="btn-close-planet-card" aria-label="Close Planet Card">&times;</button>
+          <div class="planet-card-header">
+            <div class="planet-card-icon" id="planet-card-icon">🌸</div>
+            <div class="planet-card-titles">
+              <span class="planet-card-type" id="planet-card-type">Interactive Celestial World</span>
+              <h3 class="planet-card-title" id="planet-card-title">Our Memories</h3>
+            </div>
+          </div>
+          <p class="planet-card-desc" id="planet-card-desc">
+            Revisit all the cherished polaroids, sweet snapshots, and scrapbook moments that make our story timeless.
+          </p>
+          <div class="planet-card-meta-row">
+            <span class="planet-stat-chip" id="planet-card-stat">📸 6 Moments Recorded</span>
+            <span class="planet-status-chip" id="planet-card-status">✨ Connected</span>
+          </div>
+          <div class="planet-card-actions">
+            <a href="index.html#memories-gallery" class="btn btn-primary btn-sm" id="btn-planet-explore">
+              <span>🚀 Explore Planet</span>
+            </a>
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-planet-focus">
+              <span>🔭 Focus Camera</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Interactive Hint Pill -->
+        <div class="our-world-hint-pill">
+          <span>✨</span> Drag to orbit &bull; Scroll to zoom &bull; Click any glowing planet or Dudu &amp; Budu to explore
+        </div>
+      </div>
+
+      <!-- Interactive Companion Cards Grid -->
+      <div class="our-world-cards-grid">
+        <!-- 1. Our Memories -->
+        <div class="glass-card our-world-planet-item" data-planet-key="memories">
+          <div class="world-item-icon">🌸</div>
+          <div class="world-item-body">
+            <h4>Our Memories</h4>
+            <p>Every polaroid, sweet laugh, and timeless adventure we've shared together.</p>
+            <span class="world-item-count" id="count-memories">6 Scrapbook Memories</span>
+          </div>
+          <a href="index.html#memories-gallery" class="btn btn-secondary btn-sm world-item-btn">
+            <span>Explore ➔</span>
+          </a>
+        </div>
+
+        <!-- 2. Love Letters -->
+        <div class="glass-card our-world-planet-item" data-planet-key="letters">
+          <div class="world-item-icon">💌</div>
+          <div class="world-item-body">
+            <h4>Love Letters</h4>
+            <p>Secret notes, sealed wax envelopes, and open-when letters written with love.</p>
+            <span class="world-item-count" id="count-letters">4 Love Letters Ready</span>
+          </div>
+          <a href="diary.html" class="btn btn-secondary btn-sm world-item-btn">
+            <span>Read ➔</span>
+          </a>
+        </div>
+
+        <!-- 3. Special Days -->
+        <div class="glass-card our-world-planet-item" data-planet-key="special_days">
+          <div class="world-item-icon">🎂</div>
+          <div class="world-item-body">
+            <h4>Special Days</h4>
+            <p>Our magical anniversary, first date, milestone timeline, and upcoming celebrations.</p>
+            <span class="world-item-count" id="count-days">Our Love Timeline</span>
+          </div>
+          <a href="timeline.html" class="btn btn-secondary btn-sm world-item-btn">
+            <span>View ➔</span>
+          </a>
+        </div>
+
+        <!-- 4. Our Dreams -->
+        <div class="glass-card our-world-planet-item" data-planet-key="dreams">
+          <div class="world-item-icon">✨</div>
+          <div class="world-item-body">
+            <h4>Our Dreams</h4>
+            <p>Spin-the-wheel date ideas, romantic couple games, and wishes we hold dear.</p>
+            <span class="world-item-count" id="count-dreams">Couple Games &amp; Dates</span>
+          </div>
+          <a href="games.html" class="btn btn-secondary btn-sm world-item-btn">
+            <span>Play ➔</span>
+          </a>
+        </div>
+
+        <!-- 5. Our Moments -->
+        <div class="glass-card our-world-planet-item" data-planet-key="moments">
+          <div class="world-item-icon">💗</div>
+          <div class="world-item-body">
+            <h4>Our Moments</h4>
+            <p>Cozy 3D sanctuary with ambient music, fireplace warmth, and custom room themes.</p>
+            <span class="world-item-count" id="count-moments">3D Love Room</span>
+          </div>
+          <a href="room.html" class="btn btn-secondary btn-sm world-item-btn">
+            <span>Enter ➔</span>
+          </a>
+        </div>
+
+        <!-- 6. Secret World -->
+        <div class="glass-card our-world-planet-item" data-planet-key="secret_world">
+          <div class="world-item-icon">🔐</div>
+          <div class="world-item-body">
+            <h4>Secret World</h4>
+            <p>PIN-protected private vault guarding our most intimate polaroids and memories.</p>
+            <span class="world-item-count" id="count-vault">Private Love Vault</span>
+          </div>
+          <a href="vault.html" class="btn btn-secondary btn-sm world-item-btn">
+            <span>Unlock ➔</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Memory Star Modal -->
+  <div class="modal-overlay" id="star-memory-modal" role="dialog" aria-modal="true" aria-labelledby="star-memory-title" style="display: none;">
+    <div class="modal-card glass-card viewer-modal-card">
+      <div class="modal-header">
+        <h3 id="star-memory-title"><span>🌟</span> Memory Star</h3>
+        <button type="button" class="modal-close-btn" id="btn-close-star-modal" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="modal-body viewer-body">
+        <div class="viewer-image-frame" style="background: linear-gradient(135deg, #180b30, #3d1c5e); display: flex; align-items: center; justify-content: center;">
+          <img id="star-memory-img" alt="Memory Star Photo" style="max-height: 100%; object-fit: contain;">
+        </div>
+        <div class="viewer-details-pane">
+          <div>
+            <div class="viewer-meta-row">
+              <span class="viewer-tag tag-style" id="star-tag-constellation">Heart Constellation</span>
+              <span class="viewer-date" id="star-date-text">Oct 28, 2026</span>
+            </div>
+            <p class="viewer-caption" id="star-note-text">
+              The night we gazed up at the twinkling sky and whispered our secret wishes together.
+            </p>
+          </div>
+          <div class="viewer-actions-row">
+            <button type="button" class="btn btn-primary" id="btn-close-star-action">
+              <span>✨ Back to Galaxy</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Real Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <a href="index.html" class="footer-brand-logo" aria-label="Our Little Universe Home">
+            <span class="footer-brand-heart">💗</span>
+            <span class="footer-brand-name">Our Little Universe</span>
+          </a>
+          <p class="footer-brand-desc">
+            A romantic digital sanctuary for celebrating love, capturing memories, and creating sweet fairy tale moments together.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title"><span>✨</span> Experiences</h4>
+          <ul class="footer-links-list">
+            <li><a href="shared.html">Shared Space</a></li>
+            <li><a href="room.html">3D Love Room</a></li>
+            <li><a href="galaxy.html">Personal Galaxy</a></li>
+            <li><a href="diary.html">Diary &amp; Letters</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title"><span>🛡️</span> Privacy &amp; Trust</h4>
+          <ul class="footer-links-list">
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Use</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">
+          &copy; 2026 Our Little Universe 💗 &bull; Made with endless love, starlight, and sweet dreams.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/three.min.js"></script>
+  <script>
+    if (typeof THREE === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+    }
+  </script>
+  <script src="js/auth.js"></script>
+  <script src="js/universe-3d.js"></script>
+  <script src="js/galaxy.js"></script>
+  <script>
+    if (window.UniverseAuth) {
+      window.UniverseAuth.requireAuth();
+    }
+  </script>
+</body>
+</html>

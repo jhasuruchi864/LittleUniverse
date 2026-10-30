@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Shared Space 💕 | Our Little Universe</title>
+  <meta name="description" content="A private shared digital universe for two lovers to connect, decorate a 3D love room, write letters, and track milestones.">
+
+  <!-- Romantic Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;700;800&family=Sacramento&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    /* Prevent flash of protected content before authentication confirmation */
+    html:not(.auth-verified) body {
+      display: none !important;
+    }
+  </style>
+  <script>
+    (function() {
+      try {
+        const token = localStorage.getItem('universe_session_token');
+        const cached = localStorage.getItem('universe_cached_user');
+        const hasCookie = document.cookie.indexOf('universe_session=') !== -1;
+        if (token || cached || hasCookie) {
+          document.documentElement.classList.add('auth-verified');
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="page-shared">
+
+  <!-- 3D Canvas Background -->
+  <canvas id="universe-bg-canvas" aria-hidden="true"></canvas>
+
+  <!-- Site Navigation -->
+  <header class="site-header" id="site-header">
+    <nav class="nav-container" aria-label="Main Navigation">
+      <a href="index.html" class="nav-logo" aria-label="Our Little Universe Home">
+        <span class="logo-heart">💗</span>
+        <span class="logo-text">Our Universe</span>
+      </a>
+
+      <!-- Hamburger Toggle for Mobile -->
+      <button class="nav-toggle-btn" id="nav-toggle-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links-menu">
+        <div class="hamburger-icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </button>
+
+      <!-- Nav Links -->
+      <ul class="nav-links" id="nav-links-menu">
+        <li><a href="index.html" class="nav-link"><span>🏡</span> Home</a></li>
+        <li><a href="shared.html" class="nav-link active"><span>👩‍❤️‍👨</span> Shared Space</a></li>
+        <li><a href="room.html" class="nav-link"><span>🧸</span> 3D Room</a></li>
+        <li><a href="galaxy.html" class="nav-link"><span>🌌</span> Galaxy</a></li>
+        <li><a href="diary.html" class="nav-link"><span>💌</span> Diary &amp; Letters</a></li>
+        <li><a href="games.html" class="nav-link"><span>🎲</span> Games</a></li>
+        <li><a href="timeline.html" class="nav-link"><span>⏳</span> Timeline</a></li>
+        <li><a href="studio.html" class="nav-link"><span>📸</span> Studio</a></li>
+        <li><a href="vault.html" class="nav-link"><span>🔐</span> Vault</a></li>
+        <li><a href="analyzer.html" class="nav-link"><span>🔮</span> Insights</a></li>
+        <li class="nav-account-item">
+          <div class="user-account-pill">
+            <span class="user-avatar" aria-hidden="true">🌸</span>
+            <span class="user-display-name" id="user-display-name">Soulmate</span>
+            <button type="button" class="btn-logout" id="btn-logout" aria-label="Log Out">
+              <span>Logout</span> 🚪
+            </button>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="studio-main-container">
+
+    <!-- ============================================== -->
+    <!-- 1. UNLINKED STATE: INVITATION & REDEEM SECTION -->
+    <!-- ============================================== -->
+    <section class="couple-unlinked-screen" id="couple-unlinked-view" style="display: none;">
+      <div class="glass-card invite-card text-center">
+        <div class="hero-badge">
+          <span>💌</span> Connect with Your Partner <span>💌</span>
+        </div>
+        <h1 class="cursive-title studio-page-title">
+          Link Your <span class="sparkle-word">Shared Universe</span> 💕
+        </h1>
+        <p class="studio-page-subtitle">
+          Connect your account with your special someone to unlock your shared 3D room, couple letters, games, and joint memories.
+        </p>
+
+        <!-- Generate Partner Invite -->
+        <div class="invite-action-box">
+          <h3><span>✨</span> Step 1: Send a Romantic Invite</h3>
+          <p class="invite-desc">Generate a secure, single-use 24-hour invitation link for your partner.</p>
+          <button type="button" class="btn btn-primary" id="btn-generate-invite">
+            <span>💌 Generate Partner Invite Link</span>
+          </button>
+
+          <div class="generated-invite-box" id="generated-invite-box" style="display: none; margin-top: 1.2rem;">
+            <label for="invite-link-input" style="font-weight: 700; color: var(--color-plum);">Your Special Invite Link:</label>
+            <div class="copy-input-row">
+              <input type="text" id="invite-link-input" class="studio-input" readonly>
+              <button type="button" class="btn btn-secondary" id="btn-copy-invite">Copy Link</button>
+            </div>
+            <p class="invite-expiry-note" id="invite-expiry-text">Expires in 24 hours &bull; Single-use security</p>
+          </div>
+        </div>
+
+        <div class="invite-divider">
+          <span>&mdash; OR &mdash;</span>
+        </div>
+
+        <!-- Accept Partner Invite Code -->
+        <div class="redeem-action-box">
+          <h3><span>🌹</span> Step 2: Have an Invite Code?</h3>
+          <p class="invite-desc">Paste the invite code or link your partner sent you.</p>
+          <div class="copy-input-row" style="max-width: 480px; margin: 0 auto;">
+            <input type="text" id="input-invite-code" class="studio-input" placeholder="e.g. cupid_a1b2c3d4..." aria-label="Enter invite code">
+            <button type="button" class="btn btn-primary" id="btn-redeem-invite">Accept &amp; Link 💖</button>
+          </div>
+          <div class="status-msg" id="redeem-status-msg" style="margin-top: 0.8rem;"></div>
+        </div>
+
+        <div class="vault-security-guarantee">
+          <span>🛡️</span> Both partners retain full ownership of private accounts. Personal content is never shared automatically.
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- 2. LINKED STATE: SHARED COUPLE DASHBOARD      -->
+    <!-- ============================================== -->
+    <section class="couple-linked-screen" id="couple-linked-view" style="display: none;">
+      
+      <!-- Couple Profile Header -->
+      <div class="glass-card couple-dashboard-header">
+        <div class="couple-avatars-cluster">
+          <div class="avatar-ring user1-ring">
+            <span class="avatar-emoji">🌸</span>
+            <span class="avatar-name" id="couple-user1-name">Luna</span>
+          </div>
+          <div class="avatars-heart-connect">💗</div>
+          <div class="avatar-ring user2-ring">
+            <span class="avatar-emoji">🧸</span>
+            <span class="avatar-name" id="couple-user2-name">Oliver</span>
+          </div>
+        </div>
+
+        <div class="couple-names-wrap">
+          <h1 class="cursive-title couple-title" id="couple-nicknames-title">Luna &amp; Oliver's Universe</h1>
+          <p class="couple-anniversary-subtitle" id="couple-anniversary-text">
+            <span>📅</span> Anniversary: Set your special date
+          </p>
+        </div>
+
+        <div class="couple-header-actions">
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-edit-couple-profile">
+            <span>✏️ Edit Profile</span>
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm btn-danger-soft" id="btn-unlink-partner">
+            <span>💔 Unlink Partner</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Action Cards Grid for Shared Features -->
+      <div class="shared-features-grid">
+        <!-- 1. 3D Love Room -->
+        <a href="room.html" class="glass-card feature-nav-card">
+          <div class="feature-card-icon">🧸</div>
+          <h3>Our 3D Love Room</h3>
+          <p>Decorate our cozy virtual room, hug, dance, and customize our pastel dream space together.</p>
+          <span class="feature-link-badge">Enter 3D Room &rarr;</span>
+        </a>
+
+        <!-- 2. Personal & Shared Galaxy -->
+        <a href="galaxy.html" class="glass-card feature-nav-card">
+          <div class="feature-card-icon">🌌</div>
+          <h3>Personal Galaxy</h3>
+          <p>Explore floating memory constellations where every star represents a precious moment.</p>
+          <span class="feature-link-badge">View Galaxy &rarr;</span>
+        </a>
+
+        <!-- 3. Secret Diary & Letters -->
+        <a href="diary.html" class="glass-card feature-nav-card">
+          <div class="feature-card-icon">💌</div>
+          <h3>Diary &amp; Open-When Letters</h3>
+          <p>Write private and shared thoughts, and leave sealed romantic letters to be opened on special days.</p>
+          <span class="feature-link-badge">Open Diary &rarr;</span>
+        </a>
+
+        <!-- 4. Couple Games -->
+        <a href="games.html" class="glass-card feature-nav-card">
+          <div class="feature-card-icon">🎲</div>
+          <h3>Couple Games</h3>
+          <p>Play Who Knows Whom Better, romantic Truth or Dare, daily challenges, and spin the date wheel!</p>
+          <span class="feature-link-badge">Play Games &rarr;</span>
+        </a>
+
+        <!-- 5. Love Timeline -->
+        <a href="timeline.html" class="glass-card feature-nav-card">
+          <div class="feature-card-icon">⏳</div>
+          <h3>Love Timeline</h3>
+          <p>Chronicle every milestone from the day you first met to upcoming romantic anniversaries.</p>
+          <span class="feature-link-badge">See Timeline &rarr;</span>
+        </a>
+
+        <!-- 6. Couple Studio & Vault -->
+        <a href="studio.html" class="glass-card feature-nav-card">
+          <div class="feature-card-icon">📸</div>
+          <h3>Couple Studio &amp; Vault</h3>
+          <p>Create cute chibi AI artworks together and organize your favorites safely in the Love Vault.</p>
+          <span class="feature-link-badge">Open Studio &rarr;</span>
+        </a>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- 3. COMPACT RELATIONSHIP ANALYZER & INSIGHTS   -->
+      <!-- ============================================== -->
+      <div class="glass-card relationship-analyzer-card" id="relationship-analyzer-card">
+        <div class="analyzer-header">
+          <div class="analyzer-title-group">
+            <span class="analyzer-badge"><span>📊</span> Couple Insights &amp; Analytics</span>
+            <h3 class="analyzer-title">Relationship Rhythm &amp; Chemistry</h3>
+          </div>
+          <div class="analyzer-avatars-small">
+            <span class="partner-avatar-small" title="Luna">🌸</span>
+            <span class="partner-connect-heart">💕</span>
+            <span class="partner-avatar-small" title="Partner">🧸</span>
+          </div>
+        </div>
+
+        <!-- Compact Stats Cards Grid -->
+        <div class="analyzer-stats-grid">
+          <div class="analyzer-stat-pill">
+            <span class="stat-icon">📅</span>
+            <div class="stat-content">
+              <span class="stat-value" id="stat-active-days">142 Days</span>
+              <span class="stat-label">Active Journey</span>
+            </div>
+          </div>
+          <div class="analyzer-stat-pill">
+            <span class="stat-icon">💌</span>
+            <div class="stat-content">
+              <span class="stat-value" id="stat-message-count">56 Notes</span>
+              <span class="stat-label">Letters &amp; Diaries</span>
+            </div>
+          </div>
+          <div class="analyzer-stat-pill">
+            <span class="stat-icon">⚡</span>
+            <div class="stat-content">
+              <span class="stat-value" id="stat-response-time">~12 Mins</span>
+              <span class="stat-label">Sweet Response Time</span>
+            </div>
+          </div>
+          <div class="analyzer-stat-pill">
+            <span class="stat-icon">💖</span>
+            <div class="stat-content">
+              <span class="stat-value" id="stat-chemistry-score">99.4%</span>
+              <span class="stat-label">Connection Harmony</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Short Insight Summary -->
+        <div class="analyzer-insight-summary">
+          <span class="insight-sparkle">✨</span>
+          <p class="insight-text">
+            <strong>Weekly Insight:</strong> You two communicate most warmly during relaxed evening hours. Your letters show high affection and shared playfulness.
+          </p>
+        </div>
+
+        <!-- Expandable Details Section -->
+        <details class="analyzer-details-toggle">
+          <summary class="analyzer-details-summary">
+            <span>📈 View Detailed Dimension Analysis &amp; Small Charts</span>
+            <span class="toggle-arrow">▾</span>
+          </summary>
+          <div class="analyzer-expanded-content">
+            <div class="mini-chart-row">
+              <div class="mini-chart-bar-item">
+                <div class="bar-label-row">
+                  <span>Affection &amp; Warmth</span>
+                  <strong>98%</strong>
+                </div>
+                <div class="mini-progress-track">
+                  <div class="mini-progress-fill" style="width: 98%;"></div>
+                </div>
+              </div>
+              <div class="mini-chart-bar-item">
+                <div class="bar-label-row">
+                  <span>Shared Quality Time</span>
+                  <strong>94%</strong>
+                </div>
+                <div class="mini-progress-track">
+                  <div class="mini-progress-fill" style="width: 94%;"></div>
+                </div>
+              </div>
+              <div class="mini-chart-bar-item">
+                <div class="bar-label-row">
+                  <span>Playful Interaction</span>
+                  <strong>96%</strong>
+                </div>
+                <div class="mini-progress-track">
+                  <div class="mini-progress-fill" style="width: 96%;"></div>
+                </div>
+              </div>
+              <div class="mini-chart-bar-item">
+                <div class="bar-label-row">
+                  <span>Milestone Consistency</span>
+                  <strong>91%</strong>
+                </div>
+                <div class="mini-progress-track">
+                  <div class="mini-progress-fill" style="width: 91%;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="analyzer-privacy-note">
+              <span>🔒 Privacy &amp; Consent:</span> Relationship insights are computed purely on your joint activity statistics. Personal diary text is strictly private and never analyzed by external third parties.
+            </div>
+          </div>
+        </details>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Edit Couple Profile Modal -->
+  <div class="modal-overlay" id="edit-couple-modal" role="dialog" aria-modal="true" aria-labelledby="edit-couple-title" style="display: none;">
+    <div class="modal-card glass-card">
+      <div class="modal-header">
+        <h3 id="edit-couple-title"><span>💖</span> Edit Couple Space</h3>
+        <button type="button" class="modal-close-btn" id="btn-close-couple-modal" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="input-couple-nicknames">Couple Nicknames:</label>
+          <input type="text" id="input-couple-nicknames" class="studio-input" placeholder="e.g. Luna &amp; Oliver 💕">
+        </div>
+        <div class="form-group">
+          <label for="input-couple-anniversary">Anniversary Date:</label>
+          <input type="date" id="input-couple-anniversary" class="studio-input">
+        </div>
+        <div class="modal-status" id="couple-modal-status"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btn-cancel-couple-edit">Cancel</button>
+        <button type="button" class="btn btn-primary" id="btn-save-couple-edit">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Real Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <a href="index.html" class="footer-brand-logo" aria-label="Our Little Universe Home">
+            <span class="footer-brand-heart">💗</span>
+            <span class="footer-brand-name">Our Little Universe</span>
+          </a>
+          <p class="footer-brand-desc">
+            A romantic digital sanctuary for celebrating love, capturing memories, and creating sweet fairy tale moments together.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title"><span>✨</span> Experiences</h4>
+          <ul class="footer-links-list">
+            <li><a href="shared.html">Shared Space</a></li>
+            <li><a href="room.html">3D Love Room</a></li>
+            <li><a href="galaxy.html">Personal Galaxy</a></li>
+            <li><a href="diary.html">Diary &amp; Letters</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title"><span>🛡️</span> Privacy &amp; Trust</h4>
+          <ul class="footer-links-list">
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Use</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">
+          &copy; 2026 Our Little Universe 💗 &bull; Made with endless love, starlight, and sweet dreams.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/three.min.js"></script>
+  <script>
+    if (typeof THREE === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+    }
+  </script>
+  <script src="js/auth.js"></script>
+  <script src="js/universe-3d.js"></script>
+  <script src="js/shared.js"></script>
+  <script>
+    if (window.UniverseAuth) {
+      window.UniverseAuth.requireAuth();
+    }
+  </script>
+</body>
+</html>

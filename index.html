@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Little Universe 💗 | A Dreamy, Cute &amp; Romantic Web Space</title>
+  <meta name="description" content="A tiny magical world full of pastel colors, floating hearts, cute surprises, scrapbooked memories, sweet love letters, and romantic interactions.">
+  <meta name="theme-color" content="#FFD6E7">
+  
+  <!-- Favicon Heart SVG -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💗</text></svg>">
+  
+  <!-- Google Fonts Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Nunito:wght@400;600;700;800&family=Sacramento&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Three.js 3D WebGL Library -->
+  <script src="js/three.min.js"></script>
+  <script>
+    if (typeof THREE === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+    }
+  </script>
+  <!-- 3D Romantic Universe Engine -->
+  <script src="js/universe-3d.js"></script>
+
+  <!-- Supabase Official JS SDK via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Client Auth Manager -->
+  <script src="js/auth.js"></script>
+
+  <!-- Immediate Client-Side Auth Guard -->
+  <script>
+    // Fast-path unlock: If valid session exists in localStorage or cookies, immediately make page visible
+    const hasExistingSession = Boolean(
+      localStorage.getItem('universe_session_token') ||
+      localStorage.getItem('universe_cached_user') ||
+      (document.cookie && document.cookie.includes('universe_session='))
+    );
+    if (hasExistingSession) {
+      document.documentElement.classList.add('auth-verified');
+    }
+
+    (async () => {
+      try {
+        if (window.UniverseAuth) {
+          await window.UniverseAuth.init();
+          const user = await window.UniverseAuth.requireAuth();
+          if (user) {
+            document.documentElement.classList.add('auth-verified');
+          }
+        }
+      } catch (e) {
+        if (!hasExistingSession) {
+          window.location.replace('login.html');
+        }
+      }
+    })();
+  </script>
+  <style>
+    /* Prevent flash of protected content before authentication confirmation */
+    html:not(.auth-verified) body {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Canvas Background (Stars, Hearts, Butterflies) -->
+  <canvas id="universe-bg-canvas" aria-hidden="true"></canvas>
+
+  <!-- Cute Navigation Bar -->
+  <header class="site-header" id="site-header">
+    <nav class="nav-container" aria-label="Main Navigation">
+      <a href="#hero" class="nav-logo" aria-label="Our Little Universe Home">
+        <span class="logo-heart">💗</span>
+        <span class="logo-text">Our Universe</span>
+      </a>
+
+      <!-- Hamburger Toggle for Mobile -->
+      <button class="nav-toggle-btn" id="nav-toggle-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links-menu">
+        <div class="hamburger-icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </button>
+
+      <!-- Nav Links -->
+      <ul class="nav-links" id="nav-links-menu">
+        <li><a href="#hero" class="nav-link active"><span>🏡</span> Home</a></li>
+        <li><a href="shared.html" class="nav-link"><span>💑</span> Shared Space</a></li>
+        <li><a href="room.html" class="nav-link"><span>🏰</span> 3D Room</a></li>
+        <li><a href="galaxy.html" class="nav-link"><span>🌌</span> Galaxy</a></li>
+        <li><a href="diary.html" class="nav-link"><span>📖</span> Diary</a></li>
+        <li><a href="games.html" class="nav-link"><span>🎲</span> Games</a></li>
+        <li><a href="timeline.html" class="nav-link"><span>⏳</span> Timeline</a></li>
+        <li><a href="studio.html" class="nav-link"><span>📸</span> Studio</a></li>
+        <li><a href="vault.html" class="nav-link"><span>🔐</span> Vault</a></li>
+        <li><a href="analyzer.html" class="nav-link"><span>🔮</span> Insights</a></li>
+
+        <!-- Dropdown for On-Page Romantic Chapters -->
+        <li class="nav-dropdown">
+          <button type="button" class="nav-link nav-dropdown-btn" id="nav-chapters-btn" aria-haspopup="true" aria-expanded="false">
+            <span>✨</span> Chapters <span class="dropdown-chevron">▾</span>
+          </button>
+          <ul class="nav-dropdown-menu" id="nav-chapters-menu" aria-label="Story Chapters">
+            <li><a href="#couple-experience" class="nav-dropdown-item"><span>👩‍❤️‍👨</span> 3D Couple View</a></li>
+            <li><a href="#memories" class="nav-dropdown-item"><span>🖼️</span> Memory Scrapbook</a></li>
+            <li><a href="#love-letter" class="nav-dropdown-item"><span>💌</span> Romantic Love Letter</a></li>
+            <li><a href="#calculator" class="nav-dropdown-item"><span>💘</span> Magic Love Match</a></li>
+            <li><a href="#quiz" class="nav-dropdown-item"><span>🧸</span> Couple Fun Quiz</a></li>
+            <li><a href="#countdown" class="nav-dropdown-item"><span>⏳</span> Special Day Countdown</a></li>
+            <li><a href="#surprise" class="nav-dropdown-item"><span>✨</span> Secret Surprise Box</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-account-item">
+          <div class="user-account-pill">
+            <span class="user-avatar" aria-hidden="true">🌸</span>
+            <span class="user-display-name" id="user-display-name">Soulmate</span>
+            <button type="button" class="btn-logout" id="btn-logout" aria-label="Log Out of Our Little Universe">
+              <span>Logout</span> 🚪
+            </button>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- 1. HERO SECTION -->
+    <section class="hero-section" id="hero">
+      <!-- Interactive 3D Hero Scene Canvas (Heart Planet, Orbiting Constellations & Clouds) -->
+      <canvas id="universe-3d-hero-canvas" class="universe-3d-hero-canvas" aria-hidden="true"></canvas>
+
+      <!-- Decorative Floating Clouds -->
+      <div class="hero-clouds-layer" aria-hidden="true">
+        <div class="floating-cloud cloud-1"></div>
+        <div class="floating-cloud cloud-2"></div>
+      </div>
+
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span>✨</span> Made of little moments &amp; lots of love <span>✨</span>
+        </div>
+
+        <!-- Personalized Welcome Banner for Authenticated User -->
+        <div class="hero-welcome-user" id="hero-welcome-user" style="display: none;">
+          <span class="welcome-heart">💖</span> Welcome back, <strong id="welcome-user-name">Soulmate</strong>! The universe has missed you.
+        </div>
+
+        <!-- Center Glowing Interactive Heart -->
+        <div class="hero-heart-wrapper" id="hero-heart-trigger" role="button" tabindex="0" aria-label="Click the magical heart for a burst of love!">
+          <div class="center-heart-glow" aria-hidden="true"></div>
+          <div class="center-heart-btn" aria-hidden="true">
+            <span>💗</span>
+          </div>
+          <span class="hero-heart-hint">Click for a tiny burst of magic ✨</span>
+        </div>
+
+        <h1 class="hero-title cursive-title">
+          Welcome to <span class="sparkle-word">Our Little Universe</span> 💗
+        </h1>
+
+        <p class="hero-subtitle">
+          A tiny world of love, laughter, memories, and magic.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#couple-experience" class="btn btn-primary" id="btn-enter-universe">
+            <span>Meet Our 3D Couple</span> 🧸
+          </a>
+          <a href="studio.html" class="btn btn-secondary" id="btn-hero-studio">
+            <span>AI Photo Studio</span> 📸
+          </a>
+          <a href="vault.html" class="btn btn-secondary" id="btn-hero-vault">
+            <span>Love Vault</span> 🔐
+          </a>
+          <a href="analyzer.html" class="btn btn-secondary" id="btn-hero-analyzer">
+            <span>AI Insights</span> 🔮
+          </a>
+          <a href="#memories" class="btn btn-secondary" id="btn-hero-memories">
+            <span>Our Memories</span> 🖼️
+          </a>
+          <a href="#love-letter" class="btn btn-secondary" id="btn-open-secret-letter">
+            <span>Secret Letter</span> 💌
+          </a>
+          <button type="button" class="btn btn-secondary" id="btn-hero-surprise">
+            <span>Discover Magic</span> 🪄
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1.5. ADORABLE 3D COUPLES EXPERIENCE & VIRTUAL DATE NIGHT -->
+    <section class="section-container couple-experience-section reveal-on-scroll" id="couple-experience">
+      <div class="section-header">
+        <div class="section-badge"><span>👩‍❤️‍👨</span> Adorable 3D Couple &amp; Virtual Dates</div>
+        <h2 class="section-title">Our Little 3D Universe 💗</h2>
+        <p class="section-subtitle">Interact with our cute chibi avatars, pick a romantic date scene, and play our sweet couples quiz!</p>
+      </div>
+
+      <!-- Date Night Scene Switcher Tabs -->
+      <div class="date-scenes-picker" role="tablist" aria-label="Select Date Night Scene">
+        <span class="date-picker-label">Choose Our Date Scene:</span>
+        <div class="date-tabs-row">
+          <button type="button" class="btn-scene-tab active" id="btn-scene-cafe" role="tab" aria-selected="true">
+            <span>☕</span> Cozy Café
+          </button>
+          <button type="button" class="btn-scene-tab" id="btn-scene-picnic" role="tab" aria-selected="false">
+            <span>🌸</span> Cherry Blossom Picnic
+          </button>
+          <button type="button" class="btn-scene-tab" id="btn-scene-moonlight" role="tab" aria-selected="false">
+            <span>🌙</span> Moonlight Walk
+          </button>
+          <button type="button" class="btn-scene-tab" id="btn-scene-stargazing" role="tab" aria-selected="false">
+            <span>✨</span> Stargazing
+          </button>
+          <button type="button" class="btn-scene-tab" id="btn-scene-rain" role="tab" aria-selected="false">
+            <span>☔</span> Rainy Umbrella
+          </button>
+        </div>
+      <!-- 3D Chibi Couple Stage Container -->
+      <div class="couple-stage-card glass-card">
+        <!-- Top Toolbar with Customize Look Button -->
+        <div class="couple-stage-toolbar">
+          <div class="couple-toolbar-title">
+            <span class="toolbar-brand" id="couple-toolbar-brand">☕ Dudu &amp; Budu's Romantic Date</span>
+            <span class="toolbar-subtitle" id="couple-toolbar-subtitle">Sitting together at our cozy café table 💗</span>
+          </div>
+          <div class="couple-toolbar-buttons">
+            <button type="button" class="btn btn-primary couple-tool-btn" id="btn-open-customize-look" title="Customize outfit colors, accessories &amp; makeup live">
+              <span>🎨</span> Customize Look
+            </button>
+          </div>
+        </div>
+
+        <div class="couple-speech-bubble" id="couple-status-badge">
+          <span>💕</span> Dudu &amp; Budu are enjoying warm coffee together in our cozy café!
+        </div>
+
+        <div class="couple-canvas-wrapper" id="couple-canvas-wrapper">
+          <canvas id="universe-3d-couple-canvas" class="universe-3d-couple-canvas" aria-label="3D Interactive Dudu &amp; Budu World"></canvas>
+          <div id="couple-reaction-fx-layer" class="couple-reaction-fx-layer" aria-hidden="true"></div>
+          <div class="couple-3d-hint">
+            <span>🖱️ Click &amp; drag to rotate 3D view • Scroll or pinch to zoom</span>
+          </div>
+        </div>
+
+        <!-- Couple Interaction Buttons Panel -->
+        <div class="couple-interaction-controls">
+          <span class="interaction-heading">Interactive 3D Actions &amp; Controls:</span>
+          <div class="couple-actions-grid">
+            <button type="button" class="btn btn-secondary couple-btn" id="btn-couple-hug" title="Hug each other warmly">
+              <span>🤗</span> Hug
+            </button>
+            <button type="button" class="btn btn-secondary couple-btn" id="btn-couple-kiss" title="Give a sweet romantic kiss">
+              <span>💋</span> Kiss
+            </button>
+            <button type="button" class="btn btn-secondary couple-btn" id="btn-couple-dance" title="Dance together to cute rhythm">
+              <span>💃</span> Dance Together
+            </button>
+            <button type="button" class="btn btn-secondary couple-btn" id="btn-couple-hands" title="Hold paws sweetly">
+              <span>🫶</span> Hold Hands
+            </button>
+            <button type="button" class="btn btn-secondary couple-btn" id="btn-couple-wave" title="Wave to you happily">
+              <span>👋</span> Wave
+            </button>
+            <button type="button" class="btn btn-secondary couple-btn" id="btn-couple-idle" title="Return to gentle idle standing pose">
+              <span>🧍</span> Idle / Stop
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================================================================= -->
+      <!-- MODAL 2: CUSTOMIZE LOOK (Dudu & Budu 3D Outfits & Makeup)         -->
+      <!-- ================================================================= -->
+      <div class="custom-modal-overlay custom-look-drawer" id="modal-customize-look" role="dialog" aria-modal="true" aria-labelledby="modal-customize-look-title" style="display: none;">
+        <div class="custom-modal-dialog glass-card customize-look-dialog">
+          <div class="custom-modal-header">
+            <div class="modal-header-text">
+              <h3 id="modal-customize-look-title" class="custom-modal-title"><span>🎨</span> Customize Look — Dudu &amp; Budu</h3>
+              <p class="custom-modal-subtitle">Live 3D character styling. Watch your choices update in real-time!</p>
+            </div>
+            <button type="button" class="btn-modal-close" id="btn-close-customize-look" aria-label="Close modal">&times;</button>
+          </div>
+
+          <!-- Character Switcher -->
+          <div class="customizer-character-switcher" role="tablist" aria-label="Select Character">
+            <button type="button" class="char-switch-btn active" data-looktab="budu" id="tab-look-budu">
+              <span class="char-icon">👧</span>
+              <span class="char-name">Budu <small>(White Bear Girl)</small></span>
+            </button>
+            <button type="button" class="char-switch-btn" data-looktab="dudu" id="tab-look-dudu">
+              <span class="char-icon">👦</span>
+              <span class="char-name">Dudu <small>(Brown Bear Boy)</small></span>
+            </button>
+          </div>
+
+          <!-- Category Navigation Tabs -->
+          <div class="customizer-cat-tabs" role="tablist" aria-label="Customization Categories">
+            <button type="button" class="cat-tab-btn active" data-cattab="outfit" id="tab-cat-outfit">
+              <span>👗</span> Outfit
+            </button>
+            <button type="button" class="cat-tab-btn" data-cattab="hair" id="tab-cat-hair">
+              <span>💇</span> Hair &amp; Ears
+            </button>
+            <button type="button" class="cat-tab-btn" data-cattab="makeup" id="tab-cat-makeup">
+              <span>💄</span> Makeup
+            </button>
+            <button type="button" class="cat-tab-btn" data-cattab="accessories" id="tab-cat-accessories">
+              <span>🎀</span> Accessories
+            </button>
+            <button type="button" class="cat-tab-btn" data-cattab="colors" id="tab-cat-colors">
+              <span>🎨</span> Colours
+            </button>
+            <button type="button" class="cat-tab-btn" data-cattab="expressions" id="tab-cat-expressions">
+              <span>😊</span> Expressions
+            </button>
+          </div>
+
+          <!-- Main Customizer Body -->
+          <div class="custom-modal-body customize-look-body">
+            <!-- 1. OUTFIT TAB -->
+            <div class="custom-category-panel active" id="panel-cat-outfit">
+              <!-- Budu Outfit Options -->
+              <div class="char-panel-block" id="block-outfit-budu">
+                <label class="custom-panel-heading"><span>👗</span> Choose Budu's Outfit Style:</label>
+                <div class="options-cards-grid" data-group="budu-style">
+                  <button type="button" class="option-card active" data-style="knit">
+                    <span class="card-icon">🧶</span>
+                    <span class="card-title">Cozy Knit Sweater</span>
+                    <span class="card-desc">Warm pastel knit with ribbed collar</span>
+                  </button>
+                  <button type="button" class="option-card" data-style="dress">
+                    <span class="card-icon">👗</span>
+                    <span class="card-title">Romantic Floral Dress</span>
+                    <span class="card-desc">Cute flared hem for date night</span>
+                  </button>
+                  <button type="button" class="option-card" data-style="hoodie">
+                    <span class="card-icon">🧥</span>
+                    <span class="card-title">Sweet Oversized Hoodie</span>
+                    <span class="card-desc">Plush casual hood with soft cuffs</span>
+                  </button>
+                  <button type="button" class="option-card" data-style="cafe">
+                    <span class="card-icon">☕</span>
+                    <span class="card-title">Café Barista Apron</span>
+                    <span class="card-desc">Sweet pink apron with heart pocket</span>
+                  </button>
+                </div>
+              </div>
+              <!-- Dudu Outfit Options -->
+              <div class="char-panel-block" id="block-outfit-dudu" style="display: none;">
+                <label class="custom-panel-heading"><span>🧥</span> Choose Dudu's Outfit Style:</label>
+                <div class="options-cards-grid" data-group="dudu-style">
+                  <button type="button" class="option-card active" data-style="hoodie">
+                    <span class="card-icon">🧥</span>
+                    <span class="card-title">Signature Dark Hoodie</span>
+                    <span class="card-desc">Iconic chocolate hoodie with drawstrings</span>
+                  </button>
+                  <button type="button" class="option-card" data-style="sweater">
+                    <span class="card-icon">🧶</span>
+                    <span class="card-title">Cozy Cable Sweater</span>
+                    <span class="card-desc">Gentle autumn knit for cool evenings</span>
+                  </button>
+                  <button type="button" class="option-card" data-style="cafe">
+                    <span class="card-icon">☕</span>
+                    <span class="card-title">Café Barista Apron</span>
+                    <span class="card-desc">Brown leatherette barista front</span>
+                  </button>
+                  <button type="button" class="option-card" data-style="formal">
+                    <span class="card-icon">🤵</span>
+                    <span class="card-title">Date Night Tuxedo</span>
+                    <span class="card-desc">Chic dinner vest &amp; bow collar</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. HAIR & EARS TAB -->
+            <div class="custom-category-panel" id="panel-cat-hair" style="display: none;">
+              <!-- Budu Hair Options -->
+              <div class="char-panel-block" id="block-hair-budu">
+                <label class="custom-panel-heading"><span>💇</span> Budu's Hair &amp; Ears:</label>
+                <div class="options-cards-grid" data-group="budu-hair">
+                  <button type="button" class="option-card active" data-hair="classic">
+                    <span class="card-icon">🧸</span>
+                    <span class="card-title">Signature Round Ears</span>
+                    <span class="card-desc">Cute classic teddy bear ears</span>
+                  </button>
+                  <button type="button" class="option-card" data-hair="fluffy_tuft">
+                    <span class="card-icon">✨</span>
+                    <span class="card-title">Fluffy Crown Tuft</span>
+                    <span class="card-desc">Soft wispy tuft on top of head</span>
+                  </button>
+                  <button type="button" class="option-card" data-hair="bangs">
+                    <span class="card-icon">🌸</span>
+                    <span class="card-title">Sweet Kawaii Bangs</span>
+                    <span class="card-desc">Soft rounded front fringe</span>
+                  </button>
+                  <button type="button" class="option-card" data-hair="side_puffs">
+                    <span class="card-icon">🎀</span>
+                    <span class="card-title">Double Ear Puffs</span>
+                    <span class="card-desc">Extra fluffy cheek accents</span>
+                  </button>
+                </div>
+              </div>
+              <!-- Dudu Hair Options -->
+              <div class="char-panel-block" id="block-hair-dudu" style="display: none;">
+                <label class="custom-panel-heading"><span>💇</span> Dudu's Hair &amp; Ears:</label>
+                <div class="options-cards-grid" data-group="dudu-hair">
+                  <button type="button" class="option-card active" data-hair="classic">
+                    <span class="card-icon">🧸</span>
+                    <span class="card-title">Signature Bear Ears</span>
+                    <span class="card-desc">Natural round brown bear ears</span>
+                  </button>
+                  <button type="button" class="option-card" data-hair="cool_tuft">
+                    <span class="card-icon">⚡</span>
+                    <span class="card-title">Playful Spiky Tuft</span>
+                    <span class="card-desc">Cute little front spike</span>
+                  </button>
+                  <button type="button" class="option-card" data-hair="messy_fringe">
+                    <span class="card-icon">💫</span>
+                    <span class="card-title">Messy Boy Fringe</span>
+                    <span class="card-desc">Gentle fluffy boyish bangs</span>
+                  </button>
+                  <button type="button" class="option-card" data-hair="sleek_crop">
+                    <span class="card-icon">🕶️</span>
+                    <span class="card-title">Clean Side Crop</span>
+                    <span class="card-desc">Trim plush outline</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. MAKEUP TAB -->
+            <div class="custom-category-panel" id="panel-cat-makeup" style="display: none;">
+              <!-- Budu Makeup -->
+              <div class="char-panel-block" id="block-makeup-budu">
+                <label class="custom-panel-heading"><span>💄</span> Budu's Blush &amp; Smile:</label>
+                <div class="slider-control-card">
+                  <div class="slider-info-row">
+                    <span class="slider-title">Blush Glow Intensity</span>
+                    <span id="label-budu-blush-val" class="slider-val-badge">85%</span>
+                  </div>
+                  <input type="range" id="slider-budu-blush" min="0" max="1" step="0.05" value="0.85" class="custom-slider">
+                </div>
+                <div class="swatches-section">
+                  <span class="swatches-label">Blush Shade:</span>
+                  <div class="swatches-row" data-group="budu-blush-color">
+                    <button type="button" class="swatch-btn active" data-color="#ff8da1" style="background: #ff8da1;" title="Soft Rosy"></button>
+                    <button type="button" class="swatch-btn" data-color="#ff8c75" style="background: #ff8c75;" title="Peachy Anime"></button>
+                    <button type="button" class="swatch-btn" data-color="#ff2a6d" style="background: #ff2a6d;" title="Heart Sparkle"></button>
+                    <button type="button" class="swatch-btn" data-color="#f4a261" style="background: #f4a261;" title="Sunkissed Glow"></button>
+                  </div>
+                </div>
+                <div class="swatches-section">
+                  <span class="swatches-label">Lip &amp; Smile Tint:</span>
+                  <div class="swatches-row" data-group="budu-lip-color">
+                    <button type="button" class="swatch-btn active" data-color="#9b334a" style="background: #9b334a;" title="Sweet Cherry"></button>
+                    <button type="button" class="swatch-btn" data-color="#e05780" style="background: #e05780;" title="Strawberry Pink"></button>
+                    <button type="button" class="swatch-btn" data-color="#f27059" style="background: #f27059;" title="Coral Shine"></button>
+                  </div>
+                </div>
+              </div>
+              <!-- Dudu Makeup -->
+              <div class="char-panel-block" id="block-makeup-dudu" style="display: none;">
+                <label class="custom-panel-heading"><span>😊</span> Dudu's Cheeks &amp; Warmth:</label>
+                <div class="slider-control-card">
+                  <div class="slider-info-row">
+                    <span class="slider-title">Shy Blush Intensity</span>
+                    <span id="label-dudu-blush-val" class="slider-val-badge">75%</span>
+                  </div>
+                  <input type="range" id="slider-dudu-blush" min="0" max="1" step="0.05" value="0.75" class="custom-slider">
+                </div>
+                <div class="swatches-section">
+                  <span class="swatches-label">Blush Shade:</span>
+                  <div class="swatches-row" data-group="dudu-blush-color">
+                    <button type="button" class="swatch-btn active" data-color="#f4a261" style="background: #f4a261;" title="Shy Peachy"></button>
+                    <button type="button" class="swatch-btn" data-color="#ff8da1" style="background: #ff8da1;" title="Warm Rosy"></button>
+                    <button type="button" class="swatch-btn" data-color="#e76f51" style="background: #e76f51;" title="Sunkissed"></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. ACCESSORIES TAB -->
+            <div class="custom-category-panel" id="panel-cat-accessories" style="display: none;">
+              <!-- Budu Accessories -->
+              <div class="char-panel-block" id="block-acc-budu">
+                <label class="custom-panel-heading"><span>🎀</span> Budu's Headwear &amp; Props:</label>
+                <div class="options-cards-grid" data-group="budu-acc">
+                  <button type="button" class="option-card active" data-acc="pink_bow">
+                    <span class="card-icon">🎀</span>
+                    <span class="card-title">Signature Pink Bow</span>
+                    <span class="card-desc">Her iconic sweet ear bow</span>
+                  </button>
+                  <button type="button" class="option-card" data-acc="flower_crown">
+                    <span class="card-icon">🌸</span>
+                    <span class="card-title">Spring Flower Crown</span>
+                    <span class="card-desc">Fresh sakura blossom garland</span>
+                  </button>
+                  <button type="button" class="option-card" data-acc="tiara">
+                    <span class="card-icon">👑</span>
+                    <span class="card-title">Golden Star Tiara</span>
+                    <span class="card-desc">Royal little princess tiara</span>
+                  </button>
+                  <button type="button" class="option-card" data-acc="glasses">
+                    <span class="card-icon">👓</span>
+                    <span class="card-title">Café Wire Glasses</span>
+                    <span class="card-desc">Chic round gold wireframe</span>
+                  </button>
+                  <button type="button" class="option-card" data-acc="beret">
+                    <span class="card-icon">🎨</span>
+                    <span class="card-title">Romantic French Beret</span>
+                    <span class="card-desc">Artistic wool date beret</span>
+                  </button>
+                  <button type="button" class="option-card" data-acc="none">
+                    <span class="card-icon">○</span>
+                    <span class="card-title">None</span>
+                    <span class="card-desc">Pure natural bear look</span>
+                  </button>
+                </div>
+              </div>
+              <!-- Dudu Accessories -->
+              <div class="char-panel-block" id="block-acc-dudu" style="display: none;">
+                <label class="custom-panel-heading"><span>👓</span> Dudu's Headwear &amp; Props:</label>
+                <div class="options-cards-grid" data-group="dudu-acc">
+                  <button type="button" class="option-card active" data-acc="none">
+                    <span class="card-icon">○</span>
+                    <span class="card-title">None (Signature)</span>
+                    <span class="card-desc">Classic cozy hoodie look</span>
+                  </button>
+                  <button type="button" class="option-card" data-acc="glasses">
+                    <span class="card-icon">👓</span>
+                    <span class="card-title">Café Wire Glasses</span>
+                    <span class="card-desc">Gentleman round wireframes</span>
+                  </button>
+                  <button type="button" class="option-card" data-acc="strawhat">
+                    <span class="card-icon">👒</span>
+                    <span class="card-title">Straw Fedora</span>
+                    <span class="card-desc">Ghibli style picnic hat</span>
+                  </button>
+                  <button type="button" class="option-card" data-acc="headband">
+                    <span class="card-icon">✨</span>
+                    <span class="card-title">Sporty Headband</span>
+                    <span class="card-desc">Energetic sweet boy charm</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 5. COLOURS TAB -->
+            <div class="custom-category-panel" id="panel-cat-colors" style="display: none;">
+              <!-- Budu Colors -->
+              <div class="char-panel-block" id="block-colors-budu">
+                <label class="custom-panel-heading"><span>🎨</span> Budu's Outfit Colour:</label>
+                <div class="swatches-row" data-group="budu-color">
+                  <button type="button" class="swatch-btn active" data-color="#ff9ebb" style="background: #ff9ebb;" title="Signature Soft Pink"></button>
+                  <button type="button" class="swatch-btn" data-color="#ffffff" style="background: #ffffff;" title="Pure White"></button>
+                  <button type="button" class="swatch-btn" data-color="#d8b4fe" style="background: #d8b4fe;" title="Pastel Lavender"></button>
+                  <button type="button" class="swatch-btn" data-color="#93c5fd" style="background: #93c5fd;" title="Sky Blue"></button>
+                  <button type="button" class="swatch-btn" data-color="#f87171" style="background: #f87171;" title="Strawberry Red"></button>
+                  <button type="button" class="swatch-btn" data-color="#34d399" style="background: #34d399;" title="Mint Green"></button>
+                  <button type="button" class="swatch-btn" data-color="#fde047" style="background: #fde047;" title="Buttercup Yellow"></button>
+                  <button type="button" class="swatch-btn" data-color="#2b2220" style="background: #2b2220;" title="Midnight Noir"></button>
+                  <div class="custom-color-picker-box" title="Pick any custom color">
+                    <input type="color" id="picker-budu-color" value="#ff9ebb" class="native-color-picker">
+                    <span class="picker-label">Custom</span>
+                  </div>
+                </div>
+              </div>
+              <!-- Dudu Colors -->
+              <div class="char-panel-block" id="block-colors-dudu" style="display: none;">
+                <label class="custom-panel-heading"><span>🎨</span> Dudu's Hoodie Colour:</label>
+                <div class="swatches-row" data-group="dudu-color">
+                  <button type="button" class="swatch-btn active" data-color="#2b2220" style="background: #2b2220;" title="Signature Dark Chocolate"></button>
+                  <button type="button" class="swatch-btn" data-color="#7c4f32" style="background: #7c4f32;" title="Warm Caramel Brown"></button>
+                  <button type="button" class="swatch-btn" data-color="#18181b" style="background: #18181b;" title="Classic Charcoal"></button>
+                  <button type="button" class="swatch-btn" data-color="#f5f5f5" style="background: #f5f5f5;" title="Clean White"></button>
+                  <button type="button" class="swatch-btn" data-color="#ffadc2" style="background: #ffadc2;" title="Sweet Rose"></button>
+                  <button type="button" class="swatch-btn" data-color="#93c5fd" style="background: #93c5fd;" title="Denim Blue"></button>
+                  <button type="button" class="swatch-btn" data-color="#c084fc" style="background: #c084fc;" title="Slate Lavender"></button>
+                  <button type="button" class="swatch-btn" data-color="#059669" style="background: #059669;" title="Forest Pine"></button>
+                  <div class="custom-color-picker-box" title="Pick any custom color">
+                    <input type="color" id="picker-dudu-color" value="#2b2220" class="native-color-picker">
+                    <span class="picker-label">Custom</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 6. EXPRESSIONS TAB -->
+            <div class="custom-category-panel" id="panel-cat-expressions" style="display: none;">
+              <!-- Expressions apply to active character -->
+              <div class="char-panel-block">
+                <label class="custom-panel-heading"><span>😊</span> Choose Facial Expression:</label>
+                <div class="options-cards-grid" data-group="char-expression">
+                  <button type="button" class="option-card active" data-expr="smile">
+                    <span class="card-icon">🥰</span>
+                    <span class="card-title">Sweet Shy Smile</span>
+                    <span class="card-desc">Gentle loving smile with warm rosy eyes</span>
+                  </button>
+                  <button type="button" class="option-card" data-expr="happy">
+                    <span class="card-icon">😄</span>
+                    <span class="card-title">Joyful Open Cheerful</span>
+                    <span class="card-desc">Big happy open smile and bright sparkles</span>
+                  </button>
+                  <button type="button" class="option-card" data-expr="wink">
+                    <span class="card-icon">😉</span>
+                    <span class="card-title">Playful Cheeky Wink</span>
+                    <span class="card-desc">Cute winking eye with sweet grin</span>
+                  </button>
+                  <button type="button" class="option-card" data-expr="blush">
+                    <span class="card-icon">😳</span>
+                    <span class="card-title">Flustered Love Blush</span>
+                    <span class="card-desc">Extra blushing cheeks and cute shy smile</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hidden compatibility containers for test-logic contract -->
+            <div id="content-look-budu" style="display: none;"></div>
+            <div id="content-look-dudu" style="display: none;"></div>
+          </div>
+
+          <!-- Customizer Action Buttons -->
+          <div class="custom-modal-footer customize-look-footer">
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-reset-active-char">
+              <span>🔄</span> Reset Character
+            </button>
+            <button type="button" class="btn btn-outline btn-sm" id="btn-reset-both-chars">
+              <span>✨</span> Reset Both
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-load-saved-look">
+              <span>📂</span> Load Saved
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-save-look">
+              <span>💾</span> Save Look
+            </button>
+            <button type="button" class="btn btn-primary btn-sm" id="btn-apply-look">
+              <span>💗</span> Apply &amp; Close
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Playful Couple Quiz -->
+      <div class="couple-quiz-section">
+        <div class="glass-card couple-quiz-card">
+          <div class="couple-quiz-header">
+            <span class="quiz-couple-badge"><span>🧸</span> Playful Couple Quiz</span>
+            <h3 class="couple-quiz-title">How Well Do We Know Us? 💕</h3>
+            <p class="couple-quiz-subtitle">Answer 6 cute playful questions together and reveal your couple personality!</p>
+          </div>
+
+          <div id="couple-quiz-box" class="couple-quiz-box">
+            <!-- Hearts Progress -->
+            <div class="couple-quiz-hearts-progress" id="couple-quiz-hearts" aria-label="Quiz Progress">
+              <!-- Dynamically generated heart dots -->
+            </div>
+
+            <div class="couple-quiz-q-wrapper">
+              <span class="couple-quiz-q-count" id="couple-quiz-q-num">Question 1 of 6</span>
+              <h4 class="couple-quiz-q-text" id="couple-quiz-q-text">Who is more dramatic? 🎭</h4>
+
+              <div class="couple-quiz-options">
+                <button type="button" class="btn-couple-opt" id="btn-couple-ans-a">
+                  <span>🌸</span> Luna / Me
+                </button>
+                <button type="button" class="btn-couple-opt" id="btn-couple-ans-b">
+                  <span>🧸</span> Oliver / You
+                </button>
+                <button type="button" class="btn-couple-opt" id="btn-couple-ans-both">
+                  <span>💕</span> Both of Us Equal!
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quiz Result Display -->
+          <div id="couple-quiz-result" class="couple-quiz-result" style="display: none;">
+            <div class="quiz-result-heart-icon">💖</div>
+            <h4 class="quiz-result-title" id="couple-quiz-result-title">Synchronized Cosmic Sweethearts</h4>
+            <p class="quiz-result-desc" id="couple-quiz-result-desc">You two are practically reading each other's minds!</p>
+            <div class="quiz-result-disclaimer">
+              <span>💌 Note:</span> This quiz is purely playful for giggles, smiles, and sweet moments together.
+            </div>
+            <button type="button" class="btn btn-primary" id="btn-couple-quiz-restart">
+              <span>🔄</span> Play Again
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Custom Couple Memory Scrapbook Creator -->
+      <div class="custom-scrapbook-section">
+        <div class="glass-card custom-scrapbook-card">
+          <div class="custom-scrapbook-header">
+            <span class="quiz-couple-badge"><span>📸</span> Memory Scrapbook</span>
+            <h3 class="couple-quiz-title">Add Our Own Little Keepsakes ✨</h3>
+            <p class="couple-quiz-subtitle">Save custom memories, sweet nicknames, and dates right here in your browser.</p>
+          </div>
+
+          <form id="custom-scrapbook-form" class="custom-scrapbook-form" novalidate>
+            <div class="scrapbook-form-grid">
+              <div class="form-group">
+                <label for="scrapbook-nicknames" class="form-label"><span>🧸</span> Our Nicknames (optional)</label>
+                <input type="text" id="scrapbook-nicknames" class="form-input" placeholder="e.g. Luna &amp; Oliver, Bunny &amp; Bear" maxlength="50">
+              </div>
+
+              <div class="form-group">
+                <label for="scrapbook-date" class="form-label"><span>📅</span> Meaningful Date (optional)</label>
+                <input type="date" id="scrapbook-date" class="form-input">
+              </div>
+
+              <div class="form-group full-width">
+                <label for="scrapbook-caption" class="form-label"><span>✍️</span> Favorite Memory / Note</label>
+                <input type="text" id="scrapbook-caption" class="form-input" placeholder="e.g. The rainy night we laughed till our cheeks hurt" maxlength="120" required>
+              </div>
+
+              <div class="form-group full-width">
+                <label for="scrapbook-photo-input" class="form-label"><span>📷</span> Add a Photo (Local device only)</label>
+                <input type="file" id="scrapbook-photo-input" class="form-input-file" accept="image/*">
+                <div id="scrapbook-photo-preview" class="photo-preview-box" style="display: none;"></div>
+              </div>
+            </div>
+
+            <div class="scrapbook-actions-bar">
+              <button type="submit" class="btn btn-primary" id="btn-add-scrapbook-memory">
+                <span>✨</span> Add to Our Scrapbook
+              </button>
+              <button type="button" class="btn btn-secondary" id="btn-clear-scrapbook">
+                <span>🗑️</span> Clear Saved Entries
+              </button>
+            </div>
+
+            <div class="scrapbook-privacy-note">
+              <span>🔒 100% Private &amp; Local:</span> Your memories and photos remain strictly inside your browser's private local storage. They are never transmitted or uploaded to any server.
+            </div>
+          </form>
+
+          <!-- Dynamic Custom Polaroid Gallery -->
+          <div class="custom-scrapbook-grid scrapbook-grid" id="custom-scrapbook-grid">
+            <!-- User added polaroids dynamically appear here -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. PHOTOS AND MEMORIES GALLERY (SCRAPBOOK) -->
+    <section class="section-container memories-section reveal-on-scroll" id="memories">
+      <div class="section-header">
+        <div class="section-badge"><span>📸</span> Scrapbook &amp; Keepsakes</div>
+        <h2 class="section-title">Our Little Memories 💕</h2>
+        <p class="section-subtitle">Every little moment deserves a place in our universe.</p>
+      </div>
+
+      <div class="scrapbook-grid" id="memories-grid">
+        <!-- Card 1 -->
+        <article class="polaroid-card" tabindex="0" role="button" data-index="0" aria-label="View photo: A day to remember">
+          <div class="washi-tape" aria-hidden="true"></div>
+          <div class="polaroid-img-box">
+            <img src="assets/images/memory-1.svg" alt="Cozy cafe with warm cocoa and fairy lights under the crescent moon" loading="lazy">
+            <div class="polaroid-overlay-zoom">
+              <span class="zoom-badge"><span>🔍</span> View Memory</span>
+            </div>
+          </div>
+          <div class="polaroid-meta">
+            <h3 class="polaroid-caption">A day to remember</h3>
+            <span class="polaroid-date">☕ Cozy whispers &amp; fairy lights</span>
+          </div>
+          <span class="scrapbook-sticker" aria-hidden="true">✨</span>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="polaroid-card" tabindex="0" role="button" data-index="1" aria-label="View photo: Little moments, big feelings">
+          <div class="washi-tape" aria-hidden="true"></div>
+          <div class="polaroid-img-box">
+            <img src="assets/images/memory-2.svg" alt="Romantic beach sunset with footsteps in the sand and pastel ocean waves" loading="lazy">
+            <div class="polaroid-overlay-zoom">
+              <span class="zoom-badge"><span>🔍</span> View Memory</span>
+            </div>
+          </div>
+          <div class="polaroid-meta">
+            <h3 class="polaroid-caption">Little moments, big feelings</h3>
+            <span class="polaroid-date">🌊 Walking along the sunset</span>
+          </div>
+          <span class="scrapbook-sticker" aria-hidden="true">🐚</span>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="polaroid-card" tabindex="0" role="button" data-index="2" aria-label="View photo: My favorite kind of chaos">
+          <div class="washi-tape" aria-hidden="true"></div>
+          <div class="polaroid-img-box">
+            <img src="assets/images/memory-3.svg" alt="Retro pastel polaroid camera with sweet macaroons, flowers and love notes" loading="lazy">
+            <div class="polaroid-overlay-zoom">
+              <span class="zoom-badge"><span>🔍</span> View Memory</span>
+            </div>
+          </div>
+          <div class="polaroid-meta">
+            <h3 class="polaroid-caption">My favorite kind of chaos</h3>
+            <span class="polaroid-date">📸 Spontaneous giggles &amp; treats</span>
+          </div>
+          <span class="scrapbook-sticker" aria-hidden="true">🎀</span>
+        </article>
+
+        <!-- Card 4 -->
+        <article class="polaroid-card" tabindex="0" role="button" data-index="3" aria-label="View photo: Smiles that never get old">
+          <div class="washi-tape" aria-hidden="true"></div>
+          <div class="polaroid-img-box">
+            <img src="assets/images/memory-4.svg" alt="Vintage bicycle carrying a basket overflowing with blooms and floating balloons" loading="lazy">
+            <div class="polaroid-overlay-zoom">
+              <span class="zoom-badge"><span>🔍</span> View Memory</span>
+            </div>
+          </div>
+          <div class="polaroid-meta">
+            <h3 class="polaroid-caption">Smiles that never get old</h3>
+            <span class="polaroid-date">🌸 Pedaling through cherry blossoms</span>
+          </div>
+          <span class="scrapbook-sticker" aria-hidden="true">🎈</span>
+        </article>
+
+        <!-- Card 5 -->
+        <article class="polaroid-card" tabindex="0" role="button" data-index="4" aria-label="View photo: A memory worth keeping">
+          <div class="washi-tape" aria-hidden="true"></div>
+          <div class="polaroid-img-box">
+            <img src="assets/images/memory-5.svg" alt="Night sky constellation forming a heart with a shooting star and telescope" loading="lazy">
+            <div class="polaroid-overlay-zoom">
+              <span class="zoom-badge"><span>🔍</span> View Memory</span>
+            </div>
+          </div>
+          <div class="polaroid-meta">
+            <h3 class="polaroid-caption">A memory worth keeping</h3>
+            <span class="polaroid-date">✨ Stargazing into the infinite</span>
+          </div>
+          <span class="scrapbook-sticker" aria-hidden="true">⭐</span>
+        </article>
+
+        <!-- Card 6 -->
+        <article class="polaroid-card" tabindex="0" role="button" data-index="5" aria-label="View photo: Our tiny happy place">
+          <div class="washi-tape" aria-hidden="true"></div>
+          <div class="polaroid-img-box">
+            <img src="assets/images/memory-6.svg" alt="Cozy blanket fort glowing with fairy lights and a cute teddy bear" loading="lazy">
+            <div class="polaroid-overlay-zoom">
+              <span class="zoom-badge"><span>🔍</span> View Memory</span>
+            </div>
+          </div>
+          <div class="polaroid-meta">
+            <h3 class="polaroid-caption">Our tiny happy place</h3>
+            <span class="polaroid-date">🧸 Warm blankets &amp; soft hugs</span>
+          </div>
+          <span class="scrapbook-sticker" aria-hidden="true">💖</span>
+        </article>
+      </div>
+
+      <!-- Lightbox Modal -->
+      <div class="lightbox-modal" id="lightbox-modal" role="dialog" aria-modal="true" aria-label="Photo Lightbox">
+        <div class="lightbox-content">
+          <button type="button" class="lightbox-close-btn" id="lightbox-close-btn" aria-label="Close Lightbox">✕</button>
+          <div class="lightbox-image-box">
+            <img id="lightbox-img" src="" alt="Enlarged Memory Photo">
+          </div>
+          <div class="lightbox-meta">
+            <h3 class="lightbox-caption" id="lightbox-caption">Memory Title</h3>
+            <p class="lightbox-desc" id="lightbox-desc">Every moment is precious.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. SECRET LOVE LETTER -->
+    <section class="section-container love-letter-section reveal-on-scroll" id="love-letter">
+      <div class="section-header">
+        <div class="section-badge"><span>💌</span> Written Just For You</div>
+        <h2 class="section-title">A Little Letter From My Heart 💌</h2>
+        <p class="section-subtitle">Click the sealed envelope to unveil a gentle message.</p>
+      </div>
+
+      <div class="letter-stage">
+        <!-- Interactive 3D Envelope -->
+        <div class="envelope-wrapper" id="envelope-wrapper" role="button" tabindex="0" aria-label="Open Love Letter Envelope">
+          <div class="envelope">
+            <div class="envelope-flap"></div>
+            <div class="envelope-pocket-sides"></div>
+            <div class="envelope-pocket-right"></div>
+            <div class="envelope-pocket"></div>
+            <div class="wax-seal" id="wax-seal" aria-hidden="true">
+              <span>💗</span>
+            </div>
+          </div>
+          <div class="envelope-click-hint"><span>💌</span> Click the wax seal to open!</div>
+        </div>
+
+        <!-- Revealed Letter Card with Typewriter Animation & Custom Words Editing -->
+        <article class="revealed-letter-card" id="revealed-letter-card" aria-live="polite">
+          <div class="letter-stamp" aria-hidden="true">
+            <span>LOVE</span>
+            <span>POST</span>
+            <span>💌</span>
+          </div>
+
+          <!-- Personalized Badge (shown when custom words are saved) -->
+          <div class="letter-custom-badge" id="letter-custom-badge" style="display: none;">
+            <span>✨ Written In Your Own Sweet Words 💗</span>
+          </div>
+
+          <!-- Read Mode: Typewriter Display -->
+          <div class="letter-text-content" id="letter-typewriter-text"></div>
+
+          <!-- Edit Mode: Cute Editable Parchment Textarea -->
+          <div class="letter-edit-box" id="letter-edit-box" style="display: none;">
+            <div class="letter-edit-header">
+              <span class="letter-edit-title"><span>✍️</span> Write Your Sweetest Words:</span>
+              <!-- Quick Emoji Stickers Toolbar -->
+              <div class="letter-emoji-bar" id="letter-emoji-bar" aria-label="Cute Love Stickers">
+                <button type="button" class="btn-emoji-sticker" data-emoji="💗" title="Pink Heart">💗</button>
+                <button type="button" class="btn-emoji-sticker" data-emoji="💖" title="Sparkling Heart">💖</button>
+                <button type="button" class="btn-emoji-sticker" data-emoji="🌸" title="Cherry Blossom">🌸</button>
+                <button type="button" class="btn-emoji-sticker" data-emoji="✨" title="Sparkles">✨</button>
+                <button type="button" class="btn-emoji-sticker" data-emoji="🧸" title="Teddy Bear">🧸</button>
+                <button type="button" class="btn-emoji-sticker" data-emoji="🥰" title="Loving Smile">🥰</button>
+                <button type="button" class="btn-emoji-sticker" data-emoji="🌹" title="Rose">🌹</button>
+                <button type="button" class="btn-emoji-sticker" data-emoji="💌" title="Love Letter">💌</button>
+                <button type="button" class="btn-emoji-sticker" data-emoji="🍫" title="Chocolate">🍫</button>
+                <button type="button" class="btn-emoji-sticker" data-emoji="🌙" title="Moon">🌙</button>
+              </div>
+            </div>
+
+            <textarea id="letter-edit-textarea" class="letter-edit-textarea" rows="9" placeholder="Write your own romantic words here... 💗" maxlength="1500" spellcheck="false"></textarea>
+            <div class="letter-char-counter"><span id="letter-char-count">0</span> / 1500 characters</div>
+          </div>
+
+          <!-- Action Buttons for View Mode -->
+          <div class="letter-action-bar" id="letter-view-controls">
+            <button type="button" class="btn btn-secondary btn-cute-action" id="btn-edit-letter" title="Edit this letter in your own words">
+              <span>✏️</span> Edit Letter
+            </button>
+            <button type="button" class="btn btn-secondary btn-cute-action" id="btn-read-again" title="Read letter with typewriter animation">
+              <span>🔄</span> Read Again
+            </button>
+            <button type="button" class="btn btn-primary btn-cute-action" id="btn-send-heart" title="Send a bouquet of flying hearts">
+              <span>💖</span> Send a Heart
+            </button>
+            <button type="button" class="btn btn-secondary btn-cute-action" id="btn-copy-letter" title="Copy letter to clipboard">
+              <span>📋</span> Copy Letter
+            </button>
+            <button type="button" class="btn btn-secondary btn-cute-action" id="btn-reset-letter" title="Restore original letter" style="display: none;">
+              <span>🌸</span> Original Letter
+            </button>
+          </div>
+
+          <!-- Action Buttons for Edit Mode -->
+          <div class="letter-action-bar letter-edit-actions" id="letter-edit-controls" style="display: none;">
+            <button type="button" class="btn btn-primary btn-cute-action" id="btn-save-letter">
+              <span>💾</span> Save My Words 💖
+            </button>
+            <button type="button" class="btn btn-secondary btn-cute-action" id="btn-cancel-edit-letter">
+              <span>✖️</span> Cancel
+            </button>
+            <button type="button" class="btn btn-secondary btn-cute-action" id="btn-reset-edit-letter">
+              <span>🔄</span> Reset to Original
+            </button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 4. FUN LOVE CALCULATOR -->
+    <section class="section-container calculator-section reveal-on-scroll" id="calculator">
+      <div class="section-header">
+        <div class="section-badge"><span>💘</span> Magic Compatibility</div>
+        <h2 class="section-title">How Much Magic Is Between Us 💘</h2>
+        <p class="section-subtitle">Type two names and see how bright the universe sparkles!</p>
+      </div>
+
+      <div class="glass-card calc-card">
+        <form id="calc-form" novalidate>
+          <div class="calc-inputs-row">
+            <div class="input-group">
+              <label for="calc-name1" class="input-label">Your Name</label>
+              <input type="text" id="calc-name1" class="cute-input" placeholder="e.g. Luna" maxlength="40" required autocomplete="off">
+            </div>
+
+            <div class="calc-heart-bridge" aria-hidden="true">
+              <span>💖</span>
+            </div>
+
+            <div class="input-group">
+              <label for="calc-name2" class="input-label">Their Name</label>
+              <input type="text" id="calc-name2" class="cute-input" placeholder="e.g. Oliver" maxlength="40" required autocomplete="off">
+            </div>
+          </div>
+
+          <div class="calc-btn-wrapper">
+            <button type="submit" class="btn btn-primary btn-calculate" id="btn-calculate">
+              <span>Calculate Magic</span> ✨
+            </button>
+          </div>
+        </form>
+
+        <!-- Loading State -->
+        <div class="calc-loading-box" id="calc-loading-box" aria-live="polite">
+          <div class="pulsing-hearts-loader" aria-hidden="true">
+            <span>💗</span>
+            <span>💖</span>
+            <span>✨</span>
+          </div>
+          <p class="calc-loading-text">Consulting the starry constellations...</p>
+        </div>
+
+        <!-- Result Card -->
+        <div class="calc-result-box" id="calc-result-box" aria-live="polite">
+          <div class="score-circle">
+            <span class="score-number" id="calc-score-number">0%</span>
+            <span class="score-label">Magic Sparks</span>
+          </div>
+          <div class="score-couple-names" id="calc-couple-names"></div>
+          <p class="score-message" id="calc-score-message"></p>
+          <button type="button" class="btn btn-secondary" id="btn-calc-reset">
+            <span>✨</span> Try Different Names
+          </button>
+        </div>
+
+        <p class="calc-disclaimer">
+          * This cosmic score is purely for fun, smiles, and sweet moments! No personal data is ever saved or sent anywhere.
+        </p>
+      </div>
+    </section>
+
+    <!-- 5. CUTE INTERACTIVE QUESTIONS (QUIZ) -->
+    <section class="section-container questions-section reveal-on-scroll" id="quiz">
+      <div class="section-header">
+        <div class="section-badge"><span>🧸</span> Playful Mini Game</div>
+        <h2 class="section-title">Let's Play a Little Game! 🧸</h2>
+        <p class="section-subtitle">Answer a few whimsical questions to reveal your couple universe vibe.</p>
+      </div>
+
+      <div class="glass-card quiz-card">
+        <!-- In-Progress Quiz View -->
+        <div id="quiz-question-view">
+          <div class="quiz-progress-bar-wrapper">
+            <div class="quiz-progress-meta">
+              <span id="quiz-progress-label">Question 1 of 4</span>
+              <span id="quiz-progress-icon">💗</span>
+            </div>
+            <div class="quiz-track" aria-hidden="true">
+              <div class="quiz-fill" id="quiz-progress-fill"></div>
+            </div>
+          </div>
+
+          <div class="quiz-question-box">
+            <h3 class="quiz-question-text" id="quiz-question-text">Loading question...</h3>
+            <div class="quiz-options-grid" id="quiz-options-grid" role="radiogroup" aria-labelledby="quiz-question-text">
+              <!-- Dynamically populated buttons -->
+            </div>
+          </div>
+
+          <div class="quiz-nav-row">
+            <button type="button" class="btn btn-secondary" id="btn-quiz-back" disabled>
+              <span>←</span> Back
+            </button>
+            <button type="button" class="btn btn-secondary" id="btn-quiz-restart">
+              <span>🔄</span> Restart
+            </button>
+            <button type="button" class="btn btn-primary" id="btn-quiz-next">
+              Next <span>→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Final Result View -->
+        <div class="quiz-result-view" id="quiz-result-view" aria-live="polite">
+          <div class="quiz-result-badge" id="quiz-result-badge" aria-hidden="true">🌸</div>
+          <h3 class="quiz-result-title" id="quiz-result-title">Cosmic Dreamers</h3>
+          <p class="quiz-result-desc" id="quiz-result-desc">Your universe is painted with tender hugs, starlit conversations, and sweet adventures that make everyday life feel magical.</p>
+          <button type="button" class="btn btn-primary" id="btn-quiz-play-again">
+            <span>✨</span> Play Again
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. LIVE RELATIONSHIP COUNTDOWN -->
+    <section class="section-container countdown-section reveal-on-scroll" id="countdown">
+      <div class="section-header">
+        <div class="section-badge"><span>⏳</span> Every Single Second</div>
+        <h2 class="section-title">Every Second Can Be Special 💗</h2>
+        <p class="section-subtitle">Let's celebrate the little moments, one second at a time.</p>
+      </div>
+
+      <div class="glass-card countdown-card">
+        <!-- Date Setup Form -->
+        <div class="countdown-form-row">
+          <div class="countdown-input-group">
+            <label for="countdown-datetime-input">Pick a special moment or date:</label>
+            <input type="datetime-local" id="countdown-datetime-input" class="countdown-time-input">
+          </div>
+          <button type="button" class="btn btn-primary" id="btn-start-timer">
+            <span>Start Our Timer</span> ⏳
+          </button>
+        </div>
+
+        <!-- Timer Status Badge -->
+        <div class="countdown-status-badge" id="countdown-status-badge">
+          ✨ Tracking our moments together ✨
+        </div>
+
+        <!-- Live Celebration Banner -->
+        <div class="countdown-celebration" id="countdown-celebration">
+          🎉 The special moment has arrived! Cherish every second together! 💖
+        </div>
+
+        <!-- Live 4-Card Counter -->
+        <div class="counter-grid">
+          <div class="counter-box">
+            <div class="counter-number" id="counter-days">00</div>
+            <div class="counter-unit">Days</div>
+          </div>
+          <div class="counter-box">
+            <div class="counter-number" id="counter-hours">00</div>
+            <div class="counter-unit">Hours</div>
+          </div>
+          <div class="counter-box">
+            <div class="counter-number" id="counter-minutes">00</div>
+            <div class="counter-unit">Minutes</div>
+          </div>
+          <div class="counter-box">
+            <div class="counter-number" id="counter-seconds">00</div>
+            <div class="counter-unit">Seconds</div>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-secondary" id="btn-countdown-reset">
+          <span>🔄</span> Change Date / Reset
+        </button>
+      </div>
+    </section>
+
+    <!-- 7. MAGICAL SURPRISE SECTION -->
+    <section class="section-container surprise-section reveal-on-scroll" id="surprise">
+      <div class="section-header">
+        <div class="section-badge"><span>🎁</span> Final Surprise</div>
+        <h2 class="section-title">One Last Little Surprise...</h2>
+        <p class="section-subtitle">There is always one more sweet surprise waiting for you.</p>
+      </div>
+
+      <div class="surprise-stage">
+        <button type="button" class="surprise-gift-box-btn" id="btn-open-gift-box" aria-label="Open your special gift box surprise">
+          <div class="gift-box-glow" aria-hidden="true"></div>
+          <div class="gift-box-pop-item" id="gift-box-pop-item" aria-hidden="true">✨</div>
+          <div class="gift-box-visual" aria-hidden="true">
+            <div class="gift-box-base"></div>
+            <div class="gift-box-lid" id="gift-box-lid"></div>
+            <div class="gift-box-bow">🎀</div>
+          </div>
+        </button>
+
+        <div>
+          <button type="button" class="btn btn-primary" id="btn-open-surprise-modal">
+            <span>Open My Surprise</span> 🎁
+          </button>
+        </div>
+        <p class="gift-box-hint-tip">✨ Click anytime — a different cute surprise unboxes every time! 🌸</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- 8. FLOATING BACKGROUND MUSIC PLAYER -->
+  <aside class="floating-music-player" id="floating-music-player" aria-label="Romantic Background Music Player">
+    <!-- Spinning Vinyl Record -->
+    <div class="music-vinyl-disc" id="music-vinyl-disc" aria-hidden="true">
+      <div class="vinyl-center-dot"></div>
+    </div>
+
+    <div class="music-info-col">
+      <span class="music-track-title" id="music-track-title">Universe Lullaby</span>
+      <span class="music-track-status" id="music-track-status">
+        <span class="equalizer-wave" aria-hidden="true">
+          <span></span><span></span><span></span><span></span>
+        </span>
+        <span id="music-status-text">Click Play 🎵</span>
+      </span>
+    </div>
+
+    <div class="music-controls-group">
+      <button type="button" class="music-btn music-play-btn" id="btn-music-play" aria-label="Play or pause background music">
+        <span id="music-play-icon">▶</span>
+      </button>
+      <button type="button" class="music-btn" id="btn-music-mute" aria-label="Mute or unmute music">
+        <span id="music-mute-icon">🔊</span>
+      </button>
+      <button type="button" class="music-btn" id="btn-music-help" aria-label="Music player info and custom MP3 guide">
+        <span>ℹ️</span>
+      </button>
+    </div>
+
+    <!-- Hidden HTML5 Audio Element -->
+    <audio id="bg-audio" src="assets/music/background.mp3" loop preload="none"></audio>
+  </aside>
+
+  <!-- Music Info Modal -->
+  <div class="music-help-modal" id="music-help-modal" role="dialog" aria-modal="true" aria-label="Music Player Help">
+    <div class="music-help-card">
+      <button type="button" class="lightbox-close-btn" id="btn-close-music-help" aria-label="Close music guide">✕</button>
+      <h3>Background Music Guide 🎵</h3>
+      <p>
+        You can easily replace the background music by dropping your favorite romantic song into:<br>
+        <code>assets/music/background.mp3</code>
+      </p>
+      <p>
+        The player also includes a built-in soothing Web Audio Music Box chime synthesizer that sounds lovely anywhere, anytime!
+      </p>
+      <button type="button" class="btn btn-primary" id="btn-dismiss-music-help">
+        Got it, thanks! 💗
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Notification Message -->
+  <div class="toast-msg" id="toast-msg" role="status" aria-live="polite">
+    <span>💌</span> <span id="toast-text">Copied with love!</span>
+  </div>
+
+  <!-- 9. REAL WEBSITE FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      
+      <div class="footer-grid">
+        <!-- Brand Column -->
+        <div class="footer-col footer-brand-col">
+          <a href="#hero" class="footer-brand-logo" aria-label="Our Little Universe Home">
+            <span class="footer-brand-heart">💗</span>
+            <span class="footer-brand-name">Our Little Universe</span>
+          </a>
+          <p class="footer-brand-desc">
+            A tiny corner of the internet made for smiles, memories, and little moments of magic.
+          </p>
+          <div class="footer-cute-badge">
+            <span>🌸</span> Made with love and a little bit of magic 💗
+          </div>
+        </div>
+
+        <!-- Quick Links Column -->
+        <div class="footer-col">
+          <h4 class="footer-col-title">Quick Links</h4>
+          <ul class="footer-nav-list">
+            <li><a href="#hero" class="footer-link"><span>🏡</span> Home</a></li>
+            <li><a href="studio.html" class="footer-link"><span>📸</span> Photo Studio</a></li>
+            <li><a href="vault.html" class="footer-link"><span>🔐</span> Love Vault</a></li>
+            <li><a href="#memories" class="footer-link"><span>🖼️</span> Memories</a></li>
+            <li><a href="#love-letter" class="footer-link"><span>💌</span> Love Letter</a></li>
+            <li><a href="#quiz" class="footer-link"><span>🧸</span> Fun Questions</a></li>
+          </ul>
+        </div>
+
+        <!-- Legal & Safety Column -->
+        <div class="footer-col">
+          <h4 class="footer-col-title">Peace of Mind</h4>
+          <ul class="footer-nav-list">
+            <li><a href="privacy.html" class="footer-link"><span>🛡️</span> Privacy Policy</a></li>
+            <li><a href="terms.html" class="footer-link"><span>📜</span> Terms of Use</a></li>
+            <li class="footer-contact-item">
+              <span>💌 Contact:</span>
+              <code class="footer-placeholder">[Add your contact email here]</code>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="footer-divider" aria-hidden="true"></div>
+
+      <!-- Bottom Bar -->
+      <div class="footer-bottom-bar">
+        <p class="footer-copy">
+          &copy; <span id="footer-year"></span> Our Little Universe. Created with infinite love.
+        </p>
+
+        <div>
+          <button type="button" class="btn-back-to-top" id="btn-back-to-top" aria-label="Back to top of page">
+            <span>↑</span> Back to Top
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Surprise Modal Dialog (Root Level for fixed viewport positioning) -->
+  <div class="surprise-modal-backdrop" id="surprise-modal" role="dialog" aria-modal="true" aria-label="Magical Romantic Surprise">
+    <div class="surprise-modal-card">
+      <button type="button" class="surprise-modal-close-btn" id="btn-close-surprise" aria-label="Close Surprise Modal">✕</button>
+      
+      <!-- Discovery Badge & Counter -->
+      <div class="surprise-badge-row">
+        <span class="surprise-pill-badge" id="surprise-badge-title">🎁 Surprise Unboxed!</span>
+        <span class="surprise-counter-badge" id="surprise-counter-badge">Surprise 1 of 16 ✨</span>
+      </div>
+
+      <!-- Animated Center Item Visual -->
+      <div class="surprise-item-stage">
+        <div class="surprise-sparkle-halo" aria-hidden="true"></div>
+        <div class="surprise-center-heart" id="surprise-center-icon" aria-hidden="true">💖</div>
+      </div>
+
+      <h3 class="surprise-revealed-text" id="surprise-revealed-text">
+        You make ordinary little moments feel magical. Keep being wonderfully you. 💗
+      </h3>
+
+      <div class="surprise-modal-actions">
+        <button type="button" class="btn btn-primary" id="btn-next-surprise">
+          <span>🎁 Open Another Surprise!</span>
+        </button>
+        <button type="button" class="btn btn-secondary" id="btn-replay-surprise">
+          <span>✨</span> Replay Magic
+        </button>
+        <button type="button" class="btn btn-secondary" id="btn-dismiss-surprise">
+          <span>Close with a Hug</span> 💕
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main JavaScript File -->
+  <script src="js/script.js"></script>
+  <script>
+    const initIndexPage = () => {
+      // 1. Initialize 3D Hero Scene, 3D Couple Scene & 3D Interactive Card Tilts immediately
+      try {
+        if (window.Universe3D) {
+          if (typeof window.Universe3D.initHeroScene === 'function') {
+            window.Universe3D.initHeroScene('universe-3d-hero-canvas');
+          }
+          if (typeof window.Universe3D.initCoupleScene === 'function') {
+            window.Universe3D.initCoupleScene('universe-3d-couple-canvas');
+          }
+          if (typeof window.Universe3D.init3DCardTilts === 'function') {
+            window.Universe3D.init3DCardTilts();
+          }
+        }
+      } catch (err3d) {
+        console.warn('3D initialization notice:', err3d);
+      }
+
+      // 2. Fetch authenticated session asynchronously without blocking 3D rendering
+      (async () => {
+        try {
+          if (window.UniverseAuth) {
+            const user = await window.UniverseAuth.getSession();
+            if (user) {
+              const nameEl = document.getElementById('user-display-name');
+              const welcomeBanner = document.getElementById('hero-welcome-user');
+              const welcomeName = document.getElementById('welcome-user-name');
+              const name = user.displayName || user.email.split('@')[0];
+              if (nameEl) nameEl.textContent = name;
+              if (welcomeName) welcomeName.textContent = name;
+              if (welcomeBanner) welcomeBanner.style.display = 'inline-flex';
+            }
+          }
+        } catch (e) {}
+      })();
+
+      const btnLogout = document.getElementById('btn-logout');
+      if (btnLogout) {
+        btnLogout.addEventListener('click', async () => {
+          if (window.UniverseAuth) {
+            await window.UniverseAuth.logout();
+          }
+          window.location.replace('login.html?logged_out=1');
+        });
+      }
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initIndexPage);
+    } else {
+      initIndexPage();
+    }
+  </script>
+</body>
+</html>

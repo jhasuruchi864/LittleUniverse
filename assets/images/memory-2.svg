@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="beachSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFB6D5" />
+      <stop offset="35%" stop-color="#FFD6E7" />
+      <stop offset="70%" stop-color="#DCD6FF" />
+      <stop offset="100%" stop-color="#FDE8CD" />
+    </linearGradient>
+    <linearGradient id="sunGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFF8F2" />
+      <stop offset="100%" stop-color="#FFB6D5" stop-opacity="0.2" />
+    </linearGradient>
+    <linearGradient id="seaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#B8ABEE" />
+      <stop offset="40%" stop-color="#8E7DC7" />
+      <stop offset="100%" stop-color="#5B487A" />
+    </linearGradient>
+    <linearGradient id="sandGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#EED5C2" />
+      <stop offset="100%" stop-color="#D9BAA1" />
+    </linearGradient>
+    <filter id="sunBlur" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="16" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="800" height="380" fill="url(#beachSky)" />
+
+  <!-- Soft pastel clouds -->
+  <path d="M 50 140 Q 90 100 150 120 Q 200 90 260 120 Q 300 130 320 150 L 50 150 Z" fill="#FFF8F2" opacity="0.5" />
+  <path d="M 480 110 Q 530 80 590 100 Q 640 70 700 100 Q 740 120 750 130 L 480 130 Z" fill="#FFF8F2" opacity="0.4" />
+
+  <!-- Sun -->
+  <circle cx="400" cy="240" r="60" fill="url(#sunGlow)" filter="url(#sunBlur)" />
+  <circle cx="400" cy="240" r="45" fill="#FFF8F2" opacity="0.9" />
+
+  <!-- Seagulls -->
+  <g stroke="#51364F" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.6">
+    <path d="M 230 110 Q 240 100 250 110 Q 260 100 270 110" />
+    <path d="M 270 125 Q 278 118 286 125 Q 294 118 302 125" />
+    <path d="M 540 90 Q 552 78 564 90 Q 576 78 588 90" />
+  </g>
+
+  <!-- Sea Ocean -->
+  <rect x="0" y="270" width="800" height="150" fill="url(#seaGrad)" />
+
+  <!-- Sun reflection on water -->
+  <g fill="#FFF8F2" opacity="0.6">
+    <ellipse cx="400" cy="275" rx="70" ry="3" />
+    <ellipse cx="400" cy="285" rx="90" ry="4" />
+    <ellipse cx="400" cy="300" rx="120" ry="5" />
+    <ellipse cx="400" cy="320" rx="150" ry="6" opacity="0.5" />
+    <ellipse cx="400" cy="345" rx="180" ry="7" opacity="0.4" />
+    <ellipse cx="400" cy="370" rx="210" ry="8" opacity="0.3" />
+  </g>
+
+  <!-- Soft Shore Wave Curves -->
+  <path d="M 0 380 Q 200 360 400 385 T 800 375 L 800 410 L 0 410 Z" fill="#DCD6FF" opacity="0.4" />
+  <path d="M 0 395 Q 250 375 500 405 T 800 390 L 800 420 L 0 420 Z" fill="#FFF8F2" opacity="0.75" />
+
+  <!-- Beach Sand -->
+  <path d="M 0 410 Q 300 385 800 415 L 800 600 L 0 600 Z" fill="url(#sandGrad)" />
+
+  <!-- Two sets of Footsteps walking together -->
+  <g fill="#B8947C" opacity="0.6">
+    <!-- Left pair 1 -->
+    <ellipse cx="360" cy="460" rx="10" ry="16" transform="rotate(10 360 460)" />
+    <circle cx="363" cy="440" r="4" />
+    <!-- Right pair 1 -->
+    <ellipse cx="410" cy="455" rx="9" ry="15" transform="rotate(12 410 455)" />
+    <circle cx="413" cy="437" r="3.5" />
+
+    <!-- Left pair 2 -->
+    <ellipse cx="375" cy="495" rx="11" ry="17" transform="rotate(8 375 495)" />
+    <circle cx="377" cy="474" r="4" />
+    <!-- Right pair 2 -->
+    <ellipse cx="425" cy="490" rx="9.5" ry="16" transform="rotate(10 425 490)" />
+    <circle cx="427" cy="470" r="3.5" />
+
+    <!-- Left pair 3 -->
+    <ellipse cx="390" cy="535" rx="11" ry="18" transform="rotate(12 390 535)" />
+    <circle cx="394" cy="513" r="4.5" />
+    <!-- Right pair 3 -->
+    <ellipse cx="442" cy="530" rx="10" ry="16.5" transform="rotate(14 442 530)" />
+    <circle cx="446" cy="509" r="4" />
+  </g>
+
+  <!-- Drawn Heart in the sand -->
+  <path d="M 480 500 C 480 490, 465 480, 455 492 C 445 508, 480 535, 480 535 C 480 535, 515 508, 505 492 C 495 480, 480 490, 480 500 Z" fill="none" stroke="#B8947C" stroke-width="3" stroke-dasharray="4,4" opacity="0.8" />
+
+  <!-- Tropical Palm Silhouette left edge -->
+  <g fill="#432E41" opacity="0.85">
+    <path d="M -10 600 Q 60 420 80 200 Q 84 190 88 200 Q 80 420 -5 600 Z" />
+    <!-- Fronds -->
+    <path d="M 85 200 Q 150 160 260 210 Q 180 230 85 200" />
+    <path d="M 85 200 Q 180 130 240 140 Q 160 170 85 200" />
+    <path d="M 85 200 Q 110 100 170 90 Q 130 140 85 200" />
+    <path d="M 85 200 Q 40 120 10 110 Q 30 160 85 200" />
+  </g>
+
+  <!-- Caption text -->
+  <text x="400" y="580" font-family="'Caveat', cursive, sans-serif" font-size="28" fill="#51364F" text-anchor="middle" letter-spacing="1.5">Where the sky kisses the sea with you 🌊</text>
+</svg>

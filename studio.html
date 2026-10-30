@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Couple Studio 💕 | AI Romantic Artwork</title>
+  <meta name="description" content="Transform your favorite photos into adorable 3D chibi, dreamy anime, and pastel fairytale couple artwork in Our Little Universe.">
+  
+  <!-- Romantic Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;700;800&family=Sacramento&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    /* Prevent flash of protected content before authentication confirmation */
+    html:not(.auth-verified) body {
+      display: none !important;
+    }
+  </style>
+  <script>
+    (function() {
+      try {
+        const token = localStorage.getItem('universe_session_token');
+        const cached = localStorage.getItem('universe_cached_user');
+        const hasCookie = document.cookie.indexOf('universe_session=') !== -1;
+        if (token || cached || hasCookie) {
+          document.documentElement.classList.add('auth-verified');
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="page-studio">
+
+  <!-- 3D Canvas Background -->
+  <canvas id="universe-bg-canvas" aria-hidden="true"></canvas>
+
+  <!-- Site Navigation -->
+  <header class="site-header" id="site-header">
+    <nav class="nav-container" aria-label="Main Navigation">
+      <a href="index.html" class="nav-logo" aria-label="Our Little Universe Home">
+        <span class="logo-heart">💗</span>
+        <span class="logo-text">Our Universe</span>
+      </a>
+
+      <!-- Hamburger Toggle for Mobile -->
+      <button class="nav-toggle-btn" id="nav-toggle-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links-menu">
+        <div class="hamburger-icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </button>
+
+      <!-- Nav Links -->
+      <ul class="nav-links" id="nav-links-menu">
+        <li><a href="index.html" class="nav-link"><span>🏡</span> 3D Universe</a></li>
+        <li><a href="studio.html" class="nav-link active"><span>📸</span> Couple Studio</a></li>
+        <li><a href="vault.html" class="nav-link"><span>🔐</span> Love Vault</a></li>
+        <li><a href="analyzer.html" class="nav-link"><span>🔮</span> Insights</a></li>
+        <li class="nav-account-item">
+          <div class="user-account-pill">
+            <span class="user-avatar" aria-hidden="true">🌸</span>
+            <span class="user-display-name" id="user-display-name">Soulmate</span>
+            <button type="button" class="btn-logout" id="btn-logout" aria-label="Log Out of Our Little Universe">
+              <span>Logout</span> 🚪
+            </button>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="studio-main-container">
+    <!-- Studio Header Banner -->
+    <div class="studio-hero-card glass-card">
+      <div class="hero-badge">
+        <span>✨</span> AI Romantic Couple Creation <span>✨</span>
+      </div>
+      <h1 class="cursive-title studio-page-title">
+        Our Couple Studio <span class="sparkle-word">💕</span>
+      </h1>
+      <p class="studio-page-subtitle">
+        Turn your favorite memories into adorable 3D chibi, dreamy anime, and fairytale artwork.
+      </p>
+
+      <!-- Provider Status Banner -->
+      <div class="studio-status-strip" id="studio-provider-status" role="status">
+        <span class="status-indicator-dot" id="status-dot"></span>
+        <span id="provider-status-text">Checking AI provider connection...</span>
+        <button type="button" class="btn-text-link" id="btn-toggle-setup-help">
+          ⚙️ Setup Guide
+        </button>
+      </div>
+
+      <!-- Expandable Setup Help Box -->
+      <div class="setup-help-drawer" id="setup-help-drawer" style="display: none;">
+        <div class="setup-help-card">
+          <h3><span>💌</span> How to Enable Live AI Image Generation</h3>
+          <p>
+            Our Couple Studio supports <strong>OpenAI DALL-E 3</strong>, <strong>Stability AI</strong>, and <strong>Google Gemini Imagen</strong>. To enable live photo generation, add your API key to the <code>.env</code> file on your server:
+          </p>
+          <pre><code># Open .env in your project folder and add:
+OPENAI_API_KEY=sk-proj-your-openai-api-key-here
+# or
+STABILITY_API_KEY=sk-your-stability-api-key-here</code></pre>
+          <p class="setup-note">
+            <em>Privacy Guarantee:</em> All API keys stay strictly on the server and are never exposed in browser code. Reference photos are transmitted only when you click "Generate Romantic Artwork" with your explicit consent.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Studio Grid: Controls & Preview -->
+    <div class="studio-workspace-grid">
+
+      <!-- LEFT COLUMN: Studio Controls -->
+      <div class="studio-controls-column">
+
+        <!-- 1. Photo Upload Card -->
+        <section class="glass-card studio-card" aria-labelledby="step-upload-title">
+          <div class="card-step-badge">Step 1</div>
+          <h2 id="step-upload-title" class="studio-section-title">
+            <span>📷</span> Upload Reference Photos
+          </h2>
+          <p class="studio-section-desc">
+            Upload clear, smiling photos. We aim to capture your recognizable facial features, hair, and romantic expressions in artistic style.
+          </p>
+
+          <div class="photo-dropzones-row">
+            <!-- Photo 1: User -->
+            <div class="photo-dropzone-box" id="dropzone-photo-1">
+              <input type="file" id="input-photo-1" accept="image/jpeg,image/png,image/webp" class="visually-hidden-file" aria-label="Upload your photo">
+              <div class="dropzone-idle" id="dropzone-idle-1">
+                <span class="dropzone-icon">🌸</span>
+                <strong>Your Photo</strong>
+                <p>Click or drag image here</p>
+                <span class="file-hint">JPG, PNG, WebP (max 5MB)</span>
+              </div>
+              <div class="dropzone-preview" id="dropzone-preview-1" style="display: none;">
+                <img id="preview-img-1" alt="Your reference photo preview">
+                <div class="preview-actions">
+                  <button type="button" class="btn-preview-action btn-replace" id="btn-replace-1" aria-label="Replace your photo">Replace</button>
+                  <button type="button" class="btn-preview-action btn-remove" id="btn-remove-1" aria-label="Remove your photo">Remove</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Photo 2: Partner (Optional) -->
+            <div class="photo-dropzone-box" id="dropzone-photo-2">
+              <input type="file" id="input-photo-2" accept="image/jpeg,image/png,image/webp" class="visually-hidden-file" aria-label="Upload partner's photo (optional)">
+              <div class="dropzone-idle" id="dropzone-idle-2">
+                <span class="dropzone-icon">🧸</span>
+                <strong>Partner's Photo</strong>
+                <p>Click or drag image here <span class="tag-optional">(Optional)</span></p>
+                <span class="file-hint">JPG, PNG, WebP (max 5MB)</span>
+              </div>
+              <div class="dropzone-preview" id="dropzone-preview-2" style="display: none;">
+                <img id="preview-img-2" alt="Partner's reference photo preview">
+                <div class="preview-actions">
+                  <button type="button" class="btn-preview-action btn-replace" id="btn-replace-2" aria-label="Replace partner's photo">Replace</button>
+                  <button type="button" class="btn-preview-action btn-remove" id="btn-remove-2" aria-label="Remove partner's photo">Remove</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. Artistic Style Selection -->
+        <section class="glass-card studio-card" aria-labelledby="step-style-title">
+          <div class="card-step-badge">Step 2</div>
+          <h2 id="step-style-title" class="studio-section-title">
+            <span>🎨</span> Select Artistic Style
+          </h2>
+          <p class="studio-section-desc">Choose from 12 cute romantic visual themes:</p>
+
+          <div class="style-cards-grid" role="radiogroup" aria-label="Couple Artwork Styles">
+            <label class="style-choice-card active">
+              <input type="radio" name="studio-style" value="chibi" checked>
+              <span class="style-icon">🧸</span>
+              <span class="style-name">Cute 3D Chibi</span>
+              <span class="style-desc">Rosy blush cheeks &amp; mini charm</span>
+            </label>
+
+            <label class="style-choice-card">
+              <input type="radio" name="studio-style" value="anime">
+              <span class="style-icon">🌸</span>
+              <span class="style-name">Dreamy Anime</span>
+              <span class="style-desc">Soft watercolor starlight aesthetic</span>
+            </label>
+
+            <label class="style-choice-card">
+              <input type="radio" name="studio-style" value="cartoon">
+              <span class="style-icon">🎨</span>
+              <span class="style-name">Romantic Cartoon</span>
+              <span class="style-desc">Playful rounded storybook art</span>
+            </label>
+
+            <label class="style-choice-card">
+              <input type="radio" name="studio-style" value="clay">
+              <span class="style-icon">🧁</span>
+              <span class="style-name">Cute Clay 3D</span>
+              <span class="style-desc">Tactile stop-motion figurine aesthetic</span>
+            </label>
+
+            <label class="style-choice-card">
+              <input type="radio" name="studio-style" value="fairytale">
+              <span class="style-icon">🏰</span>
+              <span class="style-name">Pastel Fairytale</span>
+              <span class="style-desc">Enchanted glowing storybook fantasy</span>
+            </label>
+
+            <label class="style-choice-card">
+              <input type="radio" name="studio-style" value="cherry-blossoms">
+              <span class="style-icon">🌸</span>
+              <span class="style-name">Cherry Blossoms</span>
+              <span class="style-desc">Falling sakura petals &amp; gentle breeze</span>
+            </label>
+
+            <label class="style-choice-card">
+              <input type="radio" name="studio-style" value="rainy-day">
+              <span class="style-icon">☔</span>
+              <span class="style-name">Cozy Rainy-Day</span>
+              <span class="style-desc">Sharing a warm pastel umbrella</span>
+            </label>
+
+            <label class="style-choice-card">
+              <input type="radio" name="studio-style" value="moonlight">
+              <span class="style-icon">🌙</span>
+              <span class="style-name">Moonlight Date</span>
+              <span class="style-desc">Silver moonbeams &amp; glowing night</span>
+            </label>
+
+            <label class="style-choice-card">
+              <input type="radio" name="studio-style" value="hug">
+              <span class="style-icon">🤗</span>
+              <span class="style-name">Sweet Warm Hug</span>
+              <span class="style-desc">Cozy loving embrace &amp; tiny hearts</span>
+            </label>
+
+            <label class="style-choice-card">
+              <input type="radio" name="studio-style" value="hands">
+              <span class="style-icon">🫶</span>
+              <span class="style-name">Holding Hands</span>
+              <span class="style-desc">Tender connection &amp; fairy lights</span>
+            </label>
+
+            <label class="style-choice-card">
+              <input type="radio" name="studio-style" value="polaroid">
+              <span class="style-icon">📸</span>
+              <span class="style-name">Romantic Polaroid</span>
+              <span class="style-desc">Vintage grain &amp; handwritten warmth</span>
+            </label>
+
+            <label class="style-choice-card">
+              <input type="radio" name="studio-style" value="matching-pfp">
+              <span class="style-icon">🎀</span>
+              <span class="style-name">Matching Avatars</span>
+              <span class="style-desc">Complementary profile portraits</span>
+            </label>
+          </div>
+        </section>
+
+        <!-- 3. Romantic Scene Selection -->
+        <section class="glass-card studio-card" aria-labelledby="step-scene-title">
+          <div class="card-step-badge">Step 3</div>
+          <h2 id="step-scene-title" class="studio-section-title">
+            <span>✨</span> Choose Romantic Scene
+          </h2>
+          <p class="studio-section-desc">Pick where your romantic adventure takes place:</p>
+
+          <div class="scene-chips-container" role="radiogroup" aria-label="Scene Selection">
+            <button type="button" class="scene-chip-btn active" data-scene="heart-universe">
+              <span>💗</span> Magical Heart Universe
+            </button>
+            <button type="button" class="scene-chip-btn" data-scene="clouds">
+              <span>☁️</span> Pink Cloud Kingdom
+            </button>
+            <button type="button" class="scene-chip-btn" data-scene="garden">
+              <span>🌷</span> Secret Flower Garden
+            </button>
+            <button type="button" class="scene-chip-btn" data-scene="cafe">
+              <span>☕</span> Cozy Romantic Café
+            </button>
+            <button type="button" class="scene-chip-btn" data-scene="stargazing">
+              <span>✨</span> Starry Night Meadow
+            </button>
+            <button type="button" class="scene-chip-btn" data-scene="sunset">
+              <span>🌅</span> Pastel Beach Sunset
+            </button>
+            <button type="button" class="scene-chip-btn" data-scene="bedroom">
+              <span>🛋️</span> Cute Dreamy Bedroom
+            </button>
+            <button type="button" class="scene-chip-btn" data-scene="rainy-window">
+              <span>🌧️</span> Cozy Rainy Window
+            </button>
+          </div>
+        </section>
+
+        <!-- 4. Aspect Ratio & Custom Details -->
+        <section class="glass-card studio-card" aria-labelledby="step-details-title">
+          <div class="card-step-badge">Step 4</div>
+          <h2 id="step-details-title" class="studio-section-title">
+            <span>📐</span> Dimensions &amp; Custom Touches
+          </h2>
+
+          <div class="aspect-ratio-selector">
+            <label class="aspect-choice active">
+              <input type="radio" name="studio-aspect" value="square" checked>
+              <span class="aspect-icon">⏹️</span>
+              <span class="aspect-label">Square (1:1)</span>
+            </label>
+            <label class="aspect-choice">
+              <input type="radio" name="studio-aspect" value="portrait">
+              <span class="aspect-icon">📱</span>
+              <span class="aspect-label">Portrait (9:16)</span>
+            </label>
+            <label class="aspect-choice">
+              <input type="radio" name="studio-aspect" value="landscape">
+              <span class="aspect-icon">🖥️</span>
+              <span class="aspect-label">Landscape (16:9)</span>
+            </label>
+          </div>
+
+          <div class="form-group-custom-prompt">
+            <label for="custom-prompt-input" class="custom-prompt-label">
+              <span>💌</span> Custom Prompt &amp; Love Details (Optional)
+            </label>
+            <textarea id="custom-prompt-input" class="studio-textarea" rows="3" placeholder="Add cute notes, e.g.: 'Wearing matching pastel pink hoodies with heart pins, holding a tiny strawberry milkshake...'"></textarea>
+          </div>
+
+          <!-- Mandatory Consent Checkbox -->
+          <div class="consent-agreement-box">
+            <label class="consent-checkbox-label">
+              <input type="checkbox" id="check-studio-consent" required>
+              <span>I confirm I have permission to use these uploaded photos and consent to process them for couple artwork creation. (We strictly forbid deceptive or non-consensual imagery).</span>
+            </label>
+          </div>
+
+          <!-- Generate Action Button -->
+          <div class="generate-btn-container">
+            <button type="button" class="btn btn-primary btn-generate-artwork" id="btn-generate-artwork">
+              <span>✨ Generate Couple Artwork 💕</span>
+            </button>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- RIGHT COLUMN: Interactive Preview & Result Showcase -->
+      <div class="studio-showcase-column">
+        <div class="glass-card studio-showcase-card" id="studio-showcase-card">
+
+          <!-- State 1: Idle Mockup / Waiting -->
+          <div class="showcase-state showcase-state-idle" id="showcase-idle">
+            <div class="showcase-polaroid-frame">
+              <div class="showcase-placeholder-art">
+                <span class="placeholder-chibi-couple">👩‍❤️‍👨</span>
+                <div class="floating-hearts-halo">
+                  <span>💗</span>
+                  <span>✨</span>
+                  <span>🌸</span>
+                </div>
+              </div>
+              <div class="showcase-polaroid-caption">
+                <p class="caption-title" id="showcase-preview-style">Cute 3D Chibi</p>
+                <p class="caption-scene" id="showcase-preview-scene">in Magical Heart Universe</p>
+              </div>
+            </div>
+            <p class="showcase-hint-text">
+              Upload photos and choose your favorite style to weave your custom romantic artwork.
+            </p>
+          </div>
+
+          <!-- State 2: Generating Progress State -->
+          <div class="showcase-state showcase-state-generating" id="showcase-generating" style="display: none;">
+            <div class="generating-heart-spinner">
+              <div class="spinner-core">💗</div>
+              <div class="spinner-orbit">✨</div>
+            </div>
+            <h3 class="generating-title cursive-title">Weaving Your Romantic Artwork...</h3>
+            <p class="generating-status-message" id="generating-status-text">Connecting to starlight engine...</p>
+            <div class="generating-progress-bar">
+              <div class="generating-progress-fill" id="generating-progress-fill"></div>
+            </div>
+            <p class="generating-tip">Crafting gentle chibi smiles and painting rosy blush cheeks ✨</p>
+          </div>
+
+          <!-- State 3: Error / Unconfigured State -->
+          <div class="showcase-state showcase-state-error" id="showcase-error" style="display: none;">
+            <div class="error-icon-bubble">⚠️</div>
+            <h3 class="error-title" id="error-title-text">Generation Needs Setup</h3>
+            <p class="error-desc" id="error-desc-text">
+              Image generation provider credentials are not configured in your server environment (.env).
+            </p>
+            <div class="error-actions">
+              <button type="button" class="btn btn-secondary" id="btn-show-env-guide">
+                <span>⚙️ How to Configure .env</span>
+              </button>
+              <button type="button" class="btn btn-primary" id="btn-retry-generation">
+                <span>🔄 Retry Generation</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- State 4: Generated Artwork Success State -->
+          <div class="showcase-state showcase-state-success" id="showcase-success" style="display: none;">
+            <div class="showcase-polaroid-frame success-frame">
+              <div class="generated-image-container">
+                <img id="generated-result-image" alt="Generated romantic couple artwork">
+              </div>
+              <div class="showcase-polaroid-caption">
+                <p class="caption-title" id="result-caption-title">Our Little Universe Moment 💗</p>
+                <p class="caption-date" id="result-caption-date">Just Now</p>
+              </div>
+            </div>
+
+            <!-- Action Controls -->
+            <div class="result-action-buttons">
+              <button type="button" class="btn btn-primary" id="btn-save-to-vault">
+                <span>🔐 Save to Love Vault</span>
+              </button>
+              <a id="btn-download-artwork" class="btn btn-secondary" download="our-little-universe-couple.png">
+                <span>📥 Download Photo</span>
+              </a>
+              <button type="button" class="btn btn-secondary" id="btn-regenerate-artwork">
+                <span>🔄 Regenerate</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Save to Vault Modal -->
+  <div class="modal-overlay" id="save-vault-modal" role="dialog" aria-modal="true" aria-labelledby="save-vault-title" style="display: none;">
+    <div class="modal-card glass-card">
+      <div class="modal-header">
+        <h3 id="save-vault-title"><span>🔐</span> Save to Private Love Vault</h3>
+        <button type="button" class="modal-close-btn" id="btn-close-save-modal" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">
+          Store this creation in your personal private vault, encrypted and protected under your authenticated account.
+        </p>
+        <div class="form-group">
+          <label for="vault-folder-select">Choose Destination Folder:</label>
+          <select id="vault-folder-select" class="studio-select"></select>
+        </div>
+        <div class="form-group">
+          <label for="vault-image-title">Artwork Title:</label>
+          <input type="text" id="vault-image-title" class="studio-input" value="Our Chibi Moment 💕">
+        </div>
+        <div class="form-group">
+          <label for="vault-image-caption">Romantic Caption (Optional):</label>
+          <input type="text" id="vault-image-caption" class="studio-input" placeholder="e.g. Floating together in our pink cloud kingdom...">
+        </div>
+        <div class="modal-status" id="save-modal-status"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btn-cancel-save">Cancel</button>
+        <button type="button" class="btn btn-primary" id="btn-confirm-save-vault">
+          <span>💖 Save Forever</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Real Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <a href="index.html" class="footer-brand-logo" aria-label="Our Little Universe Home">
+            <span class="footer-brand-heart">💗</span>
+            <span class="footer-brand-name">Our Little Universe</span>
+          </a>
+          <p class="footer-brand-desc">
+            A romantic digital sanctuary for celebrating love, capturing memories, and creating sweet fairy tale moments together.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title"><span>✨</span> Experiences</h4>
+          <ul class="footer-links-list">
+            <li><a href="index.html#couple-experience">3D Chibi Couple</a></li>
+            <li><a href="studio.html">AI Couple Studio</a></li>
+            <li><a href="vault.html">Private Love Vault</a></li>
+            <li><a href="index.html#memories">Memory Scrapbook</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title"><span>🛡️</span> Privacy &amp; Trust</h4>
+          <ul class="footer-links-list">
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Use</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">
+          &copy; 2026 Our Little Universe 💗 &bull; Made with endless love, starlight, and sweet dreams.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/three.min.js"></script>
+  <script>
+    if (typeof THREE === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+    }
+  </script>
+  <script src="js/auth.js"></script>
+  <script src="js/universe-3d.js"></script>
+  <script src="js/studio.js"></script>
+  <script>
+    // Enforce authentication guard
+    if (window.UniverseAuth) {
+      window.UniverseAuth.requireAuth();
+    }
+  </script>
+</body>
+</html>

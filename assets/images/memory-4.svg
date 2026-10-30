@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="springSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#DCD6FF" />
+      <stop offset="45%" stop-color="#FFD6E7" />
+      <stop offset="100%" stop-color="#FFF8F2" />
+    </linearGradient>
+    <filter id="softBikeShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#51364F" flood-opacity="0.2" />
+    </filter>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="800" height="600" fill="url(#springSky)" />
+
+  <!-- Cherry blossom branch top-left & top-right -->
+  <g stroke="#6A4966" stroke-width="5" fill="none" stroke-linecap="round">
+    <path d="M 0 40 Q 140 70 240 20 Q 300 0 350 40" />
+    <path d="M 120 58 Q 170 120 220 130" stroke-width="3" />
+    <path d="M 800 20 Q 680 80 580 40 Q 520 20 480 60" />
+    <path d="M 690 60 Q 640 120 590 140" stroke-width="3" />
+  </g>
+
+  <!-- Cherry blossoms & petals -->
+  <g fill="#FFB6D5" opacity="0.9">
+    <circle cx="90" cy="50" r="14" />
+    <circle cx="160" cy="70" r="16" />
+    <circle cx="210" cy="30" r="15" />
+    <circle cx="225" cy="130" r="12" />
+    <circle cx="290" cy="20" r="14" />
+    <circle cx="340" cy="45" r="16" />
+
+    <circle cx="750" cy="35" r="15" />
+    <circle cx="670" cy="75" r="18" />
+    <circle cx="610" cy="45" r="16" />
+    <circle cx="585" cy="140" r="13" />
+    <circle cx="500" cy="65" r="15" />
+
+    <!-- Flower centers -->
+    <circle cx="160" cy="70" r="5" fill="#FF5C8A" />
+    <circle cx="340" cy="45" r="5" fill="#FF5C8A" />
+    <circle cx="670" cy="75" r="5" fill="#FF5C8A" />
+  </g>
+
+  <!-- Floating Falling Petals -->
+  <g fill="#FFB6D5" opacity="0.75">
+    <ellipse cx="260" cy="180" rx="12" ry="7" transform="rotate(35 260 180)" />
+    <ellipse cx="450" cy="140" rx="10" ry="6" transform="rotate(-25 450 140)" />
+    <ellipse cx="380" cy="240" rx="14" ry="8" transform="rotate(45 380 240)" />
+    <ellipse cx="540" cy="260" rx="11" ry="6" transform="rotate(-15 540 260)" />
+    <ellipse cx="180" cy="310" rx="13" ry="7" transform="rotate(20 180 310)" />
+  </g>
+
+  <!-- Floating Heart Balloons tied to bicycle -->
+  <g>
+    <!-- Strings -->
+    <path d="M 440 310 Q 420 220 400 140" stroke="#FFF8F2" stroke-width="2" fill="none" opacity="0.8" />
+    <path d="M 440 310 Q 460 210 450 120" stroke="#FFF8F2" stroke-width="2" fill="none" opacity="0.8" />
+    <path d="M 440 310 Q 480 230 490 150" stroke="#FFF8F2" stroke-width="2" fill="none" opacity="0.8" />
+
+    <!-- Balloon 1 (Soft Pink Heart) -->
+    <g transform="translate(390, 85)">
+      <path d="M 20 25 C 20 15, 6 8, -2 20 C -12 36, 20 60, 20 60 C 20 60, 52 36, 42 20 C 34 8, 20 15, 20 25 Z" fill="#FF5C8A" />
+      <ellipse cx="10" cy="26" rx="6" ry="3" fill="#FFF8F2" opacity="0.5" transform="rotate(-30 10 26)" />
+    </g>
+
+    <!-- Balloon 2 (Lavender Heart) -->
+    <g transform="translate(440, 65)">
+      <path d="M 20 25 C 20 15, 6 8, -2 20 C -12 36, 20 60, 20 60 C 20 60, 52 36, 42 20 C 34 8, 20 15, 20 25 Z" fill="#DCD6FF" />
+      <ellipse cx="10" cy="26" rx="6" ry="3" fill="#FFF8F2" opacity="0.6" transform="rotate(-30 10 26)" />
+    </g>
+
+    <!-- Balloon 3 (Peach Blush Heart) -->
+    <g transform="translate(485, 95)">
+      <path d="M 20 25 C 20 15, 6 8, -2 20 C -12 36, 20 60, 20 60 C 20 60, 52 36, 42 20 C 34 8, 20 15, 20 25 Z" fill="#FFB6D5" />
+      <ellipse cx="10" cy="26" rx="6" ry="3" fill="#FFF8F2" opacity="0.6" transform="rotate(-30 10 26)" />
+    </g>
+  </g>
+
+  <!-- Ground Path -->
+  <ellipse cx="400" cy="510" rx="350" ry="40" fill="#EAD9CB" opacity="0.6" />
+
+  <!-- Vintage Bicycle -->
+  <g transform="translate(180, 260)" filter="url(#softBikeShadow)">
+    <!-- Back Wheel -->
+    <circle cx="80" cy="180" r="65" fill="none" stroke="#FF5C8A" stroke-width="7" />
+    <circle cx="80" cy="180" r="60" fill="none" stroke="#51364F" stroke-width="2" />
+    <circle cx="80" cy="180" r="10" fill="#51364F" />
+    <!-- Spokes -->
+    <line x1="80" y1="120" x2="80" y2="240" stroke="#DCD6FF" stroke-width="1.5" />
+    <line x1="20" y1="180" x2="140" y2="180" stroke="#DCD6FF" stroke-width="1.5" />
+    <line x1="38" y1="138" x2="122" y2="222" stroke="#DCD6FF" stroke-width="1.5" />
+    <line x1="38" y1="222" x2="122" y2="138" stroke="#DCD6FF" stroke-width="1.5" />
+
+    <!-- Front Wheel -->
+    <circle cx="340" cy="180" r="65" fill="none" stroke="#FF5C8A" stroke-width="7" />
+    <circle cx="340" cy="180" r="60" fill="none" stroke="#51364F" stroke-width="2" />
+    <circle cx="340" cy="180" r="10" fill="#51364F" />
+    <!-- Spokes -->
+    <line x1="340" y1="120" x2="340" y2="240" stroke="#DCD6FF" stroke-width="1.5" />
+    <line x1="280" y1="180" x2="400" y2="180" stroke="#DCD6FF" stroke-width="1.5" />
+    <line x1="298" y1="138" x2="382" y2="222" stroke="#DCD6FF" stroke-width="1.5" />
+    <line x1="298" y1="222" x2="382" y2="138" stroke="#DCD6FF" stroke-width="1.5" />
+
+    <!-- Frame in Pastel Rose Red -->
+    <g stroke="#FF5C8A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <!-- Chainstay -->
+      <line x1="80" y1="180" x2="190" y2="180" />
+      <!-- Seatstay -->
+      <line x1="80" y1="180" x2="160" y2="90" />
+      <!-- Seat tube -->
+      <line x1="160" y1="90" x2="190" y2="180" />
+      <!-- Down tube curve (step-through vintage style) -->
+      <path d="M 160 110 Q 230 170 310 80" />
+      <!-- Top curve -->
+      <path d="M 160 135 Q 230 190 310 110" />
+      <!-- Front fork -->
+      <line x1="310" y1="60" x2="340" y2="180" />
+      <!-- Handlebar stem -->
+      <line x1="310" y1="60" x2="300" y2="30" />
+      <!-- Handlebar -->
+      <path d="M 280 40 Q 300 20 325 35" stroke-width="5" />
+    </g>
+
+    <!-- Saddle -->
+    <path d="M 130 85 Q 160 80 180 90 Q 155 98 130 85 Z" fill="#51364F" />
+
+    <!-- Pedals -->
+    <circle cx="190" cy="180" r="14" fill="#51364F" />
+    <line x1="190" y1="180" x2="205" y2="205" stroke="#51364F" stroke-width="4" stroke-linecap="round" />
+    <rect x="200" y="200" width="16" height="8" rx="2" fill="#FFB6D5" />
+
+    <!-- Front Wicker Basket with Flowers -->
+    <g transform="translate(315, 25)">
+      <!-- Wicker basket -->
+      <path d="M 0 15 L 10 50 L 50 50 L 55 15 Z" fill="#D79E66" stroke="#9E6938" stroke-width="2" />
+      <line x1="8" y1="26" x2="52" y2="26" stroke="#9E6938" stroke-width="1.5" />
+      <line x1="12" y1="38" x2="48" y2="38" stroke="#9E6938" stroke-width="1.5" />
+      <!-- Flower bouquet spilling out -->
+      <circle cx="15" cy="12" r="12" fill="#FFB6D5" />
+      <circle cx="32" cy="8" r="14" fill="#FF5C8A" />
+      <circle cx="48" cy="14" r="11" fill="#FFF8F2" />
+      <circle cx="28" cy="18" r="10" fill="#FFE29A" />
+      <path d="M 50 5 Q 65 0 60 -10 Q 50 -5 50 5" fill="#88B896" />
+    </g>
+  </g>
+
+  <!-- Caption text -->
+  <text x="400" y="565" font-family="'Caveat', cursive, sans-serif" font-size="28" fill="#51364F" text-anchor="middle" letter-spacing="1.5">Pedaling into the sunset of pure joy 🌸</text>
+</svg>
