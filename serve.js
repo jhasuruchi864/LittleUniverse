@@ -536,6 +536,38 @@ const server = http.createServer(async (req, res) => {
   }
 
 
+  // --- API: Galaxy World Decorations Endpoints ---
+  if (pathname === '/api/galaxy/decorations' && req.method === 'GET') {
+    const decFile = path.join(__dirname, 'data', 'galaxy-decorations.json');
+    let decorations = [];
+    try {
+      if (fs.existsSync(decFile)) {
+        decorations = JSON.parse(fs.readFileSync(decFile, 'utf-8'));
+      }
+    } catch (e) {
+      decorations = [];
+    }
+    sendJSON(res, 200, { success: true, decorations });
+    return;
+  }
+
+  if (pathname === '/api/galaxy/decorations' && req.method === 'POST') {
+    const decFile = path.join(__dirname, 'data', 'galaxy-decorations.json');
+    try {
+      const data = await parseBody(req);
+      const decorations = Array.isArray(data.decorations) ? data.decorations : [];
+      fs.writeFileSync(decFile, JSON.stringify(decorations, null, 2), 'utf-8');
+      sendJSON(res, 200, {
+        success: true,
+        message: 'Galaxy world decorations saved successfully! 💗',
+        decorations
+      });
+    } catch (err) {
+      sendJSON(res, 500, { success: false, error: 'Could not save galaxy decorations.' });
+    }
+    return;
+  }
+
   // --- API: Couple Space & Partner Linking Endpoints ---
   if (pathname === '/api/couple/status' && req.method === 'GET') {
     const session = authenticateSession(req);

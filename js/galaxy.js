@@ -129,6 +129,20 @@ document.addEventListener('DOMContentLoaded', () => {
   let previousMousePosition = { x: 0, y: 0 };
   let galaxyGroup;
 
+  // Build Our World & Time Travel State
+  let decorationsGroup;
+  let placedDecorations = [];
+  let selectedDecorationId = null;
+
+  let portalGroup;
+  let isWarping = false;
+  let warpProgress = 0;
+  let warpTarget = null;
+  let isResettingCamera = false;
+  let cameraTargetLook = (typeof THREE !== 'undefined') ? new THREE.Vector3(0, 0, 0) : null;
+  const defaultCamPos = (typeof THREE !== 'undefined') ? new THREE.Vector3(0, 3.5, 6.5) : null;
+  let onWarpComplete = null;
+
   function initGalaxy() {
     if (!canvas || typeof THREE === 'undefined') return;
 
@@ -141,6 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
     camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 100);
     camera.position.set(0, 3.5, 6.5);
     camera.lookAt(0, 0, 0);
+    cameraTargetLook = new THREE.Vector3(0, 0, 0);
 
     renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     renderer.setSize(width, height);
@@ -148,6 +163,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     galaxyGroup = new THREE.Group();
     scene.add(galaxyGroup);
+
+    // Warm Romantic Lighting for Custom 3D Decorations
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+    scene.add(ambientLight);
+    const dirLight = new THREE.DirectionalLight(0xffe4e6, 0.95);
+    dirLight.position.set(5, 8, 5);
+    scene.add(dirLight);
+
+    // 3D Custom Decorations Group inside Galaxy
+    decorationsGroup = new THREE.Group();
+    galaxyGroup.add(decorationsGroup);
+
+    // 3D Portal Warp Group inside Scene
+    portalGroup = new THREE.Group();
+    scene.add(portalGroup);
+    portalGroup.visible = false;
+
+    for (let r = 0; r < 4; r++) {
+      const ringGeo = new THREE.RingGeometry(0.3 + r * 0.45, 0.38 + r * 0.45, 32);
+      const ringMat = new THREE.MeshBasicMaterial({
+        color: r % 2 === 0 ? 0xff5c8a : 0xc084fc,
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: 0.85
+      });
+      const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+      portalGroup.add(ringMesh);
+    }
+
 
     // Build spiral galaxy particles
     const particleCount = 4000;
@@ -295,9 +339,77 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function animate() {
     animationFrameId = requestAnimationFrame(animate);
-    if (galaxyGroup && !isDragging) {
+
+    // Idle galaxy spin if not dragging and not warping
+    if (galaxyGroup && !isDragging && !isWarping) {
       galaxyGroup.rotation.y += 0.0012; // slow mystical spin
     }
+
+    // Floating micro-motion for custom decorations
+    if (decorationsGroup && decorationsGroup.children.length > 0) {
+      const t = Date.now() * 0.002;
+      decorationsGroup.children.forEach((decObj, i) => {
+        decObj.position.y = (decObj.userData.baseY || 0) + Math.sin(t + i * 1.5) * 0.06;
+        decObj.rotation.y += 0.004;
+      });
+    }
+
+    // Smooth Hyperspace Warp Animation for Time Travel
+    if (isWarping && warpTarget) {
+      warpProgress += 0.024;
+
+      if (portalGroup) {
+        portalGroup.visible = true;
+        const forward = new THREE.Vector3();
+        camera.getWorldDirection(forward);
+        portalGroup.position.copy(camera.position).add(forward.multiplyScalar(1.2));
+        portalGroup.lookAt(camera.position);
+        portalGroup.rotation.z += 0.06;
+        portalGroup.children.forEach((rg, idx) => {
+          rg.rotation.z += (idx + 1) * 0.03;
+          const s = 1 + Math.sin(warpProgress * 8 + idx) * 0.25;
+          rg.scale.set(s, s, s);
+        });
+      }
+
+      // Smooth camera translation & orientation interpolation
+      camera.position.lerp(warpTarget.camPos, 0.07);
+      cameraTargetLook.lerp(warpTarget.lookPos, 0.07);
+      camera.lookAt(cameraTargetLook);
+
+      // Dynamic FOV hyperspace stretch
+      if (warpProgress < 0.5) {
+        camera.fov = 50 + (warpProgress / 0.5) * 25; // expands to 75
+      } else {
+        camera.fov = 75 - ((warpProgress - 0.5) / 0.5) * 33; // settles to 42
+      }
+      camera.updateProjectionMatrix();
+
+      if (camera.position.distanceTo(warpTarget.camPos) < 0.1 || warpProgress >= 1.0) {
+        isWarping = false;
+        if (portalGroup) portalGroup.visible = false;
+        camera.position.copy(warpTarget.camPos);
+        camera.lookAt(warpTarget.lookPos);
+        camera.fov = 42;
+        camera.updateProjectionMatrix();
+        if (typeof onWarpComplete === 'function') {
+          onWarpComplete();
+          onWarpComplete = null;
+        }
+      }
+    } else if (isResettingCamera) {
+      camera.position.lerp(defaultCamPos, 0.08);
+      cameraTargetLook.lerp(new THREE.Vector3(0, 0, 0), 0.08);
+      camera.lookAt(cameraTargetLook);
+      camera.fov = 50;
+      camera.updateProjectionMatrix();
+      if (camera.position.distanceTo(defaultCamPos) < 0.06) {
+        isResettingCamera = false;
+        camera.position.copy(defaultCamPos);
+        camera.lookAt(0, 0, 0);
+      }
+    }
+
     renderer.render(scene, camera);
   }
 
@@ -368,7 +480,567 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // =========================================================================
+  // FEATURE 1: BUILD OUR WORLD 🏡 - 3D GALAXY WORLD CUSTOMIZER
+  // =========================================================================
+  const btnBuildWorld = document.getElementById('btn-build-world');
+  const canvasBtnBuildWorld = document.getElementById('canvas-btn-build-world');
+  const buildPanel = document.getElementById('build-world-panel');
+  const btnCloseBuildPanel = document.getElementById('btn-close-build-panel');
+  const paletteButtons = document.querySelectorAll('.palette-item-btn');
+  const placedItemsList = document.getElementById('placed-items-list');
+  const emptyPlacedNote = document.getElementById('empty-placed-note');
+  const placedCountSpan = document.getElementById('placed-decorations-count');
+  const adjustSection = document.getElementById('build-adjust-section');
+  const selectedItemTitle = document.getElementById('selected-item-title');
+  const angleSlider = document.getElementById('dec-angle-slider');
+  const radiusSlider = document.getElementById('dec-radius-slider');
+  const elevationSlider = document.getElementById('dec-elevation-slider');
+  const scaleSlider = document.getElementById('dec-scale-slider');
+  const angleVal = document.getElementById('dec-angle-val');
+  const radiusVal = document.getElementById('dec-radius-val');
+  const elevationVal = document.getElementById('dec-elevation-val');
+  const scaleVal = document.getElementById('dec-scale-val');
+  const btnSaveDecs = document.getElementById('btn-save-decorations');
+  const btnClearDecs = document.getElementById('btn-clear-all-decorations');
+  const btnRemoveSelected = document.getElementById('btn-remove-selected-item');
+  const buildStatusMsg = document.getElementById('build-status-msg');
+
+  const DECORATION_NAMES = {
+    heart_crystal: 'Heart Crystal 💖',
+    sakura_tree: 'Sakura Tree 🌸',
+    ring_planet: 'Ring Planet 🪐',
+    crystal_castle: 'Love Castle 🏰',
+    space_bears: 'Space Bears 🧸',
+    love_satellite: 'Love Satellite 🛸',
+    starlight_comet: 'Star Comet 💫',
+    rainbow_arch: 'Rainbow Arch 🌈'
+  };
+
+  function createDecorationMesh(type) {
+    const group = new THREE.Group();
+    switch (type) {
+      case 'heart_crystal': {
+        const shape = new THREE.Shape();
+        shape.moveTo(0, 0.2);
+        shape.bezierCurveTo(0, 0.35, -0.25, 0.5, -0.4, 0.5);
+        shape.bezierCurveTo(-0.6, 0.5, -0.65, 0.25, -0.65, 0.15);
+        shape.bezierCurveTo(-0.65, -0.05, -0.4, -0.3, 0, -0.6);
+        shape.bezierCurveTo(0.4, -0.3, 0.65, -0.05, 0.65, 0.15);
+        shape.bezierCurveTo(0.65, 0.25, 0.6, 0.5, 0.4, 0.5);
+        shape.bezierCurveTo(0.25, 0.5, 0, 0.35, 0, 0.2);
+        const extrudeSettings = { depth: 0.12, bevelEnabled: true, bevelSegments: 3, steps: 1, bevelSize: 0.04, bevelThickness: 0.04 };
+        const geo = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+        geo.center();
+        const mat = new THREE.MeshPhongMaterial({
+          color: 0xff4d88,
+          emissive: 0xff1493,
+          emissiveIntensity: 0.35,
+          shininess: 90
+        });
+        const mesh = new THREE.Mesh(geo, mat);
+        group.add(mesh);
+        break;
+      }
+      case 'sakura_tree': {
+        const trunkGeo = new THREE.CylinderGeometry(0.04, 0.07, 0.4, 8);
+        const trunkMat = new THREE.MeshLambertMaterial({ color: 0x8b5a2b });
+        const trunk = new THREE.Mesh(trunkGeo, trunkMat);
+        trunk.position.y = 0.2;
+        group.add(trunk);
+        const foliageGeo = new THREE.SphereGeometry(0.24, 12, 12);
+        const foliageMat = new THREE.MeshPhongMaterial({ color: 0xffb7c5, emissive: 0xff85a2, emissiveIntensity: 0.25 });
+        const foliage = new THREE.Mesh(foliageGeo, foliageMat);
+        foliage.position.y = 0.45;
+        group.add(foliage);
+        const foliage2 = foliage.clone();
+        foliage2.scale.set(0.65, 0.65, 0.65);
+        foliage2.position.set(0.12, 0.52, 0.08);
+        group.add(foliage2);
+        break;
+      }
+      case 'ring_planet': {
+        const sphereGeo = new THREE.SphereGeometry(0.26, 16, 16);
+        const sphereMat = new THREE.MeshPhongMaterial({ color: 0xb388ff, emissive: 0x7c4dff, emissiveIntensity: 0.2 });
+        const planet = new THREE.Mesh(sphereGeo, sphereMat);
+        group.add(planet);
+        const ringGeo = new THREE.RingGeometry(0.35, 0.52, 24);
+        const ringMat = new THREE.MeshBasicMaterial({ color: 0xffd166, side: THREE.DoubleSide, transparent: true, opacity: 0.85 });
+        const ring = new THREE.Mesh(ringGeo, ringMat);
+        ring.rotation.x = Math.PI * 0.4;
+        group.add(ring);
+        break;
+      }
+      case 'crystal_castle': {
+        const baseGeo = new THREE.BoxGeometry(0.32, 0.25, 0.32);
+        const baseMat = new THREE.MeshPhongMaterial({ color: 0xfff0f5 });
+        const base = new THREE.Mesh(baseGeo, baseMat);
+        base.position.y = 0.125;
+        group.add(base);
+        const spireGeo = new THREE.ConeGeometry(0.12, 0.35, 8);
+        const spireMat = new THREE.MeshPhongMaterial({ color: 0xff69b4, emissive: 0xff1493, emissiveIntensity: 0.4 });
+        const spire = new THREE.Mesh(spireGeo, spireMat);
+        spire.position.y = 0.42;
+        group.add(spire);
+        [-0.12, 0.12].forEach(ox => {
+          [-0.12, 0.12].forEach(oz => {
+            const tSpire = spire.clone();
+            tSpire.scale.set(0.5, 0.5, 0.5);
+            tSpire.position.set(ox, 0.3, oz);
+            group.add(tSpire);
+          });
+        });
+        break;
+      }
+      case 'space_bears': {
+        const bubbleGeo = new THREE.SphereGeometry(0.28, 16, 16);
+        const bubbleMat = new THREE.MeshPhongMaterial({ color: 0xffe4e6, transparent: true, opacity: 0.55, shininess: 100 });
+        const bubble = new THREE.Mesh(bubbleGeo, bubbleMat);
+        group.add(bubble);
+        const bearHeadGeo = new THREE.SphereGeometry(0.16, 12, 12);
+        const bearHeadMat = new THREE.MeshLambertMaterial({ color: 0x8b5a2b });
+        const bear = new THREE.Mesh(bearHeadGeo, bearHeadMat);
+        group.add(bear);
+        [-0.11, 0.11].forEach(ex => {
+          const ear = new THREE.Mesh(new THREE.SphereGeometry(0.06, 8, 8), bearHeadMat);
+          ear.position.set(ex, 0.12, 0);
+          group.add(ear);
+        });
+        break;
+      }
+      case 'love_satellite': {
+        const bodyGeo = new THREE.BoxGeometry(0.18, 0.18, 0.18);
+        const bodyMat = new THREE.MeshPhongMaterial({ color: 0xff80ab, emissive: 0xff4081, emissiveIntensity: 0.3 });
+        const body = new THREE.Mesh(bodyGeo, bodyMat);
+        group.add(body);
+        const wingGeo = new THREE.BoxGeometry(0.3, 0.02, 0.14);
+        const wingMat = new THREE.MeshPhongMaterial({ color: 0x4fc3f7, emissive: 0x0288d1, emissiveIntensity: 0.2 });
+        const wingL = new THREE.Mesh(wingGeo, wingMat);
+        wingL.position.set(-0.25, 0, 0);
+        const wingR = new THREE.Mesh(wingGeo, wingMat);
+        wingR.position.set(0.25, 0, 0);
+        group.add(wingL);
+        group.add(wingR);
+        break;
+      }
+      case 'starlight_comet': {
+        const coreGeo = new THREE.SphereGeometry(0.16, 12, 12);
+        const coreMat = new THREE.MeshBasicMaterial({ color: 0xffeb3b });
+        const core = new THREE.Mesh(coreGeo, coreMat);
+        group.add(core);
+        const tailGeo = new THREE.ConeGeometry(0.18, 0.6, 12);
+        const tailMat = new THREE.MeshBasicMaterial({ color: 0xff80ab, transparent: true, opacity: 0.6 });
+        const tail = new THREE.Mesh(tailGeo, tailMat);
+        tail.rotation.x = Math.PI * 0.5;
+        tail.position.z = -0.35;
+        group.add(tail);
+        break;
+      }
+      case 'rainbow_arch': {
+        const arcGeo = new THREE.TorusGeometry(0.35, 0.06, 8, 24, Math.PI);
+        const arcMat = new THREE.MeshPhongMaterial({ color: 0xff69b4, emissive: 0xc084fc, emissiveIntensity: 0.35 });
+        const arc = new THREE.Mesh(arcGeo, arcMat);
+        group.add(arc);
+        break;
+      }
+      default: {
+        const cube = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.2, 0.2), new THREE.MeshBasicMaterial({ color: 0xff5c8a }));
+        group.add(cube);
+      }
+    }
+    return group;
+  }
+
+  function addDecorationToScene(data, isNew = false) {
+    if (!decorationsGroup) return;
+
+    const id = data.id || ('dec_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6));
+    const type = data.type || 'heart_crystal';
+    const name = data.name || (DECORATION_NAMES[type] || 'Decoration');
+    const angle = typeof data.angle === 'number' ? data.angle : Math.floor(Math.random() * 360);
+    const radius = typeof data.radius === 'number' ? data.radius : (1.8 + Math.random() * 1.8);
+    const elevation = typeof data.elevation === 'number' ? data.elevation : (Math.random() * 1.2 - 0.4);
+    const scale = typeof data.scale === 'number' ? data.scale : 1.0;
+
+    const mesh = createDecorationMesh(type);
+    const rad = (angle * Math.PI) / 180;
+    mesh.position.x = Math.cos(rad) * radius;
+    mesh.position.z = Math.sin(rad) * radius;
+    mesh.position.y = elevation;
+    mesh.scale.setScalar(scale);
+
+    mesh.userData = { id, type, name, angle, radius, elevation, scale, baseY: elevation };
+    decorationsGroup.add(mesh);
+
+    const record = { id, type, name, angle, radius, elevation, scale, mesh };
+    placedDecorations.push(record);
+
+    updatePlacedListUI();
+    if (isNew) {
+      selectDecoration(id);
+      showBuildStatus(`Added ${name}! ✨ Use sliders below to move it.`);
+    }
+    return record;
+  }
+
+  function updatePlacedListUI() {
+    if (!placedItemsList || !placedCountSpan) return;
+    placedCountSpan.textContent = placedDecorations.length;
+
+    if (placedDecorations.length === 0) {
+      if (emptyPlacedNote) emptyPlacedNote.style.display = 'block';
+      if (adjustSection) adjustSection.style.display = 'none';
+      return;
+    }
+
+    if (emptyPlacedNote) emptyPlacedNote.style.display = 'none';
+    placedItemsList.innerHTML = '';
+
+    placedDecorations.forEach((item, index) => {
+      const row = document.createElement('div');
+      row.className = 'placed-item-row' + (item.id === selectedDecorationId ? ' selected' : '');
+      row.innerHTML = `
+        <span class="placed-item-title">#${index + 1} ${item.name}</span>
+        <button type="button" class="btn-remove-item" title="Remove this decoration">🗑️</button>
+      `;
+
+      row.addEventListener('click', (e) => {
+        if (e.target.closest('.btn-remove-item')) {
+          e.stopPropagation();
+          removeDecoration(item.id);
+        } else {
+          selectDecoration(item.id);
+        }
+      });
+      placedItemsList.appendChild(row);
+    });
+  }
+
+  function selectDecoration(id) {
+    selectedDecorationId = id;
+    const item = placedDecorations.find(d => d.id === id);
+    if (!item || !adjustSection) {
+      if (adjustSection) adjustSection.style.display = 'none';
+      return;
+    }
+
+    adjustSection.style.display = 'flex';
+    if (selectedItemTitle) selectedItemTitle.textContent = item.name;
+
+    if (angleSlider) angleSlider.value = item.angle;
+    if (angleVal) angleVal.textContent = `${item.angle}°`;
+    if (radiusSlider) radiusSlider.value = item.radius;
+    if (radiusVal) radiusVal.textContent = item.radius.toFixed(1);
+    if (elevationSlider) elevationSlider.value = item.elevation;
+    if (elevationVal) elevationVal.textContent = item.elevation.toFixed(1);
+    if (scaleSlider) scaleSlider.value = item.scale;
+    if (scaleVal) scaleVal.textContent = `${item.scale.toFixed(1)}x`;
+
+    // Highlight row
+    document.querySelectorAll('.placed-item-row').forEach((r, idx) => {
+      r.classList.toggle('selected', placedDecorations[idx] && placedDecorations[idx].id === id);
+    });
+  }
+
+  function updateSelectedTransform() {
+    if (!selectedDecorationId) return;
+    const item = placedDecorations.find(d => d.id === selectedDecorationId);
+    if (!item || !item.mesh) return;
+
+    item.angle = parseFloat(angleSlider.value) || 0;
+    item.radius = parseFloat(radiusSlider.value) || 2.5;
+    item.elevation = parseFloat(elevationSlider.value) || 0;
+    item.scale = parseFloat(scaleSlider.value) || 1;
+
+    if (angleVal) angleVal.textContent = `${item.angle}°`;
+    if (radiusVal) radiusVal.textContent = item.radius.toFixed(1);
+    if (elevationVal) elevationVal.textContent = item.elevation.toFixed(1);
+    if (scaleVal) scaleVal.textContent = `${item.scale.toFixed(1)}x`;
+
+    const rad = (item.angle * Math.PI) / 180;
+    item.mesh.position.x = Math.cos(rad) * item.radius;
+    item.mesh.position.z = Math.sin(rad) * item.radius;
+    item.mesh.position.y = item.elevation;
+    item.mesh.userData.baseY = item.elevation;
+    item.mesh.scale.setScalar(item.scale);
+  }
+
+  function removeDecoration(id) {
+    const idx = placedDecorations.findIndex(d => d.id === id);
+    if (idx === -1) return;
+    const item = placedDecorations[idx];
+    if (item.mesh && decorationsGroup) {
+      decorationsGroup.remove(item.mesh);
+    }
+    placedDecorations.splice(idx, 1);
+    if (selectedDecorationId === id) {
+      selectedDecorationId = placedDecorations.length > 0 ? placedDecorations[0].id : null;
+    }
+    updatePlacedListUI();
+    if (selectedDecorationId) {
+      selectDecoration(selectedDecorationId);
+    }
+    showBuildStatus(`Removed ${item.name}.`);
+  }
+
+  function clearAllDecorations() {
+    if (decorationsGroup) {
+      while (decorationsGroup.children.length > 0) {
+        decorationsGroup.remove(decorationsGroup.children[0]);
+      }
+    }
+    placedDecorations = [];
+    selectedDecorationId = null;
+    updatePlacedListUI();
+    showBuildStatus('Cleared all decorations. Add new ones from the palette! 🌸');
+  }
+
+  async function saveDecorations() {
+    const payload = placedDecorations.map(d => ({
+      id: d.id,
+      type: d.type,
+      name: d.name,
+      angle: d.angle,
+      radius: d.radius,
+      elevation: d.elevation,
+      scale: d.scale
+    }));
+
+    // Save to local storage for fast instant load
+    try {
+      localStorage.setItem('universe_galaxy_decorations', JSON.stringify(payload));
+    } catch (e) {}
+
+    // Save to backend API
+    try {
+      const res = await fetch('/api/galaxy/decorations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ decorations: payload })
+      });
+      if (res.ok) {
+        showBuildStatus('World Saved! 💖 Shared galaxy decorations are now live in our universe.');
+        return;
+      }
+    } catch (e) {}
+
+    showBuildStatus('Saved to browser storage! 💖');
+  }
+
+  async function loadSavedDecorations() {
+    let loaded = false;
+    // 1. Try server API
+    try {
+      const res = await fetch('/api/galaxy/decorations');
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data.decorations) && data.decorations.length > 0) {
+          data.decorations.forEach(dec => addDecorationToScene(dec, false));
+          loaded = true;
+        }
+      }
+    } catch (e) {}
+
+    // 2. Try localStorage if server had no items
+    if (!loaded) {
+      try {
+        const local = JSON.parse(localStorage.getItem('universe_galaxy_decorations') || '[]');
+        if (Array.isArray(local) && local.length > 0) {
+          local.forEach(dec => addDecorationToScene(dec, false));
+          loaded = true;
+        }
+      } catch (e) {}
+    }
+
+    // 3. Default starter decoration if first time
+    if (!loaded) {
+      addDecorationToScene({ type: 'heart_crystal', name: 'Heart Crystal 💖', angle: 45, radius: 2.2, elevation: 0.3, scale: 1.1 }, false);
+      addDecorationToScene({ type: 'ring_planet', name: 'Ring Planet 🪐', angle: 210, radius: 3.1, elevation: -0.2, scale: 1.0 }, false);
+    }
+
+    updatePlacedListUI();
+  }
+
+  function showBuildStatus(msg) {
+    if (!buildStatusMsg) return;
+    buildStatusMsg.textContent = msg;
+    setTimeout(() => {
+      if (buildStatusMsg && buildStatusMsg.textContent === msg) {
+        buildStatusMsg.textContent = '';
+      }
+    }, 4000);
+  }
+
+  // Bind Build Our World UI
+  function toggleBuildPanel() {
+    if (!buildPanel) return;
+    const isShown = buildPanel.style.display !== 'none';
+    buildPanel.style.display = isShown ? 'none' : 'flex';
+    if (btnBuildWorld) btnBuildWorld.classList.toggle('active', !isShown);
+    if (canvasBtnBuildWorld) canvasBtnBuildWorld.classList.toggle('active', !isShown);
+    // Hide Time Travel if active
+    if (!isShown && timeTravelHud) {
+      timeTravelHud.style.display = 'none';
+      if (btnTimeTravel) btnTimeTravel.classList.remove('active');
+      if (canvasBtnTimeTravel) canvasBtnTimeTravel.classList.remove('active');
+    }
+  }
+
+  if (btnBuildWorld) btnBuildWorld.addEventListener('click', toggleBuildPanel);
+  if (canvasBtnBuildWorld) canvasBtnBuildWorld.addEventListener('click', toggleBuildPanel);
+  if (btnCloseBuildPanel) btnCloseBuildPanel.addEventListener('click', toggleBuildPanel);
+
+  paletteButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const type = btn.getAttribute('data-type');
+      if (type) addDecorationToScene({ type }, true);
+    });
+  });
+
+  [angleSlider, radiusSlider, elevationSlider, scaleSlider].forEach(sl => {
+    if (sl) sl.addEventListener('input', updateSelectedTransform);
+  });
+
+  if (btnSaveDecs) btnSaveDecs.addEventListener('click', saveDecorations);
+  if (btnClearDecs) btnClearDecs.addEventListener('click', clearAllDecorations);
+  if (btnRemoveSelected) btnRemoveSelected.addEventListener('click', () => {
+    if (selectedDecorationId) removeDecoration(selectedDecorationId);
+  });
+
+  // =========================================================================
+  // FEATURE 2: TIME TRAVEL 🌀 - PORTAL TIMELINE & ACTUAL MEMORIES WARP
+  // =========================================================================
+  const btnTimeTravel = document.getElementById('btn-time-travel');
+  const canvasBtnTimeTravel = document.getElementById('canvas-btn-time-travel');
+  const timeTravelHud = document.getElementById('time-travel-hud');
+  const btnCloseTimeTravel = document.getElementById('btn-close-time-travel');
+  const timelineStrip = document.getElementById('time-travel-timeline-strip');
+  const portalCurrentDest = document.getElementById('portal-current-dest');
+  const revealCard = document.getElementById('time-travel-reveal-card');
+  const revealDateBadge = document.getElementById('reveal-date-badge');
+  const revealConstellationBadge = document.getElementById('reveal-constellation-badge');
+  const revealTitleText = document.getElementById('reveal-title-text');
+  const revealNoteText = document.getElementById('reveal-note-text');
+  const btnRevealOpenModal = document.getElementById('btn-reveal-open-modal');
+  const btnRevealReset = document.getElementById('btn-reveal-reset');
+
+  let activeMemoryStar = null;
+
+  function renderTimeTravelTimeline() {
+    if (!timelineStrip) return;
+    timelineStrip.innerHTML = '';
+
+    MEMORY_STARS.forEach((star, idx) => {
+      const node = document.createElement('div');
+      node.className = 'time-travel-node' + (idx === 0 ? ' active' : '');
+      node.innerHTML = `
+        <span class="node-date">⏳ ${star.date}</span>
+        <span class="node-title">${star.title}</span>
+      `;
+      node.addEventListener('click', () => {
+        warpToMemory(star, node);
+      });
+      timelineStrip.appendChild(node);
+    });
+  }
+
+  function warpToMemory(star, nodeElement) {
+    if (!star || !camera) return;
+    activeMemoryStar = star;
+
+    // Update active node in strip
+    if (timelineStrip) {
+      timelineStrip.querySelectorAll('.time-travel-node').forEach(n => n.classList.remove('active'));
+    }
+    if (nodeElement) nodeElement.classList.add('active');
+
+    if (portalCurrentDest) {
+      portalCurrentDest.textContent = `Warping to ${star.date}... 🌀`;
+    }
+    if (revealCard) revealCard.style.display = 'none';
+
+    // Compute destination camera vector hovering smoothly near the star
+    const starWorldPos = new THREE.Vector3(star.x, star.y, star.z);
+    if (galaxyGroup) {
+      starWorldPos.applyMatrix4(galaxyGroup.matrixWorld);
+    }
+
+    const camOffset = new THREE.Vector3(0, 0.35, 1.35);
+    const destCamPos = starWorldPos.clone().add(camOffset);
+
+    warpTarget = {
+      camPos: destCamPos,
+      lookPos: starWorldPos.clone()
+    };
+    warpProgress = 0;
+    isWarping = true;
+    isResettingCamera = false;
+
+    onWarpComplete = () => {
+      if (portalCurrentDest) {
+        portalCurrentDest.textContent = `${star.title} (${star.date}) ✨`;
+      }
+      if (revealCard) {
+        revealCard.style.display = 'flex';
+        if (revealDateBadge) revealDateBadge.textContent = star.date;
+        if (revealConstellationBadge) revealConstellationBadge.textContent = star.constellation;
+        if (revealTitleText) revealTitleText.textContent = star.title;
+        if (revealNoteText) revealNoteText.textContent = star.note;
+      }
+    };
+  }
+
+  function resetTimeTravelView() {
+    isWarping = false;
+    isResettingCamera = true;
+    if (portalGroup) portalGroup.visible = false;
+    if (revealCard) revealCard.style.display = 'none';
+    if (portalCurrentDest) {
+      portalCurrentDest.textContent = 'Present Day (Orbit Overview) 🌌';
+    }
+  }
+
+  function toggleTimeTravelHud() {
+    if (!timeTravelHud) return;
+    const isShown = timeTravelHud.style.display !== 'none';
+    timeTravelHud.style.display = isShown ? 'none' : 'flex';
+    if (btnTimeTravel) btnTimeTravel.classList.toggle('active', !isShown);
+    if (canvasBtnTimeTravel) canvasBtnTimeTravel.classList.toggle('active', !isShown);
+
+    if (!isShown) {
+      renderTimeTravelTimeline();
+      // Hide World Builder if active
+      if (buildPanel) {
+        buildPanel.style.display = 'none';
+        if (btnBuildWorld) btnBuildWorld.classList.remove('active');
+        if (canvasBtnBuildWorld) canvasBtnBuildWorld.classList.remove('active');
+      }
+      // Start at first memory
+      if (MEMORY_STARS.length > 0) {
+        const firstNode = timelineStrip ? timelineStrip.querySelector('.time-travel-node') : null;
+        warpToMemory(MEMORY_STARS[0], firstNode);
+      }
+    } else {
+      resetTimeTravelView();
+    }
+  }
+
+  if (btnTimeTravel) btnTimeTravel.addEventListener('click', toggleTimeTravelHud);
+  if (canvasBtnTimeTravel) canvasBtnTimeTravel.addEventListener('click', toggleTimeTravelHud);
+  if (btnCloseTimeTravel) btnCloseTimeTravel.addEventListener('click', toggleTimeTravelHud);
+  if (btnRevealReset) btnRevealReset.addEventListener('click', resetTimeTravelView);
+  if (btnRevealOpenModal) {
+    btnRevealOpenModal.addEventListener('click', () => {
+      if (activeMemoryStar) {
+        openMemoryModal(activeMemoryStar);
+      }
+    });
+  }
+
+  // Initialize Galaxy and Load Decorations
   initGalaxy();
+  loadSavedDecorations();
+
 
   // =========================================================================
   // 4. OUR LITTLE WORLD GALAXY 💗 (Interactive 3D Universe)

@@ -89,7 +89,7 @@
         </p>
       </div>
 
-      <!-- Galaxy Mode Tabs: Personal vs Shared -->
+      <!-- Galaxy Mode Tabs: Personal vs Shared & Feature Actions -->
       <div class="galaxy-controls-bar">
         <div class="galaxy-mode-pills">
           <button type="button" class="galaxy-mode-pill active" id="btn-personal-galaxy">
@@ -97,6 +97,16 @@
           </button>
           <button type="button" class="galaxy-mode-pill" id="btn-shared-galaxy">
             <span>💕</span> Our Shared Galaxy
+          </button>
+        </div>
+
+        <!-- Two Feature Buttons: Build Our World & Time Travel -->
+        <div class="galaxy-feature-actions" id="galaxy-feature-actions">
+          <button type="button" class="btn-galaxy-feature" id="btn-build-world" aria-label="Build Our World in Galaxy" title="Build &amp; Decorate Our 3D Galaxy World">
+            <span>🏡</span> Build Our World
+          </button>
+          <button type="button" class="btn-galaxy-feature" id="btn-time-travel" aria-label="Time Travel through Memories" title="Time Travel through Cosmic Moments">
+            <span>🌀</span> Time Travel
           </button>
         </div>
 
@@ -110,11 +120,169 @@
     <div class="galaxy-viewport-box" id="galaxy-viewport-box">
       <canvas id="galaxy-3d-canvas" class="galaxy-3d-canvas" aria-label="3D Memory Galaxy"></canvas>
       
+      <!-- Canvas Overlay Feature Buttons (Top-Right Canvas Tools) -->
+      <div class="galaxy-canvas-tools-bar" id="galaxy-canvas-tools-bar" aria-label="Galaxy Quick Tools">
+        <button type="button" class="galaxy-canvas-tool-btn" id="canvas-btn-build-world" title="Open World Builder">
+          <span>🏡</span> Build Our World
+        </button>
+        <button type="button" class="galaxy-canvas-tool-btn" id="canvas-btn-time-travel" title="Open Time Travel Portal">
+          <span>🌀</span> Time Travel
+        </button>
+      </div>
+
       <!-- Interactive hint bubble -->
-      <div class="galaxy-hint-pill">
+      <div class="galaxy-hint-pill" id="galaxy-hint-pill">
         <span>✨</span> Drag to rotate galaxy &bull; Click stars to open memories
       </div>
+
+      <!-- ============================================== -->
+      <!-- 1. BUILD OUR WORLD EDIT PANEL                  -->
+      <!-- ============================================== -->
+      <aside class="build-world-panel" id="build-world-panel" aria-label="Build Our World Customizer" style="display: none;">
+        <div class="build-world-header">
+          <div class="build-world-title-box">
+            <span class="panel-icon">🏡</span>
+            <div>
+              <h3 class="panel-title">Build Our World</h3>
+              <p class="panel-subtitle">Place, arrange &amp; save cute 3D decorations</p>
+            </div>
+          </div>
+          <button type="button" class="panel-close-btn" id="btn-close-build-panel" aria-label="Close World Builder">✕</button>
+        </div>
+
+        <!-- Palette of 3D Celestial Decorations -->
+        <div class="build-palette-section">
+          <span class="palette-label">Add Cosmic Decoration:</span>
+          <div class="build-palette-grid">
+            <button type="button" class="palette-item-btn" data-type="heart_crystal" title="Add Glowing Heart Crystal">
+              <span class="item-emoji">💖</span>
+              <span class="item-name">Heart Crystal</span>
+            </button>
+            <button type="button" class="palette-item-btn" data-type="sakura_tree" title="Add Sakura Blossom Tree">
+              <span class="item-emoji">🌸</span>
+              <span class="item-name">Sakura Tree</span>
+            </button>
+            <button type="button" class="palette-item-btn" data-type="ring_planet" title="Add Ringed Planet">
+              <span class="item-emoji">🪐</span>
+              <span class="item-name">Ring Planet</span>
+            </button>
+            <button type="button" class="palette-item-btn" data-type="crystal_castle" title="Add Starlight Castle">
+              <span class="item-emoji">🏰</span>
+              <span class="item-name">Love Castle</span>
+            </button>
+            <button type="button" class="palette-item-btn" data-type="space_bears" title="Add Dudu &amp; Budu Astronauts">
+              <span class="item-emoji">🧸</span>
+              <span class="item-name">Space Bears</span>
+            </button>
+            <button type="button" class="palette-item-btn" data-type="love_satellite" title="Add Love Satellite">
+              <span class="item-emoji">🛸</span>
+              <span class="item-name">Love Satellite</span>
+            </button>
+            <button type="button" class="palette-item-btn" data-type="starlight_comet" title="Add Glowing Comet">
+              <span class="item-emoji">💫</span>
+              <span class="item-name">Star Comet</span>
+            </button>
+            <button type="button" class="palette-item-btn" data-type="rainbow_arch" title="Add Rainbow Bridge">
+              <span class="item-emoji">🌈</span>
+              <span class="item-name">Rainbow Arch</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Active Placed Decorations List -->
+        <div class="build-active-section">
+          <div class="build-active-header">
+            <span class="palette-label">Placed Decorations (<span id="placed-decorations-count">0</span>):</span>
+          </div>
+          <div class="placed-items-list" id="placed-items-list">
+            <p class="empty-placed-note" id="empty-placed-note">No decorations placed yet. Tap an item above to add it to our galaxy!</p>
+          </div>
+        </div>
+
+        <!-- Move / Transform Controls for Selected Item -->
+        <div class="build-adjust-section" id="build-adjust-section" style="display: none;">
+          <span class="palette-label">Move Selected: <strong id="selected-item-title">Item</strong></span>
+          <div class="adjust-control-group">
+            <div class="control-row">
+              <label for="dec-angle-slider">Orbit Angle:</label>
+              <input type="range" id="dec-angle-slider" min="0" max="360" value="0">
+              <span class="slider-val" id="dec-angle-val">0°</span>
+            </div>
+            <div class="control-row">
+              <label for="dec-radius-slider">Distance:</label>
+              <input type="range" id="dec-radius-slider" min="0.8" max="4.5" step="0.1" value="2.5">
+              <span class="slider-val" id="dec-radius-val">2.5</span>
+            </div>
+            <div class="control-row">
+              <label for="dec-elevation-slider">Height (Y):</label>
+              <input type="range" id="dec-elevation-slider" min="-2.0" max="2.0" step="0.1" value="0">
+              <span class="slider-val" id="dec-elevation-val">0.0</span>
+            </div>
+            <div class="control-row">
+              <label for="dec-scale-slider">Scale:</label>
+              <input type="range" id="dec-scale-slider" min="0.5" max="2.0" step="0.1" value="1.0">
+              <span class="slider-val" id="dec-scale-val">1.0x</span>
+            </div>
+          </div>
+          <button type="button" class="btn-remove-selected" id="btn-remove-selected-item">
+            <span>🗑️</span> Remove This Item
+          </button>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="build-panel-actions">
+          <button type="button" class="btn btn-primary btn-save-world" id="btn-save-decorations">
+            <span>💾</span> Save Shared World
+          </button>
+          <button type="button" class="btn-clear-world" id="btn-clear-all-decorations">
+            <span>🗑️</span> Clear All
+          </button>
+        </div>
+        <div class="build-status-msg" id="build-status-msg" aria-live="polite"></div>
+      </aside>
+
+      <!-- ============================================== -->
+      <!-- 2. TIME TRAVEL PORTAL TIMELINE HUD             -->
+      <!-- ============================================== -->
+      <div class="time-travel-hud" id="time-travel-hud" aria-label="Cosmic Time Travel Portal" style="display: none;">
+        <div class="time-travel-top-bar">
+          <div class="time-travel-status">
+            <span class="portal-pulse-icon" aria-hidden="true">🌀</span>
+            <div>
+              <span class="portal-badge-label">COSMIC TIME TRAVEL PORTAL</span>
+              <h3 class="portal-current-dest" id="portal-current-dest">Select a Memory to Travel</h3>
+            </div>
+          </div>
+          <button type="button" class="btn-close-portal" id="btn-close-time-travel" aria-label="Exit Time Travel">
+            <span>✕</span> Exit Time Travel
+          </button>
+        </div>
+
+        <!-- Interactive Chronological Memory Timeline Strip -->
+        <div class="time-travel-timeline-strip" id="time-travel-timeline-strip">
+          <!-- Dynamically populated from actual MEMORY_STARS data -->
+        </div>
+
+        <!-- Warp Destination Reveal Card (Pops up when arrived) -->
+        <div class="time-travel-reveal-card" id="time-travel-reveal-card" style="display: none;">
+          <div class="reveal-header">
+            <span class="reveal-arrived-badge">✨ Arrived at <span id="reveal-date-badge">Date</span></span>
+            <span class="reveal-constellation" id="reveal-constellation-badge">Constellation</span>
+          </div>
+          <h4 class="reveal-title" id="reveal-title-text">Memory Title</h4>
+          <p class="reveal-note" id="reveal-note-text">Memory romantic note...</p>
+          <div class="reveal-actions">
+            <button type="button" class="btn-reveal-open-modal" id="btn-reveal-open-modal">
+              <span>🌟</span> View Full Star Memory
+            </button>
+            <button type="button" class="btn-reveal-reset" id="btn-reveal-reset">
+              <span>🔄</span> Reset Camera Orbit
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+
 
     <!-- 2D Memory Grid Fallback / Accessible View -->
     <div class="galaxy-2d-list-view" id="galaxy-2d-view" style="display: none;">
