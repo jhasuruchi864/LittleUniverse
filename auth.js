@@ -271,18 +271,71 @@ function confirmPasswordReset({ token, newPassword }) {
   return { success: true, message: 'Password has been updated successfully! You can now log in.' };
 }
 
-// Delete user account and associated sessions
-function deleteUserAccount(email, sessionToken) {
-  const session = getSession(sessionToken);
-  if (!session || session.email !== email) {
-    return { success: false, error: 'Unauthorized to delete this account.' };
+// Update user profile (display name, partner name)
+function updateProfile({ email, displayName, partnerName }) {
+  if (!email || !displayName) {
+    return { success: false, error: 'Display name is required.' };
   }
-  if (users[email]) {
-    delete users[email];
-    saveJSON(USERS_FILE, users);
+  const cleanEmail = email.trim().toLowerCase();
+  const user = users[cleanEmail];
+  if (!user) {
+    return { success: false, error: 'User account not found.' };
   }
-  deleteSession(sessionToken);
-  return { success: true, message: 'Account and private data deleted successfully.' };
+  user.displayName = displayName.trim();
+  if (partnerName !== undefined) {
+    user.partnerName = partnerName.trim();
+  }
+  user.updatedAt = new Date().toISOString();
+  saveJSON(USERS_FILE, users);
+
+  // Update active sessions
+  for (const sToken in sessions) {
+    if (sessions[sToken].email === cleanEmail) {
+      sessions[sToken].displayName = user.displayName;
+      if (partnerName !== undefined) sessions[sToken].partnerName = user.partnerName;
+    }
+  }
+  saveJSON(SESSIONS_FILE, sessions);
+
+  return {
+    success: true,
+    message: 'Profile updated successfully! 💗',
+    user: {
+      id: user.id,
+      email: user.email,
+      displayName: user.displayName,
+      partnerName: user.partnerName
+    }
+  };
+}
+
+// Change user password
+function changePassword({ email, currentPassword, newPassword }) {
+  if (!email || !currentPassword || !newPassword) {
+    return { success: false, error: 'Current and new password are required.' };
+  }
+  if (newPassword.length < 8) {
+    return { success: false, error: 'New password must be at least 8 characters long.' };
+  }
+  const cleanEmail = email.trim().toLowerCase();
+  const user = users[cleanEmail];
+  if (!user) {
+    return { success: false, error: 'User account not found.' };
+  }
+  const isValid = verifyPassword(currentPassword, user.passwordHash, user.salt);
+  if (!isValid) {
+    return { success: false, error: 'Current password is incorrect.' };
+  }
+  const { hash, salt } = hashPassword(newPassword);
+  user.passwordHash = hash;
+  user.salt = salt;
+  user.updatedAt = new Date().toISOString();
+  saveJSON(USERS_FILE, users);
+
+  return {
+    success: true,
+    message: 'Password changed successfully! 💗'
+  };
 }
 
 module.exports = {
@@ -292,5 +345,8 @@ module.exports = {
   deleteSession,
   requestPasswordReset,
   confirmPasswordReset,
-  deleteUserAccount
+  deleteUserAccount,
+  updateProfile,
+  changePassword
 };
+

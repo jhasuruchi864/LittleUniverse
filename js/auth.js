@@ -500,6 +500,79 @@
       }
     },
 
+    // Update Profile (Name & Partner Name)
+    async updateProfile({ displayName, partnerName }) {
+      if (!displayName || !displayName.trim()) {
+        return { success: false, error: 'Please enter a valid display name.' };
+      }
+      const trimmedName = displayName.trim();
+      const trimmedPartner = partnerName ? partnerName.trim() : '';
+
+      // If Supabase is active
+      if (isSupabaseConfigured() && supabaseClient) {
+        try {
+          const { data, error } = await supabaseClient.auth.updateUser({
+            data: { display_name: trimmedName, partner_name: trimmedPartner }
+          });
+          if (error) return { success: false, error: error.message };
+        } catch (e) {}
+      }
+
+      // Local API / Storage update
+      try {
+        const token = localStorage.getItem('universe_session_token');
+        await fetch('/api/auth/update-profile', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+          },
+          body: JSON.stringify({ displayName: trimmedName, partnerName: trimmedPartner })
+        });
+      } catch (e) {}
+
+      // Always update local cache
+      let user = await this.getSession() || {};
+      user.displayName = trimmedName;
+      if (trimmedPartner) user.partnerName = trimmedPartner;
+      localStorage.setItem('universe_cached_user', JSON.stringify(user));
+      cachedUser = user;
+
+      return { success: true, user, message: 'Profile updated successfully! 💗' };
+    },
+
+    // Change Password
+    async changePassword({ currentPassword, newPassword }) {
+      if (!currentPassword || !newPassword) {
+        return { success: false, error: 'Current and new password are required.' };
+      }
+      if (newPassword.length < 8) {
+        return { success: false, error: 'New password must be at least 8 characters long.' };
+      }
+
+      if (isSupabaseConfigured() && supabaseClient) {
+        const { error } = await supabaseClient.auth.updateUser({ password: newPassword });
+        if (error) return { success: false, error: error.message };
+        return { success: true, message: 'Password changed successfully! 💗' };
+      }
+
+      try {
+        const token = localStorage.getItem('universe_session_token');
+        const res = await fetch('/api/auth/change-password', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+          },
+          body: JSON.stringify({ currentPassword, newPassword })
+        });
+        const data = await res.json();
+        return data;
+      } catch (e) {
+        return { success: false, error: 'Server unreachable. Please verify connection.' };
+      }
+    },
+
     // Guard for protected pages (e.g. index.html)
     async requireAuth() {
       const hasLoggedOut = typeof localStorage !== 'undefined' && localStorage.getItem('universe_logged_out') === '1';

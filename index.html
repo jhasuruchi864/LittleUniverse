@@ -32,6 +32,8 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <!-- Client Auth Manager -->
   <script src="js/auth.js"></script>
+  <!-- Instagram Settings & Profile Modal Manager -->
+  <script src="js/settings-modal.js" defer></script>
 
   <!-- Immediate Client-Side Auth Guard -->
   <script>
@@ -120,17 +122,124 @@
         </li>
 
         <li class="nav-account-item">
-          <div class="user-account-pill">
-            <span class="user-avatar" aria-hidden="true">🌸</span>
+          <button type="button" class="user-settings-trigger" id="nav-settings-btn" aria-label="Open Account Settings & Profile" title="Settings & Profile ⚙️">
+            <span class="user-avatar" id="nav-user-avatar" aria-hidden="true">🌸</span>
             <span class="user-display-name" id="user-display-name">Soulmate</span>
-            <button type="button" class="btn-logout" id="btn-logout" aria-label="Log Out of Our Little Universe">
-              <span>Logout</span> 🚪
-            </button>
-          </div>
+            <span class="settings-gear-icon" aria-hidden="true">⚙️</span>
+          </button>
         </li>
       </ul>
     </nav>
   </header>
+
+  <!-- Instagram-Style Settings & Profile Modal ⚙️💗 -->
+  <div class="settings-modal-backdrop" id="settings-modal" aria-hidden="true" role="dialog" aria-labelledby="settings-modal-title">
+    <div class="settings-modal-dialog">
+      <!-- Modal Header -->
+      <div class="settings-modal-header">
+        <div class="settings-modal-title-box">
+          <span class="settings-title-icon" aria-hidden="true">⚙️</span>
+          <h2 class="settings-modal-title" id="settings-modal-title">Settings & Profile</h2>
+        </div>
+        <button type="button" class="settings-modal-close" id="btn-close-settings" aria-label="Close settings">✕</button>
+      </div>
+
+      <!-- Instagram Profile Card -->
+      <div class="settings-profile-card">
+        <div class="settings-avatar-wrapper">
+          <div class="settings-avatar-ring">
+            <span class="settings-avatar-emoji" id="settings-avatar-display">🌸</span>
+          </div>
+        </div>
+        <div class="settings-profile-info">
+          <div class="settings-profile-name-row">
+            <h3 class="settings-profile-name" id="settings-profile-name-display">Luna 💗</h3>
+            <span class="settings-verified-badge" title="Soulmate Verified">✓</span>
+          </div>
+          <p class="settings-profile-email" id="settings-profile-email-display">luna@ouruniverse.love</p>
+        </div>
+      </div>
+
+      <!-- Quick Avatar Chooser -->
+      <div class="settings-avatar-picker-section">
+        <label class="settings-section-label">Choose Avatar Emoji</label>
+        <div class="settings-avatar-picker-row" id="avatar-picker-row">
+          <button type="button" class="avatar-option-btn active" data-avatar="🌸" aria-label="Avatar cherry blossom">🌸</button>
+          <button type="button" class="avatar-option-btn" data-avatar="🧸" aria-label="Avatar teddy bear">🧸</button>
+          <button type="button" class="avatar-option-btn" data-avatar="🐱" aria-label="Avatar cute kitten">🐱</button>
+          <button type="button" class="avatar-option-btn" data-avatar="🐰" aria-label="Avatar sweet bunny">🐰</button>
+          <button type="button" class="avatar-option-btn" data-avatar="💖" aria-label="Avatar sparkling heart">💖</button>
+          <button type="button" class="avatar-option-btn" data-avatar="🍓" aria-label="Avatar sweet strawberry">🍓</button>
+          <button type="button" class="avatar-option-btn" data-avatar="👑" aria-label="Avatar royal crown">👑</button>
+          <button type="button" class="avatar-option-btn" data-avatar="✨" aria-label="Avatar starlight sparkles">✨</button>
+        </div>
+      </div>
+
+      <!-- Settings Sections Tabs / Content -->
+      <div class="settings-tabs-content">
+        <!-- Section 1: Edit Profile (Name Change) -->
+        <div class="settings-card-section">
+          <div class="settings-card-header">
+            <span class="settings-card-icon" aria-hidden="true">✏️</span>
+            <h4>Edit Profile (Change Name)</h4>
+          </div>
+          <form id="settings-profile-form" class="settings-form" onsubmit="return false;">
+            <div class="settings-input-group">
+              <label for="settings-name-input" class="settings-input-label">Your Display Name</label>
+              <input type="text" id="settings-name-input" class="settings-input" placeholder="e.g. Luna 💗" maxlength="40" required autocomplete="name">
+            </div>
+            <div class="settings-input-group">
+              <label for="settings-partner-input" class="settings-input-label">Partner's Name (Optional)</label>
+              <input type="text" id="settings-partner-input" class="settings-input" placeholder="e.g. Oliver" maxlength="40" autocomplete="off">
+            </div>
+            <button type="submit" class="btn-settings-action primary" id="btn-save-profile">
+              <span>Save Name Changes</span> 💾
+            </button>
+            <div class="settings-feedback-msg" id="profile-feedback-msg" aria-live="polite"></div>
+          </form>
+        </div>
+
+        <!-- Section 2: Password & Security (Change Password) -->
+        <div class="settings-card-section">
+          <div class="settings-card-header">
+            <span class="settings-card-icon" aria-hidden="true">🔒</span>
+            <h4>Password & Security</h4>
+          </div>
+          <form id="settings-password-form" class="settings-form" onsubmit="return false;">
+            <div class="settings-input-group">
+              <label for="settings-current-password" class="settings-input-label">Current Password</label>
+              <input type="password" id="settings-current-password" class="settings-input" placeholder="Enter current password" autocomplete="current-password" required>
+            </div>
+            <div class="settings-input-group">
+              <label for="settings-new-password" class="settings-input-label">New Password</label>
+              <input type="password" id="settings-new-password" class="settings-input" placeholder="Min. 8 characters" autocomplete="new-password" minlength="8" required>
+            </div>
+            <div class="settings-input-group">
+              <label for="settings-confirm-password" class="settings-input-label">Confirm New Password</label>
+              <input type="password" id="settings-confirm-password" class="settings-input" placeholder="Re-type new password" autocomplete="new-password" minlength="8" required>
+            </div>
+            <button type="submit" class="btn-settings-action secondary" id="btn-save-password">
+              <span>Update Password</span> 🔐
+            </button>
+            <div class="settings-feedback-msg" id="password-feedback-msg" aria-live="polite"></div>
+          </form>
+        </div>
+
+        <!-- Section 3: Instagram-Style Account Actions (Logout) -->
+        <div class="settings-card-section logout-section">
+          <div class="settings-card-header">
+            <span class="settings-card-icon" aria-hidden="true">🚪</span>
+            <h4>Account Session</h4>
+          </div>
+          <p class="settings-logout-note">Log out of your account on this device. Your romantic moments and love vault remain safely protected.</p>
+          <button type="button" class="btn-logout instagram-logout-btn" id="btn-logout" aria-label="Log Out of Our Little Universe">
+            <span>Log Out of Our Universe</span> 🚪
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
   <main>
     <!-- 1. HERO SECTION -->

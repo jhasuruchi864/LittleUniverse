@@ -495,6 +495,47 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  if (pathname === '/api/auth/update-profile' && req.method === 'POST') {
+    const session = authenticateSession(req);
+    if (!session) {
+      sendJSON(res, 401, { success: false, error: 'Authentication required.' });
+      return;
+    }
+    try {
+      const data = await parseBody(req);
+      const result = auth.updateProfile({
+        email: session.email,
+        displayName: data.displayName,
+        partnerName: data.partnerName
+      });
+      sendJSON(res, result.success ? 200 : 400, result);
+    } catch (err) {
+      sendJSON(res, 500, { success: false, error: 'Server error updating profile.' });
+    }
+    return;
+  }
+
+  if (pathname === '/api/auth/change-password' && req.method === 'POST') {
+    const session = authenticateSession(req);
+    if (!session) {
+      sendJSON(res, 401, { success: false, error: 'Authentication required.' });
+      return;
+    }
+    try {
+      const data = await parseBody(req);
+      const result = auth.changePassword({
+        email: session.email,
+        currentPassword: data.currentPassword,
+        newPassword: data.newPassword
+      });
+      sendJSON(res, result.success ? 200 : 400, result);
+    } catch (err) {
+      sendJSON(res, 500, { success: false, error: 'Server error changing password.' });
+    }
+    return;
+  }
+
+
   // --- API: Couple Space & Partner Linking Endpoints ---
   if (pathname === '/api/couple/status' && req.method === 'GET') {
     const session = authenticateSession(req);
